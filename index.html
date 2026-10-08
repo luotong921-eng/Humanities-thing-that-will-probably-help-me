@@ -6,229 +6,325 @@
 <title>Future City — Humanities Simulator</title>
 <style>
 :root{
-  --bg:#080d13;--panel:#0f1720;--panel2:#151f2b;--line:#22303f;
-  --txt:#e8eff7;--dim:#7f96ad;--accent:#38bdf8;--accent2:#a78bfa;
+  --bg:#0a1018;--bg2:#0e1720;--panel:#121a26;--panel2:#182231;--panel3:#1e2a3b;
+  --line:#2a3a52;--line2:#3d5470;
+  --txt:#e8eff7;--dim:#8ba0b8;--accent:#38bdf8;--accent2:#a78bfa;
   --good:#34d399;--warn:#fbbf24;--bad:#f87171;
+  --shadow:4px 4px 0 #060b12;
 }
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html,body{height:100%;margin:0;overflow:hidden}
-body{font-family:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
-  background:#080d13;color:var(--txt)}
+body{
+  font-family:ui-monospace,'SF Mono',Menlo,Consolas,monospace;
+  background:var(--bg);color:var(--txt);
+  image-rendering:pixelated;
+}
 button,input{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit;outline:none}
 ::-webkit-scrollbar{width:8px;height:8px}
-::-webkit-scrollbar-thumb{background:#2a3b52;border-radius:6px}
+::-webkit-scrollbar-thumb{background:#2a3b52}
 ::-webkit-scrollbar-track{background:transparent}
 
-#start{position:fixed;inset:0;overflow-y:auto;padding:32px 18px 70px;z-index:60;
-  background:radial-gradient(1400px 900px at 12% -12%,#152a41,#080d13 62%)}
-.wrap{max-width:1140px;margin:0 auto}
-h1{font-size:clamp(28px,5.4vw,50px);margin:0 0 6px;letter-spacing:-1.6px;font-weight:800;
-   background:linear-gradient(96deg,#38bdf8,#34d399 45%,#a78bfa);-webkit-background-clip:text;
-   background-clip:text;color:transparent;line-height:1.05}
-.sub{color:var(--dim);margin:0 0 30px;font-size:15px;max-width:680px;line-height:1.55}
-h2{font-size:11.5px;text-transform:uppercase;letter-spacing:2.2px;color:var(--dim);
-   margin:32px 0 13px;font-weight:700;display:flex;align-items:center;gap:10px}
-h2 .n{display:inline-flex;align-items:center;justify-content:center;width:20px;height:20px;
-  border-radius:50%;background:#1c2b3c;color:var(--accent);font-size:11px}
-.loc-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:11px}
-.loc{background:var(--panel);border:1.5px solid var(--line);border-radius:14px;
-  padding:14px;text-align:left;transition:.16s}
-.loc:hover{border-color:#3d5a7d;transform:translateY(-2px)}
-.loc.sel{border-color:var(--accent);background:#112336;box-shadow:0 0 0 3px #38bdf826}
-.loc .flag{font-size:25px;line-height:1}
-.loc .nm{font-weight:700;font-size:15.5px;margin:6px 0 1px}
-.loc .rg{font-size:10.5px;color:var(--dim);text-transform:uppercase;letter-spacing:1.1px}
-.loc .tags{display:flex;flex-wrap:wrap;gap:5px;margin-top:9px}
-.tag{font-size:10px;padding:3px 7px;border-radius:20px;background:#1d2b3c;color:#9fb6cd;
-  border:1px solid #293d54;white-space:nowrap}
+/* ============================================================
+   START SCREEN — pixel-art theme
+   ============================================================ */
+#start{position:fixed;inset:0;overflow-y:auto;padding:26px 16px 70px;z-index:60;
+  background:
+    radial-gradient(900px 500px at 50% -100px,#1a3552,transparent 70%),
+    linear-gradient(180deg,#0a1018 0%,#0d1a28 60%,#0a1018 100%)}
+.wrap{max-width:1180px;margin:0 auto}
+
+.title-block{text-align:center;padding:12px 0 28px;position:relative}
+.title-block h1{
+  font-size:clamp(34px,7vw,66px);letter-spacing:3px;font-weight:900;
+  color:#f9d976;
+  text-shadow:
+    3px 3px 0 #7a4b00,
+    6px 6px 0 #2d1a00,
+    0 0 22px rgba(249,217,118,.35);
+  margin:0 0 10px;line-height:1.05;
+  font-family:ui-monospace,Menlo,monospace}
+.title-block .tagline{
+  color:var(--dim);font-size:13px;letter-spacing:1.4px;
+  text-transform:uppercase;margin:0}
+.title-block .blurb{color:#a8bdd2;font-size:13.5px;line-height:1.65;
+  max-width:640px;margin:16px auto 0}
+
+/* how to play */
+.howto{
+  background:var(--panel);border:2px solid var(--line);padding:18px 20px;
+  box-shadow:var(--shadow);margin:8px 0 28px;position:relative}
+.howto::before{
+  content:'▶ HOW TO PLAY';position:absolute;top:-11px;left:16px;
+  background:var(--bg);padding:0 10px;font-size:10px;font-weight:900;
+  letter-spacing:2.2px;color:var(--accent)}
+.steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px;
+  margin-top:6px}
+.step{display:flex;gap:11px;align-items:flex-start}
+.step .num{
+  flex-shrink:0;width:26px;height:26px;background:var(--accent);color:#00121e;
+  display:flex;align-items:center;justify-content:center;font-weight:900;
+  font-size:13px;border:2px solid #003b52;box-shadow:2px 2px 0 #060b12}
+.step .txt{font-size:12px;line-height:1.55;color:#b8cadd}
+.step .txt b{color:#fff;display:block;margin-bottom:2px;font-size:12.5px}
+
+/* section heads */
+h2{font-size:11px;text-transform:uppercase;letter-spacing:2.4px;color:var(--accent);
+  margin:32px 0 12px;font-weight:900;display:flex;align-items:center;gap:10px}
+h2::before{content:'';width:6px;height:6px;background:var(--accent)}
+h2::after{content:'';flex:1;height:2px;background:var(--line)}
+
+/* location cards */
+.loc-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(248px,1fr));gap:12px}
+.loc{
+  background:var(--panel);border:2px solid var(--line);padding:0;
+  text-align:left;transition:.12s;box-shadow:var(--shadow);
+  display:flex;flex-direction:column;position:relative;overflow:hidden}
+.loc:hover{border-color:var(--line2);transform:translate(-1px,-1px);
+  box-shadow:6px 6px 0 #060b12}
+.loc.sel{border-color:var(--accent);box-shadow:
+  0 0 0 2px var(--accent),
+  4px 4px 0 #060b12}
+.loc.sel::before{
+  content:'✓';position:absolute;top:6px;right:6px;width:22px;height:22px;
+  background:var(--accent);color:#00121e;font-weight:900;font-size:14px;
+  display:flex;align-items:center;justify-content:center;z-index:2;
+  border:2px solid #003b52}
+.loc .pixmap{
+  display:block;width:100%;aspect-ratio:1;
+  image-rendering:pixelated;image-rendering:crisp-edges;
+  border-bottom:2px solid var(--line)}
+.loc .body{padding:12px 13px 13px}
+.loc .nm{font-weight:900;font-size:15px;color:#fff;letter-spacing:.3px}
+.loc .rg{font-size:9.5px;color:var(--dim);text-transform:uppercase;
+  letter-spacing:1.3px;margin-top:2px;font-weight:700}
+.loc .tags{display:flex;flex-wrap:wrap;gap:4px;margin-top:9px}
+.tag{font-size:9.5px;font-weight:800;padding:3px 7px;
+  background:#1d2b3c;color:#9fb6cd;border:1px solid #293d54;letter-spacing:.4px}
 .tag.bad{background:#3a1d20;color:#f0a0a0;border-color:#5a2a2e}
 .tag.good{background:#12301f;color:#8fe0b0;border-color:#1e4a2f}
-.tag.tr{background:#1e293b;color:#c4b5fd;border-color:#4c1d95}
-.loc .desc{font-size:11.5px;color:var(--dim);margin-top:9px;line-height:1.45}
-.era-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(168px,1fr));gap:10px}
-.era{background:var(--panel);border:1.5px solid var(--line);border-radius:13px;padding:13px;
-  text-align:left;transition:.16s}
-.era:hover{border-color:#3d5a7d;transform:translateY(-2px)}
-.era.sel{border-color:var(--accent2);background:#1a1530;box-shadow:0 0 0 3px #a78bfa26}
-.era .yr{font-size:21px;font-weight:800;letter-spacing:-1px;color:#c4b5fd}
-.era .nm{font-size:11.5px;font-weight:600;margin:2px 0 7px;color:#cbd8e6}
-.era .ds{font-size:10.5px;color:var(--dim);line-height:1.42}
-.era .stat{display:flex;justify-content:space-between;font-size:10.5px;margin-top:8px;
-  padding-top:7px;border-top:1px solid #1e2b3a;color:var(--dim)}
-.era .stat b{color:#9fb6cd;font-variant-numeric:tabular-nums}
-#eraSummary{margin-top:13px}
-.summary{background:linear-gradient(100deg,#10202e,#0d1720);border:1px solid #24374b;
-  border-radius:13px;padding:15px 17px;display:flex;gap:22px;flex-wrap:wrap;align-items:center}
-.summary .big{font-size:26px;font-weight:800;color:var(--good);letter-spacing:-.6px}
-.summary .lbl{font-size:10.5px;text-transform:uppercase;letter-spacing:1.4px;color:var(--dim);
-  font-weight:700;margin-bottom:2px}
-.summary .txt{font-size:12.5px;color:#a8bdd2;max-width:440px;line-height:1.5}
-.start-btns{display:flex;gap:12px;flex-wrap:wrap;margin-top:28px}
-.bigbtn{flex:1;min-width:230px;padding:17px 21px;border-radius:14px;font-size:15.5px;
-  font-weight:700;background:linear-gradient(135deg,#0ea5e9,#2563eb);color:#fff;
-  transition:.16s;box-shadow:0 8px 26px #0ea5e92e;text-align:left}
-.bigbtn:hover{transform:translateY(-2px);box-shadow:0 12px 34px #0ea5e950}
-.bigbtn.sandbox{background:linear-gradient(135deg,#7c3aed,#c026d3);box-shadow:0 8px 26px #a855f72e}
-.bigbtn small{display:block;font-weight:400;opacity:.88;font-size:11.5px;margin-top:3px}
-.bigbtn:disabled{opacity:.3;cursor:not-allowed;transform:none;box-shadow:none}
+.tag.tr{background:#1e1b3d;color:#c4b5fd;border-color:#4c1d95}
+.loc .desc{font-size:10.5px;color:var(--dim);margin-top:9px;line-height:1.5}
 
+/* era cards */
+.era-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(178px,1fr));gap:10px}
+.era{
+  background:var(--panel);border:2px solid var(--line);padding:12px;
+  text-align:left;transition:.12s;box-shadow:var(--shadow);position:relative}
+.era:hover{border-color:var(--line2);transform:translate(-1px,-1px);
+  box-shadow:6px 6px 0 #060b12}
+.era.sel{border-color:var(--accent2);box-shadow:
+  0 0 0 2px var(--accent2),4px 4px 0 #060b12}
+.era .yr{font-size:22px;font-weight:900;color:#c4b5fd;letter-spacing:1px;
+  text-shadow:2px 2px 0 #1a1030}
+.era .nm{font-size:11.5px;font-weight:800;margin:3px 0 7px;color:#e0e6ed}
+.era .ds{font-size:10px;color:var(--dim);line-height:1.5;min-height:44px}
+.era .stat{display:flex;justify-content:space-between;font-size:9.5px;
+  margin-top:8px;padding-top:7px;border-top:1px solid #1e2b3a;color:var(--dim);
+  font-weight:800;letter-spacing:.5px}
+.era .stat b{color:#9fb6cd;font-variant-numeric:tabular-nums}
+
+#eraSummary{margin-top:14px}
+.summary{background:linear-gradient(100deg,#10202e,#0d1720);border:2px solid var(--line2);
+  padding:15px 18px;display:flex;gap:24px;flex-wrap:wrap;align-items:center;
+  box-shadow:var(--shadow)}
+.summary .big{font-size:26px;font-weight:900;color:var(--good);
+  letter-spacing:.5px;text-shadow:2px 2px 0 #052a1c}
+.summary .lbl{font-size:9.5px;text-transform:uppercase;letter-spacing:1.5px;
+  color:var(--dim);font-weight:800;margin-bottom:3px}
+.summary .txt{font-size:11.5px;color:#a8bdd2;max-width:480px;line-height:1.6}
+
+/* mode buttons */
+.start-btns{display:flex;gap:12px;flex-wrap:wrap;margin-top:26px}
+.bigbtn{
+  flex:1;min-width:230px;padding:16px 20px;font-size:14px;font-weight:900;
+  background:var(--panel);color:#fff;transition:.12s;text-align:left;
+  border:2px solid var(--line2);box-shadow:var(--shadow);position:relative;
+  letter-spacing:.4px}
+.bigbtn:hover{transform:translate(-1px,-1px);box-shadow:6px 6px 0 #060b12;
+  border-color:var(--accent)}
+.bigbtn.sandbox:hover{border-color:var(--accent2)}
+.bigbtn::before{content:'';position:absolute;left:0;top:0;bottom:0;width:5px;
+  background:var(--accent)}
+.bigbtn.sandbox::before{background:var(--accent2)}
+.bigbtn small{display:block;font-weight:500;opacity:.78;font-size:10.5px;
+  margin-top:4px;line-height:1.45;letter-spacing:0}
+.bigbtn:disabled{opacity:.32;cursor:not-allowed;transform:none;
+  box-shadow:var(--shadow);border-color:var(--line)}
+
+/* ============================================================
+   GAME
+   ============================================================ */
 #game{display:none;height:100vh;flex-direction:column}
-.hud{display:flex;flex-wrap:wrap;gap:6px;padding:7px 10px;background:var(--panel);
-  border-bottom:1px solid var(--line);flex-shrink:0;align-items:center}
-.grp{display:flex;gap:5px;align-items:center;padding:3px 8px 3px 3px;
-  background:var(--panel2);border:1px solid var(--line);border-radius:10px}
-.grp .gl{font-size:8.5px;text-transform:uppercase;letter-spacing:1.2px;
-  color:var(--dim);font-weight:800;writing-mode:vertical-rl;transform:rotate(180deg);
-  height:34px;line-height:1;text-align:center;opacity:.55}
-.pill{display:flex;flex-direction:column;gap:1px;padding:3px 9px;border-radius:7px;min-width:62px}
-.pill .k{font-size:8.5px;text-transform:uppercase;letter-spacing:1px;color:var(--dim);font-weight:800}
-.pill .v{font-size:14px;font-weight:800;font-variant-numeric:tabular-nums;letter-spacing:-.3px}
+.hud{display:flex;flex-wrap:wrap;gap:6px;padding:8px 10px;background:var(--panel);
+  border-bottom:2px solid var(--line);flex-shrink:0;align-items:center}
+.grp{display:flex;gap:6px;align-items:center;padding:4px 9px;
+  background:var(--panel2);border:2px solid var(--line)}
+.grp .gl{font-size:8px;text-transform:uppercase;letter-spacing:1.4px;
+  color:var(--dim);font-weight:900;writing-mode:vertical-rl;transform:rotate(180deg);
+  height:32px;line-height:1;text-align:center;opacity:.6}
+.pill{display:flex;flex-direction:column;gap:1px;min-width:60px}
+.pill .k{font-size:8px;text-transform:uppercase;letter-spacing:1.2px;
+  color:var(--dim);font-weight:800}
+.pill .v{font-size:14px;font-weight:900;font-variant-numeric:tabular-nums}
 .pill.good .v{color:var(--good)}.pill.warn .v{color:var(--warn)}.pill.bad .v{color:var(--bad)}
-.pill .bar{height:2.5px;border-radius:2px;background:#1e2b3a;overflow:hidden;margin-top:2px}
-.pill .bar>i{display:block;height:100%;border-radius:2px;transition:width .45s}
-.hud .warnbox{display:flex;align-items:center;gap:6px;font-size:11px;font-weight:700;
-  padding:5px 11px;border-radius:8px;background:#3a1d20;color:#fca5a5;border:1px solid #5a2a2e}
+.pill .bar{height:3px;background:#1e2b3a;overflow:hidden;margin-top:2px}
+.pill .bar>i{display:block;height:100%;transition:width .35s}
+.hud .warnbox{display:flex;align-items:center;gap:6px;font-size:10.5px;font-weight:800;
+  padding:6px 11px;background:#3a1d20;color:#fca5a5;border:2px solid #5a2a2e;
+  letter-spacing:.3px}
 
 .main{display:flex;flex:1;overflow:hidden}
 .mapwrap{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;
-  padding:10px;overflow:auto;gap:9px;min-width:0;position:relative}
-#cv{width:min(100%,640px);aspect-ratio:1;border-radius:14px;display:block;
-  box-shadow:0 16px 44px #0008,0 0 0 1px #22303f;touch-action:none;cursor:crosshair;
-  background:#0a1018;transition:transform .45s ease}
+  padding:12px;overflow:auto;gap:11px;min-width:0;position:relative}
+#cv{width:min(100%,620px);aspect-ratio:1;display:block;
+  border:3px solid var(--line);background:#0a1018;
+  box-shadow:var(--shadow);touch-action:none;cursor:crosshair;
+  transition:transform .35s ease}
 .controls{display:flex;gap:7px;flex-wrap:wrap;justify-content:center;align-items:center}
-.btn{padding:9px 15px;border-radius:10px;background:var(--panel2);border:1px solid var(--line);
-  font-weight:700;font-size:12.5px;transition:.15s;white-space:nowrap}
-.btn:hover{background:#22303f;border-color:#3d5a7d}
-.btn.primary{background:linear-gradient(135deg,#0ea5e9,#2563eb);border:none;color:#fff}
-.btn.primary:hover{transform:translateY(-1px)}
+.btn{padding:9px 15px;background:var(--panel2);border:2px solid var(--line);
+  font-weight:900;font-size:12px;transition:.12s;white-space:nowrap;
+  box-shadow:3px 3px 0 #060b12;letter-spacing:.3px}
+.btn:hover{background:var(--panel3);border-color:var(--line2);
+  transform:translate(-1px,-1px);box-shadow:4px 4px 0 #060b12}
+.btn.primary{background:var(--accent);color:#00121e;border-color:#0077a8}
+.btn.primary:hover{background:#55c9ff}
 .btn.active{background:#7f1d1d;border-color:#b91c1c;color:#fca5a5}
 .btn.on{background:#134e4a;border-color:#14b8a6;color:#5eead4}
 
-.speedbar{display:flex;gap:3px;background:var(--panel2);border:1px solid var(--line);
-  border-radius:10px;padding:3px}
-.speedbtn{padding:6px 11px;border-radius:7px;font-size:11px;font-weight:800;
-  letter-spacing:.4px;color:var(--dim);transition:.15s}
+.speedbar{display:flex;gap:2px;background:var(--panel2);border:2px solid var(--line);
+  padding:3px;box-shadow:3px 3px 0 #060b12}
+.speedbtn{padding:6px 10px;font-size:11px;font-weight:900;letter-spacing:.4px;
+  color:var(--dim);transition:.15s}
 .speedbtn:hover{color:#b6cadf}
 .speedbtn.on{background:#134e4a;color:#5eead4}
 
-#banner{position:absolute;top:16px;left:50%;transform:translateX(-50%) translateY(-14px);
-  max-width:88%;padding:14px 20px;border-radius:14px;background:#0d1720f2;
-  border:1.5px solid var(--accent);box-shadow:0 16px 50px #000b;
-  backdrop-filter:blur(10px);opacity:0;pointer-events:none;transition:.4s;
+#banner{position:absolute;top:18px;left:50%;transform:translateX(-50%) translateY(-14px);
+  max-width:90%;padding:14px 20px;background:#0d1720;
+  border:3px solid var(--accent);box-shadow:6px 6px 0 #060b12;
+  opacity:0;pointer-events:none;transition:.35s;
   display:flex;gap:14px;align-items:flex-start;z-index:20}
 #banner.show{opacity:1;transform:translateX(-50%) translateY(0)}
 #banner .bi{font-size:26px;line-height:1;flex-shrink:0;margin-top:1px}
-#banner .by{font-size:10px;text-transform:uppercase;letter-spacing:1.8px;font-weight:800;
+#banner .by{font-size:9.5px;text-transform:uppercase;letter-spacing:2px;font-weight:900;
   color:var(--accent);margin-bottom:3px}
-#banner .bn{font-size:15.5px;font-weight:800;margin-bottom:4px;letter-spacing:-.3px}
-#banner .bd{font-size:12px;color:#a8bdd2;line-height:1.5;max-width:400px}
+#banner .bn{font-size:14.5px;font-weight:900;margin-bottom:4px;color:#fff}
+#banner .bd{font-size:11.5px;color:#a8bdd2;line-height:1.55;max-width:380px}
 #banner.bad{border-color:var(--bad)}#banner.bad .by{color:var(--bad)}
 #banner.good{border-color:var(--good)}#banner.good .by{color:var(--good)}
 #banner.warn{border-color:var(--warn)}#banner.warn .by{color:var(--warn)}
 
-.side{width:346px;flex-shrink:0;background:var(--panel);border-left:1px solid var(--line);
-  display:flex;flex-direction:column;overflow:hidden}
-.tabs{display:flex;border-bottom:1px solid var(--line);flex-shrink:0;background:var(--panel2)}
-.tab{flex:1;padding:11px 4px;font-size:11px;font-weight:800;text-transform:uppercase;
-  letter-spacing:1.1px;color:var(--dim);border-bottom:2px solid transparent;transition:.15s}
+.side{width:340px;flex-shrink:0;background:var(--panel);
+  border-left:2px solid var(--line);display:flex;flex-direction:column;overflow:hidden}
+.tabs{display:flex;border-bottom:2px solid var(--line);flex-shrink:0;background:var(--panel2)}
+.tab{flex:1;padding:11px 4px;font-size:10.5px;font-weight:900;text-transform:uppercase;
+  letter-spacing:1.4px;color:var(--dim);border-bottom:3px solid transparent;
+  transition:.15s}
 .tab.on{color:var(--accent);border-bottom-color:var(--accent);background:#0f1b27}
 .tabbody{flex:1;overflow-y:auto;padding:11px}
 .tabbody.hide{display:none}
 
 .searchwrap{position:sticky;top:-11px;background:var(--panel);z-index:5;
-  margin:-11px -11px 9px;padding:11px 11px 9px;border-bottom:1px solid var(--line)}
+  margin:-11px -11px 9px;padding:11px 11px 9px;border-bottom:2px solid var(--line)}
 .searchbox{display:flex;align-items:center;gap:8px;background:var(--panel2);
-  border:1.5px solid var(--line);border-radius:10px;padding:8px 11px;transition:.15s}
-.searchbox:focus-within{border-color:var(--accent);box-shadow:0 0 0 3px #38bdf820}
-.searchbox svg{width:15px;height:15px;flex-shrink:0;opacity:.5}
-.searchbox input{flex:1;font-size:13px;background:none;min-width:0}
+  border:2px solid var(--line);padding:8px 11px;transition:.15s}
+.searchbox:focus-within{border-color:var(--accent)}
+.searchbox svg{width:14px;height:14px;flex-shrink:0;opacity:.5}
+.searchbox input{flex:1;font-size:12.5px;background:none;min-width:0}
 .searchbox input::placeholder{color:#54708c}
-.chips{display:flex;gap:5px;flex-wrap:wrap;margin-top:8px}
-.chip{font-size:10.5px;font-weight:700;padding:4px 10px;border-radius:20px;
-  background:var(--panel2);border:1px solid var(--line);color:var(--dim);transition:.14s}
-.chip:hover{border-color:#3d5a7d;color:#b6cadf}
+.chips{display:flex;gap:4px;flex-wrap:wrap;margin-top:8px}
+.chip{font-size:10px;font-weight:800;padding:4px 9px;
+  background:var(--panel2);border:2px solid var(--line);color:var(--dim);
+  transition:.14s;letter-spacing:.3px}
+.chip:hover{border-color:var(--line2);color:#b6cadf}
 .chip.on{background:#1e3a52;border-color:var(--accent);color:var(--accent)}
 
 .cat{margin-bottom:14px}
-.cat h4{font-size:9.5px;text-transform:uppercase;letter-spacing:1.7px;margin:0 0 6px;
-  color:var(--dim);font-weight:800;display:flex;align-items:center;gap:7px}
-.cat h4::before{content:'';width:9px;height:9px;border-radius:3px;background:var(--c)}
+.cat h4{font-size:9px;text-transform:uppercase;letter-spacing:1.8px;margin:0 0 6px;
+  color:var(--dim);font-weight:900;display:flex;align-items:center;gap:7px}
+.cat h4::before{content:'';width:9px;height:9px;background:var(--c)}
 .items{display:flex;flex-direction:column;gap:3px}
-.item{display:flex;align-items:center;gap:9px;padding:6px 8px;border-radius:9px;
-  background:var(--panel2);border:1px solid transparent;text-align:left;transition:.12s;width:100%}
-.item:hover{border-color:#3d5a7d;background:#1c2836}
-.item.sel{border-color:var(--accent);background:#102336;box-shadow:0 0 0 2px #38bdf82e}
-.item.locked{opacity:.32;cursor:not-allowed}
+.item{display:flex;align-items:center;gap:9px;padding:6px 8px;
+  background:var(--panel2);border:2px solid transparent;text-align:left;
+  transition:.12s;width:100%}
+.item:hover{border-color:var(--line2);background:var(--panel3)}
+.item.sel{border-color:var(--accent);background:#102336}
+.item.locked{opacity:.34;cursor:not-allowed}
 .item.locked:hover{border-color:transparent;background:var(--panel2)}
-.item.poor{opacity:.42}
-.item .ic{width:26px;height:26px;flex-shrink:0;display:block;border-radius:5px}
+.item.poor{opacity:.46}
+.item .ic{width:26px;height:26px;flex-shrink:0;display:block;
+  image-rendering:pixelated}
 .item .tx{flex:1;min-width:0}
-.item .nm{font-size:12px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.item .meta{font-size:9.5px;color:var(--dim);margin-top:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.item .nm{font-size:11.5px;font-weight:800;white-space:nowrap;overflow:hidden;
+  text-overflow:ellipsis}
+.item .meta{font-size:9px;color:var(--dim);margin-top:1px;white-space:nowrap;
+  overflow:hidden;text-overflow:ellipsis}
 .item .rt{display:flex;flex-direction:column;align-items:flex-end;gap:2px;flex-shrink:0}
-.item .cost{font-size:10.5px;font-weight:800;color:var(--good);white-space:nowrap}
-.item .sz{font-size:8.5px;font-weight:800;color:#5f7a94;letter-spacing:.5px}
-.none{text-align:center;color:var(--dim);font-size:12px;padding:22px 10px}
+.item .cost{font-size:10.5px;font-weight:900;color:var(--good);white-space:nowrap}
+.item .sz{font-size:8px;font-weight:800;color:#5f7a94;letter-spacing:.5px}
+.none{text-align:center;color:var(--dim);font-size:11.5px;padding:22px 10px}
 
-.insight{display:flex;gap:9px;padding:10px;border-radius:9px;background:var(--panel2);
-  margin-bottom:8px;font-size:12px;line-height:1.5;border-left:3px solid var(--accent)}
+.insight{display:flex;gap:9px;padding:10px;background:var(--panel2);
+  margin-bottom:8px;font-size:11.5px;line-height:1.55;border-left:4px solid var(--accent)}
 .insight.warn{border-left-color:var(--warn)}
 .insight.bad{border-left-color:var(--bad)}
 .insight.good{border-left-color:var(--good)}
 .insight .ico{font-size:14px;flex-shrink:0;line-height:1.3}
-.sechead{font-size:9.5px;text-transform:uppercase;letter-spacing:1.7px;color:var(--dim);
-  font-weight:800;margin:15px 0 8px;display:flex;justify-content:space-between;align-items:center}
+.sechead{font-size:9px;text-transform:uppercase;letter-spacing:1.8px;color:var(--dim);
+  font-weight:900;margin:15px 0 8px;display:flex;justify-content:space-between;
+  align-items:center}
 .sechead .v{color:#9fb6cd;font-size:10.5px;letter-spacing:.4px}
 .meter{margin-bottom:9px}
-.meter .row{display:flex;justify-content:space-between;font-size:11.5px;margin-bottom:3px}
+.meter .row{display:flex;justify-content:space-between;font-size:11px;margin-bottom:3px;
+  font-weight:700}
 .meter .row span:last-child{color:var(--dim);font-variant-numeric:tabular-nums}
-.bar{height:4px;border-radius:2px;background:#1e2b3a;overflow:hidden}
-.bar>i{display:block;height:100%;border-radius:2px;transition:width .45s}
+.bar{height:5px;background:#1e2b3a;overflow:hidden}
+.bar>i{display:block;height:100%;transition:width .4s}
 
 .landgrid{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-bottom:4px}
-.landcell{background:var(--panel2);border-radius:9px;padding:9px 11px}
-.landcell .lk{font-size:9px;text-transform:uppercase;letter-spacing:1.2px;color:var(--dim);
-  font-weight:800;margin-bottom:3px}
-.landcell .lv{font-size:15px;font-weight:800;font-variant-numeric:tabular-nums}
-.landcell .ls{font-size:10px;color:var(--dim);margin-top:1px}
+.landcell{background:var(--panel2);padding:9px 11px;border-left:3px solid var(--line2)}
+.landcell .lk{font-size:8.5px;text-transform:uppercase;letter-spacing:1.3px;
+  color:var(--dim);font-weight:900;margin-bottom:3px}
+.landcell .lv{font-size:15px;font-weight:900;font-variant-numeric:tabular-nums}
+.landcell .ls{font-size:9.5px;color:var(--dim);margin-top:1px}
 
-.logitem{font-size:11.5px;padding:8px 10px;border-radius:8px;background:var(--panel2);
-  margin-bottom:6px;line-height:1.45;border-left:3px solid #2a3d55}
-.logitem .yr{color:var(--dim);font-size:9.5px;font-weight:800;letter-spacing:1px}
+.logitem{font-size:11px;padding:8px 10px;background:var(--panel2);
+  margin-bottom:6px;line-height:1.5;border-left:4px solid #2a3d55}
+.logitem .yr{color:var(--dim);font-size:9px;font-weight:900;letter-spacing:1.2px}
 .logitem.good{border-left-color:var(--good)}
 .logitem.bad{border-left-color:var(--bad)}
 .logitem.warn{border-left-color:var(--warn)}
 .logitem.event{background:#141d2b;border-left-color:var(--accent2)}
-.logitem .ev{font-size:9.5px;font-weight:800;letter-spacing:1.4px;text-transform:uppercase;
+.logitem .ev{font-size:9px;font-weight:900;letter-spacing:1.5px;text-transform:uppercase;
   color:var(--accent2);display:block;margin-bottom:2px}
 
-#tip{position:fixed;z-index:200;pointer-events:none;background:#0b1420f7;
-  border:1px solid #2f4560;border-radius:11px;padding:10px 12px;font-size:11.5px;
-  max-width:260px;display:none;box-shadow:0 12px 34px #000b;line-height:1.5;
-  backdrop-filter:blur(8px)}
-#tip .t{font-weight:800;font-size:13px;margin-bottom:3px}
-#tip .c{font-size:9.5px;text-transform:uppercase;letter-spacing:1.2px;margin-bottom:7px;font-weight:800}
-#tip .ef{display:flex;justify-content:space-between;gap:12px;font-size:11px}
+#tip{position:fixed;z-index:200;pointer-events:none;background:#0b1420;
+  border:2px solid var(--line2);padding:10px 12px;font-size:11px;
+  max-width:260px;display:none;box-shadow:4px 4px 0 #060b12;line-height:1.55}
+#tip .t{font-weight:900;font-size:12.5px;margin-bottom:3px;color:#fff}
+#tip .c{font-size:9px;text-transform:uppercase;letter-spacing:1.3px;margin-bottom:7px;
+  font-weight:900}
+#tip .ef{display:flex;justify-content:space-between;gap:12px;font-size:10.5px}
 #tip .ef b{font-variant-numeric:tabular-nums}
 #tip .warnline{margin-top:6px;padding-top:6px;border-top:1px solid #25344a;color:#f87171;
-  font-size:10.5px;font-weight:700}
+  font-size:10px;font-weight:800}
 #tip .okline{margin-top:6px;padding-top:6px;border-top:1px solid #25344a;color:#34d399;
-  font-size:10.5px;font-weight:700}
+  font-size:10px;font-weight:800}
 #tip .progline{margin-top:6px;padding-top:6px;border-top:1px solid #25344a;color:#fbbf24;
-  font-size:10.5px;font-weight:700}
+  font-size:10px;font-weight:800}
 
-#loading{position:fixed;inset:0;background:#080d13f0;display:none;align-items:center;
-  justify-content:center;flex-direction:column;gap:16px;z-index:300;backdrop-filter:blur(4px)}
-.spin{width:38px;height:38px;border:3px solid #1e2b3a;border-top-color:var(--accent);
-  border-radius:50%;animation:sp .85s linear infinite}
+#loading{position:fixed;inset:0;background:#080d13;display:none;align-items:center;
+  justify-content:center;flex-direction:column;gap:16px;z-index:300}
+.spin{width:36px;height:36px;border:4px solid #1e2b3a;border-top-color:var(--accent);
+  animation:sp .8s linear infinite}
 @keyframes sp{to{transform:rotate(360deg)}}
-#loading p{color:var(--dim);font-size:13px;margin:0}
+#loading p{color:var(--dim);font-size:12px;margin:0;letter-spacing:1.5px;
+  text-transform:uppercase;font-weight:800}
 
 @media(max-width:900px){
   .main{flex-direction:column}
-  .side{width:100%;height:42vh;border-left:none;border-top:1px solid var(--line)}
-  #cv{width:min(100%,400px)}
-  .mapwrap{padding:8px}
+  .side{width:100%;height:42vh;border-left:none;border-top:2px solid var(--line)}
+  #cv{width:min(100%,420px)}
+  .mapwrap{padding:9px}
   .grp .gl{display:none}
 }
 </style>
@@ -239,22 +335,49 @@ h2 .n{display:inline-flex;align-items:center;justify-content:center;width:20px;h
 
 <div id="start">
   <div class="wrap">
-    <h1>FUTURE CITY</h1>
-    <p class="sub">Design a city across a century and a half. Everything connects — roads carry people, people need jobs, jobs need power, and the land remembers. Historical events will interrupt you.</p>
-    <h2><span class="n">1</span> Where in the world?</h2>
+    <div class="title-block">
+      <h1>FUTURE CITY</h1>
+      <p class="tagline">A century of urban choices</p>
+      <p class="blurb">Build a city from 1900 to 2060 and beyond. Every road, home and power plant ripples through <b style="color:#34d399">people</b>, <b style="color:#38bdf8">planet</b> and <b style="color:#fbbf24">profit</b> — and history will interrupt you.</p>
+    </div>
+
+    <div class="howto">
+      <div class="steps">
+        <div class="step">
+          <div class="num">1</div>
+          <div class="txt"><b>Lay roads first</b>Every building needs a road touching it. Red dots mean no access — nothing works.</div>
+        </div>
+        <div class="step">
+          <div class="num">2</div>
+          <div class="txt"><b>Balance jobs &amp; homes</b>People move in only when both exist. Too many jobs = empty offices.</div>
+        </div>
+        <div class="step">
+          <div class="num">3</div>
+          <div class="txt"><b>Watch wellbeing &amp; nature</b>Schools, parks and clinics raise happiness. Pollution drags it down.</div>
+        </div>
+        <div class="step">
+          <div class="num">4</div>
+          <div class="txt"><b>Time runs itself</b>Use the speed bar to pause, slow down or speed up. Rotate the map with ⟲ ⟳.</div>
+        </div>
+      </div>
+    </div>
+
+    <h2>Where in the world?</h2>
     <div id="locGrid" class="loc-grid"></div>
-    <h2><span class="n">2</span> When in history?</h2>
+
+    <h2>When in history?</h2>
     <div id="eraGrid" class="era-grid"></div>
     <div id="eraSummary"></div>
-    <h2><span class="n">3</span> How will you play?</h2>
+
+    <h2>Pick a mode</h2>
     <div class="start-btns">
       <button class="bigbtn" id="startChallenge" disabled>
         ▶ Realistic Mode
-        <small>Starts with existing city. Budget, history, and slow growth.</small>
+        <small>A small city already exists. You inherit its problems and its budget.</small>
       </button>
       <button class="bigbtn sandbox" id="startSandbox" disabled>
         🧪 Sandbox Mode
-        <small>Empty map. Unlimited funds. Build freely.</small>
+        <small>Empty map. Unlimited funds. Experiment freely.</small>
       </button>
     </div>
   </div>
@@ -268,8 +391,8 @@ h2 .n{display:inline-flex;align-items:center;justify-content:center;width:20px;h
       <div id="banner"></div>
       <div class="controls">
         <div class="speedbar">
-          <button class="speedbtn" data-speed="0">⏸ Pause</button>
-          <button class="speedbtn" data-speed="1">0.5×</button>
+          <button class="speedbtn" data-speed="0">⏸</button>
+          <button class="speedbtn" data-speed="1">½×</button>
           <button class="speedbtn on" data-speed="2">1×</button>
           <button class="speedbtn" data-speed="3">2×</button>
           <button class="speedbtn" data-speed="4">4×</button>
@@ -322,7 +445,7 @@ function rr(c,x,y,w,h,r){
 }
 
 /* ==========================================================
-   VALUE NOISE
+   NOISE
    ========================================================== */
 function hash2(x,y,s){
   let h=(Math.imul(x|0,374761393)+Math.imul(y|0,668265263)+Math.imul(s|0,1013904223))|0;
@@ -341,10 +464,6 @@ function fbm(x,y,s,oct){
   for(let i=0;i<oct;i++){sum+=amp*vnoise(x*f,y*f,s+i*131);norm+=amp;amp*=0.5;f*=2.03;}
   return sum/norm;
 }
-
-/* ==========================================================
-   TERRAIN FIELD
-   ========================================================== */
 function landL(u,v,type,seed){
   const base=fbm(u*3.2,v*3.2,seed,5);
   const det =fbm(u*7.5+13,v*7.5+7,seed+31,3);
@@ -392,6 +511,92 @@ function biomeColor(m,e,type){
   c=lerp3(c,rock,clamp((e-0.24)*1.7,0,1));
   c=lerp3(c,peak,clamp((e-0.62)*2.7,0,1));
   return c;
+}
+
+/* ==========================================================
+   PIXEL PREVIEW — mini map for each location card
+   ========================================================== */
+function drawLocationPreview(canvas, loc){
+  const c = canvas.getContext('2d');
+  c.imageSmoothingEnabled = false;
+  const S = 96;         // logical pixel grid
+  const px = canvas.width / S;
+  c.clearRect(0,0,canvas.width,canvas.height);
+
+  // Sample terrain
+  for (let y = 0; y < S; y++){
+    for (let x = 0; x < S; x++){
+      const u = x/S, v = y/S;
+      const L = landL(u, v, loc.map, loc.seed);
+      const m = moist(u, v, loc.seed);
+      let col;
+      if (L < 0.5){
+        // water with depth steps
+        if (L < 0.32) col = [10, 34, 62];
+        else if (L < 0.42) col = [22, 58, 96];
+        else col = [40, 92, 130];
+      } else {
+        const e = clamp((L - 0.5) * 2, 0, 1);
+        col = biomeColor(m, e, loc.map);
+        // Pixel quantization for chunky look
+        col = [Math.floor(col[0]/24)*24, Math.floor(col[1]/24)*24, Math.floor(col[2]/24)*24];
+      }
+      c.fillStyle = `rgb(${col[0]},${col[1]},${col[2]})`;
+      c.fillRect(Math.floor(x*px), Math.floor(y*px), Math.ceil(px), Math.ceil(px));
+    }
+  }
+
+  // Draw a tiny pixel city block in the middle if land
+  const N = 5;
+  const cx = S*0.5, cy = S*0.55;
+  const midX = Math.floor(S/2), midY = Math.floor(S/2);
+  const midLand = landL(midX/S, midY/S, loc.map, loc.seed);
+
+  if (midLand > 0.5){
+    // Pixel "buildings" — chunky rectangles with pixel highlights
+    const blocks = [
+      {dx:-10, dy:-3,  w:6, h:9,  col:'#f59e0b', hi:'#fbbf24'},   // housing
+      {dx:-2,  dy:-6,  w:6, h:12, col:'#eab308', hi:'#fde047'},   // economy
+      {dx:5,   dy:-2,  w:8, h:8,  col:'#22c55e', hi:'#4ade80'},   // green
+      {dx:1,   dy:3,   w:5, h:5,  col:'#3b82f6', hi:'#60a5fa'},   // infra
+      {dx:-7,  dy:4,   w:5, h:4,  col:'#a855f7', hi:'#c084fc'},   // culture
+    ];
+    for (const b of blocks){
+      const bx = (cx + b.dx) * px;
+      const by = (cy + b.dy) * px;
+      const bw = b.w * px;
+      const bh = b.h * px;
+      // shadow
+      c.fillStyle = 'rgba(0,0,0,0.45)';
+      c.fillRect(bx + px, by + bh, bw, px*1.5);
+      // body
+      c.fillStyle = b.col;
+      c.fillRect(bx, by, bw, bh);
+      // top highlight
+      c.fillStyle = b.hi;
+      c.fillRect(bx, by, bw, px*0.7);
+      // windows
+      c.fillStyle = '#0a1018';
+      for (let wy = 0; wy < Math.floor(bh/px) - 3; wy += 2){
+        c.fillRect(bx + px*0.7, by + px*(2 + wy), px*0.7, px*0.7);
+        c.fillRect(bx + bw - px*1.4, by + px*(2 + wy), px*0.7, px*0.7);
+      }
+    }
+    // tiny road strip
+    c.fillStyle = '#3b4148';
+    c.fillRect(0, Math.floor(cy*px + px*1.5), canvas.width, px*1.2);
+    c.fillStyle = '#facc15';
+    for (let i = 0; i < S; i += 3){
+      c.fillRect(i*px, Math.floor(cy*px + px*2), px*1.2, px*0.4);
+    }
+  }
+
+  // Pixel frame
+  c.fillStyle = 'rgba(255,255,255,0.06)';
+  c.fillRect(0,0,canvas.width,px);
+  c.fillRect(0,canvas.height-px,canvas.width,px);
+  c.fillRect(0,0,px,canvas.height);
+  c.fillRect(canvas.width-px,0,px,canvas.height);
 }
 
 /* ==========================================================
@@ -709,7 +914,6 @@ anchor(c,f,d){c.strokeStyle=d;c.fillStyle=f;c.lineWidth=2;c.lineCap='round';
   c.beginPath();c.moveTo(-9,4);c.quadraticCurveTo(-9,10.5,0,10.5);
   c.quadraticCurveTo(9,10.5,9,4);c.stroke();},
 };
-
 function drawIcon(c,id,x,y,size,fill,dark){
   c.save();
   c.translate(x,y);
@@ -720,7 +924,7 @@ function drawIcon(c,id,x,y,size,fill,dark){
 }
 
 /* ==========================================================
-   CATEGORIES
+   CATEGORIES & BUILDINGS
    ========================================================== */
 const CATS={
   road:{name:'Roads & Transit',color:'#94a3b8'},
@@ -733,110 +937,103 @@ const CATS={
   civic:{name:'Civic & Governance',color:'#14b8a6'},
 };
 
-/* ==========================================================
-   BUILDINGS — now with `bt` (build time, years)
-   ========================================================== */
 const BUILDINGS=[
-{id:'road',      icon:'road',    n:'Local Street',      c:'road',from:1900,cost:6000,  up:60,  e:{},size:1,isRoad:true,cap:400,bt:0},
-{id:'highway',   icon:'highway', n:'Arterial Road',     c:'road',from:1930,cost:22000, up:220, e:{pollution:3},size:1,isRoad:true,cap:1800,bt:0},
-{id:'bridge',    icon:'bridge',  n:'Bridge',            c:'road',from:1900,cost:34000, up:280, e:{},size:1,isRoad:true,cap:600,terrain:'water',bt:3},
-{id:'bus',       icon:'bus',     n:'Bus Depot',         c:'road',from:1930,cost:75000, up:420, e:{transit:24,pollution:5,energy:-12},size:1,transitR:4,bt:2},
-{id:'metro',     icon:'train',   n:'Metro Station',     c:'road',from:1930,cost:190000,up:950, e:{transit:52,happy:4,env:4,energy:-32},size:2,transitR:6,bt:5},
-{id:'station',   icon:'station', n:'Rail Terminal',     c:'road',from:1900,cost:230000,up:1250,e:{transit:38,jobs:140,income:1100},size:2,transitR:7,bt:5},
-{id:'cycle',     icon:'bike',    n:'Cycle Network',     c:'road',from:1960,cost:48000, up:130, e:{transit:16,happy:3,env:6},size:1,transitR:3,bt:2},
-{id:'ferry',     icon:'ferry',   n:'Ferry Terminal',    c:'road',from:1900,cost:110000,up:620, e:{transit:28,jobs:60,income:700},size:1,transitR:4,terrain:'water',bt:3},
-{id:'parking',   icon:'parking', n:'Multi-Storey Parking',c:'road',from:1930,cost:52000,up:240,e:{transit:8,pollution:3},size:1,transitR:2,bt:2},
-{id:'microhome', icon:'pod',      n:'Micro-Home Pods',    c:'housing',from:2020,cost:28000, up:120, e:{housing:70,happy:-1},size:1,bt:1},
-{id:'affordable',icon:'house',    n:'Terraced Housing',   c:'housing',from:1900,cost:45000, up:250, e:{housing:150,happy:2},size:1,bt:2},
-{id:'apartment', icon:'apartment',n:'Apartment Block',    c:'housing',from:1900,cost:130000,up:850, e:{housing:480,happy:-2,energy:-25},size:2,bt:3},
-{id:'mixeduse',  icon:'mixed',    n:'Mixed-Use Block',    c:'housing',from:1930,cost:110000,up:520, e:{housing:220,jobs:90,happy:3,income:300,energy:-15},size:2,bt:3},
-{id:'ecovillage',icon:'ecohouse', n:'Eco-Village',        c:'housing',from:2020,cost:95000, up:380, e:{housing:160,happy:5,env:7,water:-40},size:2,bt:4},
-{id:'tower',     icon:'tower',    n:'Residential Tower',  c:'housing',from:1930,cost:200000,up:1100,e:{housing:520,happy:4,income:900,energy:-40,water:-60},size:2,bt:4},
-{id:'highrise',  icon:'office',   n:'Luxury High-Rise',   c:'housing',from:1990,cost:290000,up:1500,e:{housing:760,happy:6,income:1600,energy:-60,water:-80},size:2,bt:5},
-{id:'market',    icon:'market',   n:'Market Square',      c:'economy',from:1900,cost:35000, up:160, e:{jobs:70,happy:3,income:500,culture:8},size:1,bt:2},
-{id:'office',    icon:'office',   n:'Office Building',    c:'economy',from:1900,cost:160000,up:1200,e:{jobs:520,income:2600,energy:-35,water:-25},size:2,bt:4},
-{id:'cowork',    icon:'laptop',   n:'Co-working Studio',  c:'economy',from:1990,cost:65000, up:320, e:{jobs:130,income:750,energy:-12},size:1,bt:2},
-{id:'bank',      icon:'bank',     n:'Bank Branch',        c:'economy',from:1900,cost:88000, up:540, e:{jobs:120,income:900},size:1,bt:2},
-{id:'mall',      icon:'mall',     n:'Retail Mall',        c:'economy',from:1930,cost:135000,up:820, e:{jobs:260,income:1500,happy:2,energy:-28,water:-20},size:2,bt:3},
-{id:'industry',  icon:'factory',  n:'Light Industry',     c:'economy',from:1900,cost:115000,up:700, e:{jobs:360,income:1800,pollution:14,energy:-40,water:-50},size:2,bt:3},
-{id:'logistics', icon:'box',      n:'Logistics Depot',    c:'economy',from:1900,cost:145000,up:900, e:{jobs:320,income:2000,pollution:9,energy:-30},size:2,bt:3},
-{id:'vfarm',     icon:'sprout',   n:'Vertical Farm',      c:'economy',from:1990,cost:105000,up:420, e:{jobs:90,income:650,env:5,energy:-25,water:-80},size:2,bt:3},
-{id:'datacentre',icon:'server',   n:'Data Centre',        c:'economy',from:1960,cost:180000,up:750, e:{jobs:110,income:1300,energy:-90,water:-70},size:2,bt:3},
-{id:'finance',   icon:'bank',     n:'Financial Centre',   c:'economy',from:1960,cost:260000,up:2000,e:{jobs:620,income:4600,energy:-50,water:-30},size:2,bt:5},
-{id:'tech',      icon:'chip',     n:'Tech Campus',        c:'economy',from:1990,cost:290000,up:1500,e:{jobs:520,income:3800,edu:14,energy:-55,water:-35},size:3,bt:6},
-{id:'port',      icon:'ship',     n:'Container Port',     c:'economy',from:1900,cost:280000,up:1600,e:{jobs:620,income:4200,pollution:14,energy:-45,water:-55},size:3,terrain:'water',bt:7},
-{id:'airport',   icon:'plane',    n:'International Airport',c:'economy',from:1930,cost:420000,up:2600,e:{jobs:880,income:6200,pollution:22,energy:-90,water:-70},size:3,bt:8},
-{id:'heliport',  icon:'heli',     n:'Heliport',           c:'economy',from:1960,cost:78000, up:480, e:{jobs:60,income:700,pollution:4,energy:-18},size:1,bt:2},
-{id:'solar',     icon:'panel',    n:'Solar Farm',         c:'infra',from:1960,cost:135000,up:360, e:{energy:140,env:9},size:2,bt:2},
-{id:'wind',      icon:'turbine',  n:'Wind Turbines',      c:'infra',from:1990,cost:160000,up:420, e:{energy:180,env:11},size:1,bt:3},
-{id:'gas',       icon:'flame',    n:'Coal & Gas Plant',   c:'infra',from:1900,cost:110000,up:620, e:{energy:340,pollution:26},size:2,bt:4},
-{id:'nuclear',   icon:'atom',     n:'Nuclear Plant',      c:'infra',from:1960,cost:480000,up:1900,e:{energy:1000,pollution:4},size:3,bt:10},
-{id:'hydro',     icon:'hydro',    n:'Hydroelectric Dam',  c:'infra',from:1900,cost:280000,up:900, e:{energy:520,env:7,water:180},size:2,terrain:'water',bt:7},
-{id:'watertp',   icon:'droplet',  n:'Water Treatment',    c:'infra',from:1900,cost:115000,up:520, e:{water:420,env:6,energy:-24},size:2,bt:4},
-{id:'reservoir', icon:'dam',      n:'Reservoir',          c:'infra',from:1900,cost:170000,up:620, e:{water:720,env:3},size:2,terrain:'water',bt:5},
-{id:'waste',     icon:'recycle',  n:'Waste & Recycling',  c:'infra',from:1900,cost:100000,up:560, e:{env:11,pollution:-12,energy:-18},size:2,bt:3},
-{id:'fibre',     icon:'cable',    n:'Fibre & Telecoms',   c:'infra',from:1990,cost:95000, up:360, e:{jobs:60,income:850,edu:9,energy:-16},size:1,bt:2},
-{id:'school',    icon:'school',   n:'Primary School',     c:'services',from:1900,cost:75000, up:520, e:{edu:32,happy:4,jobs:40,energy:-12},size:2,bt:3},
-{id:'library',   icon:'book',     n:'Public Library',     c:'services',from:1900,cost:68000, up:390, e:{edu:21,culture:16,happy:4,energy:-12},size:1,bt:2},
-{id:'clinic',    icon:'cross',    n:'Community Clinic',   c:'services',from:1900,cost:85000, up:460, e:{health:26,happy:3,energy:-12},size:1,bt:2},
-{id:'fire',      icon:'bell',     n:'Fire & Rescue',      c:'services',from:1900,cost:88000, up:520, e:{safety:32,happy:3,jobs:35,energy:-12},size:1,bt:2},
-{id:'police',    icon:'shield',   n:'Police Station',     c:'services',from:1900,cost:82000, up:520, e:{safety:31,happy:2,jobs:40,energy:-12},size:1,bt:2},
-{id:'eldercare', icon:'elder',    n:'Elderly Care Home',  c:'services',from:1930,cost:95000, up:620, e:{health:22,happy:5,jobs:60,energy:-16},size:1,bt:3},
-{id:'hospital',  icon:'hospital', n:'General Hospital',   c:'services',from:1900,cost:250000,up:1550,e:{health:72,happy:6,jobs:190,energy:-42,water:-60},size:2,bt:6},
-{id:'university',icon:'grad',     n:'University',         c:'services',from:1900,cost:340000,up:1650,e:{edu:95,jobs:260,income:1300,happy:5,energy:-48,water:-55},size:3,bt:8},
-{id:'sports',    icon:'stadium',  n:'Sports Stadium',     c:'services',from:1900,cost:280000,up:950, e:{happy:8,culture:26,jobs:180,income:1200,energy:-38,water:-45},size:3,bt:6},
-{id:'garden',    icon:'carrot',   n:'Community Garden',   c:'green',from:1900,cost:26000, up:110, e:{env:9,happy:4,water:-28},size:1,bt:1},
-{id:'rooftop',   icon:'panel',    n:'Rooftop Solar Co-op',c:'green',from:2020,cost:58000, up:180, e:{energy:60,env:7},size:1,bt:1},
-{id:'greenroof', icon:'roofgarden',n:'Green Corridor',    c:'green',from:2020,cost:62000, up:210, e:{env:16,happy:3,transit:6},size:1,bt:1},
-{id:'park',      icon:'tree',     n:'City Park',          c:'green',from:1900,cost:38000, up:190, e:{env:13,happy:5,water:-25},size:2,bt:2},
-{id:'forest',    icon:'pine',     n:'Urban Forest',       c:'green',from:1900,cost:55000, up:130, e:{env:22,happy:4,water:-35},size:2,bt:3},
-{id:'wetland',   icon:'reed',     n:'Wetland Restoration',c:'green',from:1960,cost:72000, up:310, e:{env:26,pollution:-16,water:60},size:2,bt:3},
-{id:'nightmarket',icon:'lantern', n:'Night Market',       c:'culture',from:1900,cost:48000, up:220, e:{culture:19,happy:5,jobs:95,income:550,energy:-16},size:1,bt:2},
-{id:'music',     icon:'note',     n:'Music Venue',        c:'culture',from:1930,cost:92000, up:520, e:{culture:26,happy:6,jobs:65,income:580,energy:-22},size:1,bt:2},
-{id:'community', icon:'people',   n:'Community Centre',   c:'culture',from:1900,cost:62000, up:360, e:{happy:6,culture:16,civic:12,energy:-12},size:1,bt:2},
-{id:'theatre',   icon:'masks',    n:'Theatre & Arts',     c:'culture',from:1900,cost:125000,up:820, e:{culture:36,happy:7,jobs:75,income:650,energy:-26},size:2,bt:4},
-{id:'museum',    icon:'museum',   n:'Museum',             c:'culture',from:1900,cost:155000,up:920, e:{culture:42,happy:6,jobs:85,income:750,energy:-22},size:2,bt:5},
-{id:'wifi',      icon:'wifi',     n:'Public Wi-Fi Mesh',  c:'civic',from:2020,cost:42000, up:210, e:{civic:16,edu:11,happy:3,energy:-10},size:1,bt:1},
-{id:'plaza',     icon:'fountain', n:'Civic Plaza',        c:'civic',from:1900,cost:62000, up:260, e:{civic:26,happy:6,culture:11,water:-32},size:2,bt:2},
-{id:'cityhall',  icon:'cityhall', n:'City Hall',          c:'civic',from:1900,cost:135000,up:820, e:{civic:42,happy:4,jobs:130,energy:-22},size:2,bt:4},
+{id:'road',icon:'road',n:'Local Street',c:'road',from:1900,cost:6000,up:60,e:{},size:1,isRoad:true,cap:400,bt:0},
+{id:'highway',icon:'highway',n:'Arterial Road',c:'road',from:1930,cost:22000,up:220,e:{pollution:3},size:1,isRoad:true,cap:1800,bt:0},
+{id:'bridge',icon:'bridge',n:'Bridge',c:'road',from:1900,cost:34000,up:280,e:{},size:1,isRoad:true,cap:600,terrain:'water',bt:3},
+{id:'bus',icon:'bus',n:'Bus Depot',c:'road',from:1930,cost:75000,up:420,e:{transit:24,pollution:5,energy:-12},size:1,transitR:4,bt:2},
+{id:'metro',icon:'train',n:'Metro Station',c:'road',from:1930,cost:190000,up:950,e:{transit:52,happy:4,env:4,energy:-32},size:2,transitR:6,bt:5},
+{id:'station',icon:'station',n:'Rail Terminal',c:'road',from:1900,cost:230000,up:1250,e:{transit:38,jobs:140,income:1100},size:2,transitR:7,bt:5},
+{id:'cycle',icon:'bike',n:'Cycle Network',c:'road',from:1960,cost:48000,up:130,e:{transit:16,happy:3,env:6},size:1,transitR:3,bt:2},
+{id:'ferry',icon:'ferry',n:'Ferry Terminal',c:'road',from:1900,cost:110000,up:620,e:{transit:28,jobs:60,income:700},size:1,transitR:4,terrain:'water',bt:3},
+{id:'parking',icon:'parking',n:'Parking Structure',c:'road',from:1930,cost:52000,up:240,e:{transit:8,pollution:3},size:1,transitR:2,bt:2},
+{id:'microhome',icon:'pod',n:'Micro-Home Pods',c:'housing',from:2020,cost:28000,up:120,e:{housing:70,happy:-1},size:1,bt:1},
+{id:'affordable',icon:'house',n:'Terraced Housing',c:'housing',from:1900,cost:45000,up:250,e:{housing:150,happy:2},size:1,bt:2},
+{id:'apartment',icon:'apartment',n:'Apartment Block',c:'housing',from:1900,cost:130000,up:850,e:{housing:480,happy:-2,energy:-25},size:2,bt:3},
+{id:'mixeduse',icon:'mixed',n:'Mixed-Use Block',c:'housing',from:1930,cost:110000,up:520,e:{housing:220,jobs:90,happy:3,income:300,energy:-15},size:2,bt:3},
+{id:'ecovillage',icon:'ecohouse',n:'Eco-Village',c:'housing',from:2020,cost:95000,up:380,e:{housing:160,happy:5,env:7,water:-40},size:2,bt:4},
+{id:'tower',icon:'tower',n:'Residential Tower',c:'housing',from:1930,cost:200000,up:1100,e:{housing:520,happy:4,income:900,energy:-40,water:-60},size:2,bt:4},
+{id:'highrise',icon:'office',n:'Luxury High-Rise',c:'housing',from:1990,cost:290000,up:1500,e:{housing:760,happy:6,income:1600,energy:-60,water:-80},size:2,bt:5},
+{id:'market',icon:'market',n:'Market Square',c:'economy',from:1900,cost:35000,up:160,e:{jobs:70,happy:3,income:500,culture:8},size:1,bt:2},
+{id:'office',icon:'office',n:'Office Building',c:'economy',from:1900,cost:160000,up:1200,e:{jobs:520,income:2600,energy:-35,water:-25},size:2,bt:4},
+{id:'cowork',icon:'laptop',n:'Co-working Studio',c:'economy',from:1990,cost:65000,up:320,e:{jobs:130,income:750,energy:-12},size:1,bt:2},
+{id:'bank',icon:'bank',n:'Bank Branch',c:'economy',from:1900,cost:88000,up:540,e:{jobs:120,income:900},size:1,bt:2},
+{id:'mall',icon:'mall',n:'Retail Mall',c:'economy',from:1930,cost:135000,up:820,e:{jobs:260,income:1500,happy:2,energy:-28,water:-20},size:2,bt:3},
+{id:'industry',icon:'factory',n:'Light Industry',c:'economy',from:1900,cost:115000,up:700,e:{jobs:360,income:1800,pollution:14,energy:-40,water:-50},size:2,bt:3},
+{id:'logistics',icon:'box',n:'Logistics Depot',c:'economy',from:1900,cost:145000,up:900,e:{jobs:320,income:2000,pollution:9,energy:-30},size:2,bt:3},
+{id:'vfarm',icon:'sprout',n:'Vertical Farm',c:'economy',from:1990,cost:105000,up:420,e:{jobs:90,income:650,env:5,energy:-25,water:-80},size:2,bt:3},
+{id:'datacentre',icon:'server',n:'Data Centre',c:'economy',from:1960,cost:180000,up:750,e:{jobs:110,income:1300,energy:-90,water:-70},size:2,bt:3},
+{id:'finance',icon:'bank',n:'Financial Centre',c:'economy',from:1960,cost:260000,up:2000,e:{jobs:620,income:4600,energy:-50,water:-30},size:2,bt:5},
+{id:'tech',icon:'chip',n:'Tech Campus',c:'economy',from:1990,cost:290000,up:1500,e:{jobs:520,income:3800,edu:14,energy:-55,water:-35},size:3,bt:6},
+{id:'port',icon:'ship',n:'Container Port',c:'economy',from:1900,cost:280000,up:1600,e:{jobs:620,income:4200,pollution:14,energy:-45,water:-55},size:3,terrain:'water',bt:7},
+{id:'airport',icon:'plane',n:'International Airport',c:'economy',from:1930,cost:420000,up:2600,e:{jobs:880,income:6200,pollution:22,energy:-90,water:-70},size:3,bt:8},
+{id:'heliport',icon:'heli',n:'Heliport',c:'economy',from:1960,cost:78000,up:480,e:{jobs:60,income:700,pollution:4,energy:-18},size:1,bt:2},
+{id:'solar',icon:'panel',n:'Solar Farm',c:'infra',from:1960,cost:135000,up:360,e:{energy:140,env:9},size:2,bt:2},
+{id:'wind',icon:'turbine',n:'Wind Turbines',c:'infra',from:1990,cost:160000,up:420,e:{energy:180,env:11},size:1,bt:3},
+{id:'gas',icon:'flame',n:'Coal & Gas Plant',c:'infra',from:1900,cost:110000,up:620,e:{energy:340,pollution:26},size:2,bt:4},
+{id:'nuclear',icon:'atom',n:'Nuclear Plant',c:'infra',from:1960,cost:480000,up:1900,e:{energy:1000,pollution:4},size:3,bt:10},
+{id:'hydro',icon:'hydro',n:'Hydroelectric Dam',c:'infra',from:1900,cost:280000,up:900,e:{energy:520,env:7,water:180},size:2,terrain:'water',bt:7},
+{id:'watertp',icon:'droplet',n:'Water Treatment',c:'infra',from:1900,cost:115000,up:520,e:{water:420,env:6,energy:-24},size:2,bt:4},
+{id:'reservoir',icon:'dam',n:'Reservoir',c:'infra',from:1900,cost:170000,up:620,e:{water:720,env:3},size:2,terrain:'water',bt:5},
+{id:'waste',icon:'recycle',n:'Waste & Recycling',c:'infra',from:1900,cost:100000,up:560,e:{env:11,pollution:-12,energy:-18},size:2,bt:3},
+{id:'fibre',icon:'cable',n:'Fibre & Telecoms',c:'infra',from:1990,cost:95000,up:360,e:{jobs:60,income:850,edu:9,energy:-16},size:1,bt:2},
+{id:'school',icon:'school',n:'Primary School',c:'services',from:1900,cost:75000,up:520,e:{edu:32,happy:4,jobs:40,energy:-12},size:2,bt:3},
+{id:'library',icon:'book',n:'Public Library',c:'services',from:1900,cost:68000,up:390,e:{edu:21,culture:16,happy:4,energy:-12},size:1,bt:2},
+{id:'clinic',icon:'cross',n:'Community Clinic',c:'services',from:1900,cost:85000,up:460,e:{health:26,happy:3,energy:-12},size:1,bt:2},
+{id:'fire',icon:'bell',n:'Fire & Rescue',c:'services',from:1900,cost:88000,up:520,e:{safety:32,happy:3,jobs:35,energy:-12},size:1,bt:2},
+{id:'police',icon:'shield',n:'Police Station',c:'services',from:1900,cost:82000,up:520,e:{safety:31,happy:2,jobs:40,energy:-12},size:1,bt:2},
+{id:'eldercare',icon:'elder',n:'Elderly Care Home',c:'services',from:1930,cost:95000,up:620,e:{health:22,happy:5,jobs:60,energy:-16},size:1,bt:3},
+{id:'hospital',icon:'hospital',n:'General Hospital',c:'services',from:1900,cost:250000,up:1550,e:{health:72,happy:6,jobs:190,energy:-42,water:-60},size:2,bt:6},
+{id:'university',icon:'grad',n:'University',c:'services',from:1900,cost:340000,up:1650,e:{edu:95,jobs:260,income:1300,happy:5,energy:-48,water:-55},size:3,bt:8},
+{id:'sports',icon:'stadium',n:'Sports Stadium',c:'services',from:1900,cost:280000,up:950,e:{happy:8,culture:26,jobs:180,income:1200,energy:-38,water:-45},size:3,bt:6},
+{id:'garden',icon:'carrot',n:'Community Garden',c:'green',from:1900,cost:26000,up:110,e:{env:9,happy:4,water:-28},size:1,bt:1},
+{id:'rooftop',icon:'panel',n:'Rooftop Solar',c:'green',from:2020,cost:58000,up:180,e:{energy:60,env:7},size:1,bt:1},
+{id:'greenroof',icon:'roofgarden',n:'Green Corridor',c:'green',from:2020,cost:62000,up:210,e:{env:16,happy:3,transit:6},size:1,bt:1},
+{id:'park',icon:'tree',n:'City Park',c:'green',from:1900,cost:38000,up:190,e:{env:13,happy:5,water:-25},size:2,bt:2},
+{id:'forest',icon:'pine',n:'Urban Forest',c:'green',from:1900,cost:55000,up:130,e:{env:22,happy:4,water:-35},size:2,bt:3},
+{id:'wetland',icon:'reed',n:'Wetland Restoration',c:'green',from:1960,cost:72000,up:310,e:{env:26,pollution:-16,water:60},size:2,bt:3},
+{id:'nightmarket',icon:'lantern',n:'Night Market',c:'culture',from:1900,cost:48000,up:220,e:{culture:19,happy:5,jobs:95,income:550,energy:-16},size:1,bt:2},
+{id:'music',icon:'note',n:'Music Venue',c:'culture',from:1930,cost:92000,up:520,e:{culture:26,happy:6,jobs:65,income:580,energy:-22},size:1,bt:2},
+{id:'community',icon:'people',n:'Community Centre',c:'culture',from:1900,cost:62000,up:360,e:{happy:6,culture:16,civic:12,energy:-12},size:1,bt:2},
+{id:'theatre',icon:'masks',n:'Theatre & Arts',c:'culture',from:1900,cost:125000,up:820,e:{culture:36,happy:7,jobs:75,income:650,energy:-26},size:2,bt:4},
+{id:'museum',icon:'museum',n:'Museum',c:'culture',from:1900,cost:155000,up:920,e:{culture:42,happy:6,jobs:85,income:750,energy:-22},size:2,bt:5},
+{id:'wifi',icon:'wifi',n:'Public Wi-Fi',c:'civic',from:2020,cost:42000,up:210,e:{civic:16,edu:11,happy:3,energy:-10},size:1,bt:1},
+{id:'plaza',icon:'fountain',n:'Civic Plaza',c:'civic',from:1900,cost:62000,up:260,e:{civic:26,happy:6,culture:11,water:-32},size:2,bt:2},
+{id:'cityhall',icon:'cityhall',n:'City Hall',c:'civic',from:1900,cost:135000,up:820,e:{civic:42,happy:4,jobs:130,energy:-22},size:2,bt:4},
 ];
 const BMAP=Object.fromEntries(BUILDINGS.map(b=>[b.id,b]));
 
 /* ==========================================================
-   LOCATIONS — variable grid size, trade specialisation,
-   and starting buildings for realistic mode
+   LOCATIONS
    ========================================================== */
 const LOCATIONS=[
 {id:'singapore',name:'Singapore',flag:'🇸🇬',region:'Southeast Asia',map:'island',seed:11,
  grid:20,funds:2200000,growth:1.0,energyMult:1.15,waterMult:1.0,incomeMult:1.25,
- desc:'Tropical island city-state and global trade hub — land is scarce and cooling costs bite.',
- tags:[['Trade hub','good'],['High cooling','bad'],['Scarce land','bad'],['Port bonuses','tr']],
+ desc:'Island city-state and global trade hub — land is scarce, cooling costs bite.',
+ tags:[['Trade hub','good'],['High cooling','bad'],['Scarce land','bad'],['Port bonus','tr']],
  trade:{bonus:{economy:1.35,infra:1.15},label:'Global port — economy +35%'},
  start:[{id:'road',x:9,y:10},{id:'road',x:10,y:10},{id:'road',x:11,y:10},
         {id:'road',x:10,y:9},{id:'road',x:10,y:11},
         {id:'market',x:9,y:9},{id:'affordable',x:11,y:9},
         {id:'port',x:14,y:13},{id:'office',x:11,y:11},{id:'park',x:8,y:11}]},
-
 {id:'rotterdam',name:'Rotterdam',flag:'🇳🇱',region:'Rhine Delta, Europe',map:'delta',seed:23,
  grid:22,funds:1800000,growth:0.8,energyMult:1.0,waterMult:0.85,incomeMult:1.1,
- desc:'A low-lying delta port adapting to sea-level rise. Water is abundant; dry land is precious.',
- tags:[['Flood-adaptive','good'],['Water surplus','good'],['Slow growth','bad'],['Logistics hub','tr']],
+ desc:'Low-lying delta port adapting to sea-level rise. Water is abundant; dry land is precious.',
+ tags:[['Flood-adaptive','good'],['Water surplus','good'],['Slow growth','bad'],['Logistics','tr']],
  trade:{bonus:{economy:1.25,road:1.15},label:'Logistics hub — economy +25%'},
  start:[{id:'road',x:10,y:11},{id:'road',x:11,y:11},{id:'road',x:12,y:11},
         {id:'road',x:11,y:10},{id:'road',x:11,y:12},
         {id:'port',x:15,y:12},{id:'logistics',x:9,y:12},
         {id:'affordable',x:10,y:10},{id:'market',x:12,y:10},{id:'industry',x:8,y:14}]},
-
 {id:'nairobi',name:'Nairobi',flag:'🇰🇪',region:'East Africa',map:'inland',seed:37,
  grid:26,funds:900000,growth:1.6,energyMult:0.9,waterMult:1.05,incomeMult:0.85,
- desc:'A fast-growing hub with a young population. Infrastructure must race to keep up.',
- tags:[['Fast growth','good'],['Tiny budget','bad'],['Infrastructure gap','bad'],['Regional market','tr']],
+ desc:'Fast-growing hub with a young population. Infrastructure must race to keep up.',
+ tags:[['Fast growth','good'],['Tiny budget','bad'],['Infra gap','bad'],['Regional market','tr']],
  trade:{bonus:{economy:1.15,services:1.1},label:'Regional market — economy +15%'},
  start:[{id:'road',x:12,y:13},{id:'road',x:13,y:13},{id:'road',x:14,y:13},
         {id:'road',x:13,y:12},{id:'road',x:13,y:14},
         {id:'market',x:12,y:12},{id:'affordable',x:14,y:12},
         {id:'industry',x:11,y:15},{id:'school',x:15,y:14}]},
-
 {id:'reykjavik',name:'Reykjavík',flag:'🇮🇸',region:'North Atlantic',map:'coastal',seed:41,
  grid:18,funds:2000000,growth:0.6,energyMult:1.4,waterMult:0.9,incomeMult:1.05,
  desc:'Geothermal energy and clean air make people happy — but heating demand is enormous.',
@@ -846,7 +1043,6 @@ const LOCATIONS=[
         {id:'road',x:9,y:8},{id:'road',x:9,y:10},
         {id:'ferry',x:13,y:10},{id:'market',x:8,y:8},
         {id:'affordable',x:10,y:8},{id:'school',x:9,y:11}]},
-
 {id:'phoenix',name:'Phoenix',flag:'🇺🇸',region:'Sonoran Desert, N. America',map:'desert',seed:53,
  grid:30,funds:1600000,growth:1.0,energyMult:1.3,waterMult:1.8,incomeMult:1.15,
  desc:'Sprawling desert metropolis. Air conditioning is life; water is the binding constraint.',
@@ -856,7 +1052,6 @@ const LOCATIONS=[
         {id:'road',x:15,y:14},{id:'road',x:15,y:16},{id:'road',x:15,y:17},
         {id:'airport',x:20,y:20},{id:'mall',x:14,y:14},
         {id:'office',x:16,y:14},{id:'affordable',x:14,y:16},{id:'solar',x:19,y:13}]},
-
 {id:'mumbai',name:'Mumbai',flag:'🇮🇳',region:'South Asia',map:'coastal',seed:67,
  grid:24,funds:800000,growth:1.8,energyMult:1.1,waterMult:1.15,incomeMult:0.9,
  desc:'Enormous, dense and dynamic. Housing and sanitation are the defining challenges.',
@@ -867,18 +1062,16 @@ const LOCATIONS=[
         {id:'port',x:17,y:14},{id:'market',x:11,y:11},
         {id:'affordable',x:13,y:11},{id:'affordable',x:11,y:13},
         {id:'industry',x:10,y:14},{id:'school',x:14,y:13}]},
-
 {id:'saopaulo',name:'São Paulo',flag:'🇧🇷',region:'South America',map:'hills',seed:79,
  grid:26,funds:1300000,growth:1.2,energyMult:1.0,waterMult:1.1,incomeMult:1.0,
- desc:'A hilly megacity of deep inequality. Transport and social services shape daily life.',
- tags:[['Large workforce','good'],['Hilly terrain','bad'],['Inequality','bad'],['Industrial base','tr']],
+ desc:'Hilly megacity of deep inequality. Transport and social services shape daily life.',
+ tags:[['Large workforce','good'],['Hilly terrain','bad'],['Inequality','bad'],['Industry','tr']],
  trade:{bonus:{economy:1.15,services:1.1},label:'Industrial base — economy +15%'},
  start:[{id:'road',x:13,y:13},{id:'road',x:14,y:13},{id:'road',x:15,y:13},
         {id:'road',x:14,y:12},{id:'road',x:14,y:14},
         {id:'industry',x:12,y:14},{id:'industry',x:15,y:15},
         {id:'market',x:13,y:12},{id:'affordable',x:15,y:12},
         {id:'school',x:12,y:11},{id:'hospital',x:16,y:12}]},
-
 {id:'tokyo',name:'Tokyo',flag:'🇯🇵',region:'East Asia',map:'coastal',seed:83,
  grid:28,funds:2800000,growth:0.4,energyMult:1.1,waterMult:1.0,incomeMult:1.3,
  desc:'Superb infrastructure and a wealthy economy — but an ageing, shrinking population.',
@@ -895,17 +1088,17 @@ const LOCATIONS=[
    ERAS
    ========================================================== */
 const ERAS=[
- {y:1900,name:'Age of Industry',   fundMult:0.10,costMult:0.30,growth:0.70,
+ {y:1900,name:'Age of Industry',fundMult:0.10,costMult:0.30,growth:0.70,
   desc:'Horse-drawn streets, coal smoke, and the first great wave of urbanisation.'},
- {y:1930,name:'Between the Wars',  fundMult:0.20,costMult:0.42,growth:0.95,
+ {y:1930,name:'Between the Wars',fundMult:0.20,costMult:0.42,growth:0.95,
   desc:'Concrete, electricity and the first metro lines reshape the city.'},
- {y:1960,name:'Post-War Boom',     fundMult:0.36,costMult:0.58,growth:1.20,
+ {y:1960,name:'Post-War Boom',fundMult:0.36,costMult:0.58,growth:1.20,
   desc:'Motorways, high-rises, nuclear power — and the first warnings about smog.'},
- {y:1990,name:'The Global Turn',   fundMult:0.60,costMult:0.78,growth:1.05,
+ {y:1990,name:'The Global Turn',fundMult:0.60,costMult:0.78,growth:1.05,
   desc:'Computers, container ports and the beginnings of the climate conversation.'},
  {y:2020,name:'The Climate Decade',fundMult:1.00,costMult:1.00,growth:1.00,
   desc:'Renewables, remote work, and a hard push for liveable density.'},
- {y:2060,name:'Near Future',       fundMult:1.75,costMult:1.32,growth:0.85,
+ {y:2060,name:'Near Future',fundMult:1.75,costMult:1.32,growth:0.85,
   desc:'Autonomous transit, vertical farms, and cities adapting to a hotter world.'},
 ];
 
@@ -913,73 +1106,23 @@ const ERAS=[
    EVENTS
    ========================================================== */
 const EVENTS=[
- {y:1901,icon:'⚫',name:'The Old World Fades',tone:'warn',
-  desc:'Queen Victoria dies. Empires shift. The certainties of the 19th century begin to dissolve.',
-  mods:{},log:'A new century begins uncertainly.'},
- {y:1914,icon:'⚔️',name:'World War I Begins',tone:'bad',
-  desc:'Young workers leave for the front. Construction halts as steel and concrete are diverted to the war effort.',
-  mods:{growthMult:0.4,incomeMult:0.9,happyDrift:-4,oneOffPopLoss:0.05},
-  log:'War in Europe. The city sends its young men away.'},
- {y:1918,icon:'🦠',name:'Influenza Pandemic',tone:'bad',
-  desc:'A global influenza pandemic tears through crowded neighbourhoods. Overcrowded housing makes the death toll far worse.',
-  mods:{happyDrift:-5,oneOffPopLoss:0.03},
-  log:'Pandemic sweeps the city. Overcrowding proves deadly.'},
- {y:1925,icon:'⚙️',name:'The Roaring Twenties',tone:'good',
-  desc:'Mass production, electricity and consumer goods transform daily life. Cities boom.',
-  mods:{incomeMult:1.15,growthMult:1.2,happyDrift:+4},
-  log:'Economic boom. Factories and offices expand.'},
- {y:1929,icon:'📉',name:'The Great Depression',tone:'bad',
-  desc:'Stock markets crash. Banks fail. Unemployment soars and municipal budgets collapse.',
-  mods:{incomeMult:0.7,growthMult:0.5,happyDrift:-8,oneOffMoneyLoss:0.25},
-  log:'Global depression. Unemployment surges.'},
- {y:1939,icon:'💣',name:'World War II Begins',tone:'bad',
-  desc:'Cities black out at night. Factories convert to wartime production. Bombing threatens urban areas across the world.',
-  mods:{growthMult:0.55,incomeMult:0.85,happyDrift:-8,envDrift:-3,oneOffPopLoss:0.04},
-  log:'War again. The city prepares for the worst.'},
- {y:1945,icon:'🕊️',name:'The War Ends',tone:'good',
-  desc:'Peace returns. A baby boom and reconstruction drive a new era of urban growth.',
-  mods:{growthMult:1.5,happyDrift:+8,incomeMult:1.1},
-  log:'Peace. Reconstruction and a baby boom begin.'},
- {y:1956,icon:'🛢️',name:'The Suez Crisis',tone:'warn',
-  desc:'Oil supplies are disrupted. Fuel prices spike. Cities dependent on cars and oil-fired power feel the pinch.',
-  mods:{energyCostMult:1.35},
-  log:'Oil crisis. Energy costs rise sharply.'},
- {y:1969,icon:'🌕',name:'The Moon Landing',tone:'good',
-  desc:'A wave of technological optimism sweeps the world. Investment in science and education surges.',
-  mods:{happyDrift:+5,eduBoost:6},
-  log:'Humans walk on the Moon. Optimism surges.'},
- {y:1973,icon:'🛢️',name:'The Oil Crisis',tone:'bad',
-  desc:'OPEC embargoes oil. Fuel prices quadruple. Car-dependent cities suffer most.',
-  mods:{energyCostMult:1.8,happyDrift:-6,growthMult:0.7},
-  log:'Oil embargo. Fuel costs quadruple.'},
- {y:1989,icon:'🌐',name:'The Berlin Wall Falls',tone:'good',
-  desc:'A new era of globalisation begins. Trade, migration and investment accelerate across borders.',
-  mods:{incomeMult:1.15,growthMult:1.2},
-  log:'Globalisation accelerates. Trade and migration rise.'},
- {y:1997,icon:'💱',name:'The Asian Financial Crisis',tone:'bad',
-  desc:'Currency collapses ripple through Asian economies. Foreign investment dries up.',
-  mods:{incomeMult:0.82,growthMult:0.7},
-  log:'Financial crisis in Asia. Investment slows.'},
- {y:2001,icon:'📡',name:'The Dot-Com Bust',tone:'warn',
-  desc:'Tech stocks crash. A wave of startups closes its doors and office vacancies spike.',
-  mods:{incomeMult:0.9,jobsMult:0.95},
-  log:'Dot-com bubble bursts. Tech offices empty.'},
- {y:2008,icon:'🏦',name:'Global Financial Crisis',tone:'bad',
-  desc:'Banks fail and credit freezes. Construction sites go quiet. Households cut spending.',
-  mods:{incomeMult:0.82,growthMult:0.6,oneOffMoneyLoss:0.2},
-  log:'Global financial crisis. Credit freezes.'},
- {y:2020,icon:'🦠',name:'The COVID-19 Pandemic',tone:'bad',
-  desc:'Cities empty out. Offices sit vacant as remote work takes hold.',
-  mods:{incomeMult:0.9,happyDrift:-5,transitMult:0.8},
-  log:'Pandemic empties the city. Remote work rises.'},
- {y:2030,icon:'🌍',name:'Climate Accords Bind',tone:'warn',
-  desc:'Nations commit to deep decarbonisation. Fossil fuels become costly and politically fraught.',
-  mods:{energyCostMult:1.4,envDrift:+5,pollutionPenalty:1.8},
-  log:'Binding climate accords. Fossil fuels cost more.'},
- {y:2050,icon:'🔥',name:'The Great Heat',tone:'bad',
-  desc:'Warming intensifies. Cities without green cover, shade and water infrastructure suffer most.',
-  mods:{envDrift:-7,energyCostMult:1.3,happyDrift:-5},
-  log:'Extreme heat. Cities without green cover struggle.'},
+ {y:1901,icon:'⚫',name:'The Old World Fades',tone:'warn',desc:'Queen Victoria dies. Empires shift.',mods:{}},
+ {y:1914,icon:'⚔️',name:'World War I Begins',tone:'bad',desc:'Young workers leave for the front. Construction halts.',mods:{growthMult:0.4,incomeMult:0.9,happyDrift:-4,oneOffPopLoss:0.05}},
+ {y:1918,icon:'🦠',name:'Influenza Pandemic',tone:'bad',desc:'Crowded neighbourhoods suffer terribly.',mods:{happyDrift:-5,oneOffPopLoss:0.03}},
+ {y:1925,icon:'⚙️',name:'The Roaring Twenties',tone:'good',desc:'Mass production and electricity transform daily life.',mods:{incomeMult:1.15,growthMult:1.2,happyDrift:+4}},
+ {y:1929,icon:'📉',name:'The Great Depression',tone:'bad',desc:'Markets crash. Unemployment soars.',mods:{incomeMult:0.7,growthMult:0.5,happyDrift:-8,oneOffMoneyLoss:0.25}},
+ {y:1939,icon:'💣',name:'World War II Begins',tone:'bad',desc:'Cities black out. Factories convert to wartime production.',mods:{growthMult:0.55,incomeMult:0.85,happyDrift:-8,envDrift:-3,oneOffPopLoss:0.04}},
+ {y:1945,icon:'🕊️',name:'The War Ends',tone:'good',desc:'Peace returns. A baby boom and reconstruction begin.',mods:{growthMult:1.5,happyDrift:+8,incomeMult:1.1}},
+ {y:1956,icon:'🛢️',name:'The Suez Crisis',tone:'warn',desc:'Oil supplies are disrupted. Fuel prices spike.',mods:{energyCostMult:1.35}},
+ {y:1969,icon:'🌕',name:'The Moon Landing',tone:'good',desc:'A wave of technological optimism sweeps the world.',mods:{happyDrift:+5,eduBoost:6}},
+ {y:1973,icon:'🛢️',name:'The Oil Crisis',tone:'bad',desc:'OPEC embargoes oil. Fuel prices quadruple.',mods:{energyCostMult:1.8,happyDrift:-6,growthMult:0.7}},
+ {y:1989,icon:'🌐',name:'The Berlin Wall Falls',tone:'good',desc:'A new era of globalisation begins.',mods:{incomeMult:1.15,growthMult:1.2}},
+ {y:1997,icon:'💱',name:'The Asian Financial Crisis',tone:'bad',desc:'Currency collapses ripple through Asian economies.',mods:{incomeMult:0.82,growthMult:0.7}},
+ {y:2001,icon:'📡',name:'The Dot-Com Bust',tone:'warn',desc:'Tech stocks crash. Office vacancies spike.',mods:{incomeMult:0.9,jobsMult:0.95}},
+ {y:2008,icon:'🏦',name:'Global Financial Crisis',tone:'bad',desc:'Banks fail and credit freezes.',mods:{incomeMult:0.82,growthMult:0.6,oneOffMoneyLoss:0.2}},
+ {y:2020,icon:'🦠',name:'The COVID-19 Pandemic',tone:'bad',desc:'Cities empty out. Remote work takes hold.',mods:{incomeMult:0.9,happyDrift:-5,transitMult:0.8}},
+ {y:2030,icon:'🌍',name:'Climate Accords Bind',tone:'warn',desc:'Nations commit to deep decarbonisation.',mods:{energyCostMult:1.4,envDrift:+5,pollutionPenalty:1.8}},
+ {y:2050,icon:'🔥',name:'The Great Heat',tone:'bad',desc:'Heatwaves become lethal without green cover.',mods:{envDrift:-7,energyCostMult:1.3,happyDrift:-5}},
 ];
 
 /* ==========================================================
@@ -993,7 +1136,6 @@ let G=null,selectedLoc=null,selectedEra=null;
 let gameTick=null,tickSpeed=2;
 let dragRoad=false,dragLast=-1;
 let camRot=0;
-
 const SPEED_INTERVALS={0:null,1:2200,2:1100,3:550,4:220};
 
 /* ==========================================================
@@ -1017,60 +1159,30 @@ function buildTerrain(loc){
       const i=y*TN+x,L=Lm[i],m=Mm[i];
       let col;
       if(L<0.5){
-        // water — two-tone with depth
         const t=clamp((0.5-L)*2.3,0,1);
         col=lerp3([90,175,196],[44,118,158],clamp(t*1.8,0,1));
         col=lerp3(col,[12,40,78],clamp((t-0.40)*1.9,0,1));
       } else {
-        // land — biome + relief shading
         const e=clamp((L-0.5)*2.0,0,1);
         col=biomeColor(m,e,loc.map);
-        // sample neighbours for hillshade
         const xn=(x>0)?Lm[i-1]:L;
         const xp=(x<TN-1)?Lm[i+1]:L;
         const yn=(y>0)?Lm[i-TN]:L;
         const yp=(y<TN-1)?Lm[i+TN]:L;
         const dx=(xp-xn)*TN*0.05;
         const dy=(yp-yn)*TN*0.05;
-        const shade=clamp(1+ (dx+dy)*0.9, 0.66, 1.34);
+        const shade=clamp(1+(dx+dy)*0.9,0.66,1.34);
         col=[col[0]*shade,col[1]*shade,col[2]*shade];
-        // grass/rock micro variation
         const gr=vnoise(x*0.7,y*0.7,loc.seed+777)*0.14-0.07;
         col=[col[0]*(1+gr),col[1]*(1+gr),col[2]*(1+gr)];
       }
-      // grain
       const g=(hash2(x,y,loc.seed+999)-0.5)*7;
       const j=i*4;
-      d[j]=clamp(col[0]+g,0,255);
-      d[j+1]=clamp(col[1]+g,0,255);
-      d[j+2]=clamp(col[2]+g,0,255);
-      d[j+3]=255;
+      d[j]=clamp(col[0]+g,0,255);d[j+1]=clamp(col[1]+g,0,255);
+      d[j+2]=clamp(col[2]+g,0,255);d[j+3]=255;
     }
   }
   tctx.putImageData(img,0,0);
-
-  // Coastline highlight — draw a subtle stroke along the shore
-  tctx.save();
-  for(let y=1;y<TN-1;y++){
-    for(let x=1;x<TN-1;x++){
-      const i=y*TN+x;
-      const landNow=Lm[i]>0.5;
-      const landLeft=Lm[i-1]>0.5, landRight=Lm[i+1]>0.5;
-      const landUp=Lm[i-TN]>0.5, landDown=Lm[i+TN]>0.5;
-      if(landNow && !(landLeft&&landRight&&landUp&&landDown)){
-        if(!landLeft||!landRight||!landUp||!landDown){
-          if(!(landLeft&&landRight&&landUp&&landDown)){
-            const n = !landLeft||!landRight||!landUp||!landDown;
-            if(n){
-              tctx.fillStyle='rgba(255,255,255,0.14)';
-              tctx.fillRect(x,y,1,1);
-            }
-          }
-        }
-      }
-    }
-  }
-  tctx.restore();
 }
 
 function deriveTiles(loc){
@@ -1089,13 +1201,9 @@ function deriveTiles(loc){
     if(water>=5)t='water';
     else{
       const e=clamp((Lc-0.5)*2,0,1);
-      if(loc.map==='desert'){
-        if(e>0.30)t='hill';else if(Mc>0.60&&e>0.05)t='forest';
-      }else if(loc.map==='hills'){
-        if(e>0.32)t='hill';else if(Mc>0.50)t='forest';
-      }else{
-        if(e>0.42)t='hill';else if(Mc>0.52)t='forest';
-      }
+      if(loc.map==='desert'){if(e>0.30)t='hill';else if(Mc>0.60&&e>0.05)t='forest';}
+      else if(loc.map==='hills'){if(e>0.32)t='hill';else if(Mc>0.50)t='forest';}
+      else{if(e>0.42)t='hill';else if(Mc>0.52)t='forest';}
     }
     tiles.push({t,b:null,tx,ty,occ:-1,road:false,roadId:null,bsize:0,constLeft:0});
   }
@@ -1103,7 +1211,7 @@ function deriveTiles(loc){
 }
 
 /* ==========================================================
-   START
+   START GAME
    ========================================================== */
 function startGame(locId,eraYear,mode){
   const loc=LOCATIONS.find(l=>l.id===locId);
@@ -1112,8 +1220,7 @@ function startGame(locId,eraYear,mode){
   $('loadMsg').textContent='Generating '+loc.name+' terrain…';
   setTimeout(()=>{
     buildTerrain(loc);
-    G={
-      loc,era,mode,
+    G={loc,era,mode,
       money:mode==='sandbox'?Infinity:Math.round(loc.funds*era.fundMult/1000)*1000,
       year:era.y,pop:0,happiness:52,
       environment:clamp(50+(era.y<1950?12:era.y<2000?2:-4),10,90),
@@ -1122,18 +1229,13 @@ function startGame(locId,eraYear,mode){
       log:[],stats:null,lastEventIdx:-1,
       mods:{incomeMult:1,growthMult:1,energyCostMult:1,transitMult:1,
             happyDrift:0,envDrift:0,jobsMult:1,pollutionPenalty:1,eduBoost:0},
-      searchQ:'',catFilter:'all',
-    };
-    // Preset starting city for realistic mode
+      searchQ:'',catFilter:'all'};
     if(mode==='challenge'&&loc.start){
       for(const sb of loc.start){
         const b=BMAP[sb.id];
         if(!b) continue;
-        if(sb.x<b.size&&sb.y<b.size){
-          placeStarting(sb.x,sb.y,b);
-        }
+        placeStarting(sb.x,sb.y,b);
       }
-      // seed population and initial condition
       const s0=computeStats();
       G.pop=Math.min(s0.housing,1500);
       addLog(`Founded ${loc.name} in ${era.y} — a small settlement already exists.`,'good');
@@ -1175,50 +1277,46 @@ function computeStats(){
     transitPopCov:0,natEnv:0,natPlain:0,natWater:0,natHill:0,naturalTiles:0,
     underConstruction:0,totalTiles:N*N};
   const pop=Math.max(G.pop,1);
-
   const anchors=[];
   for(let i=0;i<G.tiles.length;i++){
     const t=G.tiles[i];
     if(t.b){
       const b=BMAP[t.b];
       const connected=buildingConnected(i);
-      const active = t.constLeft<=0;
+      const active=t.constLeft<=0;
       if(!connected) s.unconnected++;
       if(!active) s.underConstruction++;
       anchors.push({i,b,t,connected,full:(connected&&active)?1:0,active});
     } else if(t.road){
       s.roadTiles++;
       const b=BMAP[t.roadId];
-      s.trafficCap += (b.cap||400);
-      s.upkeep += b.up*G.era.costMult;
+      s.trafficCap+=(b.cap||400);
+      s.upkeep+=b.up*G.era.costMult;
       for(const k in b.e){
         const v=b.e[k];
         if(k==='energy'){v>0?s.energyProd+=v:s.energyUse-=v;}
         else if(k==='water'){v>0?s.waterProd+=v:s.waterUse-=v;}
         else s[k]+=v;
       }
-    } else if(t.t==='forest'){ s.forests++; }
+    } else if(t.t==='forest'){s.forests++;}
   }
-
   for(const a of anchors){
     const {b,full}=a;
-    s.built += b.size*b.size;
-    s.upkeep += b.up*G.era.costMult;
+    s.built+=b.size*b.size;
+    s.upkeep+=b.up*G.era.costMult;
     for(const k in b.e){
       let v=b.e[k]*full;
-      // trade bonuses
       const tb=G.loc.trade?.bonus;
       if(tb&&(k==='income'||k==='jobs')){
-        const catB = tb[b.c];
+        const catB=tb[b.c];
         if(catB) v*=catB;
       }
       if(k==='energy'){v>0?s.energyProd+=v:s.energyUse-=v;}
       else if(k==='water'){v>0?s.waterProd+=v:s.waterUse-=v;}
-      else if(k==='jobs') s.jobs += v*G.mods.jobsMult;
+      else if(k==='jobs') s.jobs+=v*G.mods.jobsMult;
       else s[k]+=v;
     }
   }
-
   let transitRaw=0;
   for(const a of anchors){
     const {b,t,connected,active}=a;
@@ -1229,21 +1327,17 @@ function computeStats(){
     for(const a2 of anchors){
       if(!a2.b.e.housing||!a2.full) continue;
       const dx=a2.t.tx-cx,dy=a2.t.ty-cy;
-      if(Math.abs(dx)<=R&&Math.abs(dy)<=R){
-        popCov += a2.b.e.housing*a2.full;
-      }
+      if(Math.abs(dx)<=R&&Math.abs(dy)<=R) popCov+=a2.b.e.housing*a2.full;
     }
     const weight=clamp(popCov/pop,0,1);
-    transitRaw += b.e.transit * weight;
+    transitRaw+=b.e.transit*weight;
   }
-  s.transit = transitRaw * G.mods.transitMult;
-  s.transitPopCov = transitRaw;
-
+  s.transit=transitRaw*G.mods.transitMult;
+  s.transitPopCov=transitRaw;
   const carUse=clamp(1-(s.transit/240),0.25,1);
   s.traffic=G.pop*0.55*carUse;
   s.trafficCap+=300;
   s.congestion=s.trafficCap>0?clamp((s.traffic-s.trafficCap)/s.trafficCap,0,1):0;
-
   for(const t of G.tiles){
     if(t.b||t.road) continue;
     if(t.t==='plain'){s.natPlain++;s.natEnv+=0.07;}
@@ -1252,7 +1346,6 @@ function computeStats(){
     else if(t.t==='hill'){s.natHill++;s.natEnv+=0.18;}
   }
   s.naturalTiles=s.natPlain+s.natWater+s.natHill+s.forests;
-
   const L=G.loc;
   s.energyDemand=s.energyUse+G.pop*0.045*L.energyMult;
   s.energySupply=s.energyProd+120;
@@ -1265,7 +1358,6 @@ function computeStats(){
   s.energyCost=s.energyDemand*0.9*G.mods.energyCostMult;
   return s;
 }
-
 function buildingConnected(anchorIdx){
   const N=G.loc.grid;
   const t=G.tiles[anchorIdx];
@@ -1281,18 +1373,14 @@ function buildingConnected(anchorIdx){
   }
   return false;
 }
-
 const cov=(v,pop,scale)=>Math.min(1.5,v/Math.max(1,pop/scale));
-
 function revenue(s){
   const happyF=0.55+0.45*(G.happiness/100);
   return (G.pop*9*happyF*G.loc.incomeMult
        + s.income*G.era.costMult*G.loc.incomeMult*(0.5+G.happiness/200)
-       + s.jobs*1.6) * G.mods.incomeMult;
+       + s.jobs*1.6)*G.mods.incomeMult;
 }
-function expenses(s){
-  return s.upkeep + G.pop*2.2*G.era.costMult + s.energyCost;
-}
+function expenses(s){return s.upkeep+G.pop*2.2*G.era.costMult+s.energyCost;}
 const net=s=>revenue(s)-expenses(s);
 
 /* ==========================================================
@@ -1304,43 +1392,24 @@ function drawScene(){
   const N=G.loc.grid;
   const ts=cv.width/N;
   const W=cv.width;
-
   c.imageSmoothingEnabled=true;
   c.imageSmoothingQuality='high';
-
-  // Rotate the whole scene
   c.save();
-  c.translate(W/2,W/2);
-  c.rotate(camRot);
-  c.translate(-W/2,-W/2);
-
-  // Terrain (rotated)
+  c.translate(W/2,W/2);c.rotate(camRot);c.translate(-W/2,-W/2);
   c.drawImage(terrainCv,0,0,W,W);
 
-  // Roads
   for(let i=0;i<G.tiles.length;i++){
     const t=G.tiles[i];
     if(!t.road) continue;
     const x=t.tx*ts,y=t.ty*ts,cx=x+ts/2,cy=y+ts/2;
     const isHwy=t.roadId==='highway';
     const w=ts*(isHwy?0.62:0.48);
-    const n=neighborRoad(t.tx,t.ty-1);
-    const sN=neighborRoad(t.tx,t.ty+1);
-    const e=neighborRoad(t.tx+1,t.ty);
-    const wN=neighborRoad(t.tx-1,t.ty);
-
+    const n=neighborRoad(t.tx,t.ty-1),sN=neighborRoad(t.tx,t.ty+1);
+    const e=neighborRoad(t.tx+1,t.ty),wN=neighborRoad(t.tx-1,t.ty);
     c.fillStyle=isHwy?'#414850':'#3b4148';
-    if(e||wN){
-      const x1=wN?x:cx-w/2,x2=e?x+ts:cx+w/2;
-      c.fillRect(x1,cy-w/2,x2-x1,w);
-    }
-    if(n||sN){
-      const y1=n?y:cy-w/2,y2=sN?y+ts:cy+w/2;
-      c.fillRect(cx-w/2,y1,w,y2-y1);
-    }
-    if(!n&&!sN&&!e&&!wN){
-      c.fillRect(cx-w/2,cy-w/2,w,w);
-    }
+    if(e||wN){const x1=wN?x:cx-w/2,x2=e?x+ts:cx+w/2;c.fillRect(x1,cy-w/2,x2-x1,w);}
+    if(n||sN){const y1=n?y:cy-w/2,y2=sN?y+ts:cy+w/2;c.fillRect(cx-w/2,y1,w,y2-y1);}
+    if(!n&&!sN&&!e&&!wN)c.fillRect(cx-w/2,cy-w/2,w,w);
     c.save();
     c.strokeStyle='rgba(250,220,110,0.55)';
     c.lineWidth=Math.max(1,ts*0.055);
@@ -1352,35 +1421,28 @@ function drawScene(){
     c.restore();
   }
 
-  // Buildings
   const anchors=[];
   for(let i=0;i<G.tiles.length;i++) if(G.tiles[i].b) anchors.push(i);
-
   for(const i of anchors){
     const t=G.tiles[i],b=BMAP[t.b];
     const size=t.bsize||1;
     const cx=(t.tx+size/2)*ts,cy=(t.ty+size/2)*ts;
-    const iconSize=ts*size*0.82;
+    const iconSize=ts*size*0.92;
     const isBuilding=t.constLeft>0;
-
     c.save();
-    c.fillStyle='rgba(4,10,18,0.34)';
-    c.beginPath();c.ellipse(cx+1.5,cy+iconSize*0.34,iconSize*0.40,iconSize*0.13,0,0,7);c.fill();
+    c.fillStyle='rgba(4,10,18,0.4)';
+    c.beginPath();c.ellipse(cx+1.5,cy+iconSize*0.34,iconSize*0.42,iconSize*0.14,0,0,7);c.fill();
     c.restore();
-
     c.save();
-    if(isBuilding) c.globalAlpha=0.45;
+    if(isBuilding) c.globalAlpha=0.48;
     drawIcon(c,b.icon,cx,cy,iconSize,CATS[b.c].color,'#0a1119');
     c.restore();
-
     if(isBuilding){
-      // scaffolding overlay
       c.save();
       c.strokeStyle='rgba(251,191,36,0.85)';
       c.lineWidth=Math.max(1.2,ts*0.05);
       c.setLineDash([ts*0.18,ts*0.12]);
       rr(c,cx-iconSize*0.5,cy-iconSize*0.5,iconSize,iconSize,3);c.stroke();
-      // progress ring
       const total=b.bt||1;
       const prog=1-(t.constLeft/total);
       c.setLineDash([]);
@@ -1391,7 +1453,6 @@ function drawScene(){
       c.stroke();
       c.restore();
     }
-
     if(G.stats && G.stats.unconnected>0){
       const connected=buildingConnected(i);
       if(!connected){
@@ -1405,16 +1466,13 @@ function drawScene(){
       }
     }
   }
-
   c.restore();
 }
-
 function neighborRoad(x,y){
   const N=G.loc.grid;
   if(x<0||y<0||x>=N||y>=N) return false;
   return G.tiles[y*N+x].road;
 }
-
 function present(){
   ctx.clearRect(0,0,cv.width,cv.height);
   ctx.drawImage(sceneCv,0,0);
@@ -1424,13 +1482,10 @@ function present(){
     const t=G.tiles[G.hover];
     const size=(G.selected&&!G.demolish)?BMAP[G.selected].size:1;
     const x=t.tx*ts,y=t.ty*ts;
-
-    // hover box — also rotated
     ctx.save();
     ctx.translate(cv.width/2,cv.height/2);
     ctx.rotate(camRot);
     ctx.translate(-cv.width/2,-cv.height/2);
-
     let col='rgba(56,189,248,0.9)';
     if(G.demolish&&(t.b||t.road)) col='rgba(248,113,113,0.95)';
     else if(G.selected){
@@ -1452,44 +1507,32 @@ function render(){
   renderInfo(s);
   renderLog();
 }
-
 function renderHUD(s){
   const cls=v=>v>=65?'good':v>=40?'warn':'bad';
   const grp=(label,pills)=>`<div class="grp"><div class="gl">${label}</div>${pills}</div>`;
   const pill=(k,v,c,bar,bc)=>`<div class="pill ${c||''}"><span class="k">${k}</span><span class="v">${v}</span>${bar!==undefined?`<div class="bar"><i style="width:${clamp(bar,0,100)}%;background:${bc}"></i></div>`:''}</div>`;
-
   const hc=G.happiness,env=G.environment;
   const hb=hc>=65?'#34d399':hc>=40?'#fbbf24':'#f87171';
   const eb=env>=65?'#34d399':env>=40?'#fbbf24':'#f87171';
-
   let html='';
-  html+=grp('Time',
-    pill('Year',G.year)+
-    pill('Funds',money(G.money),G.mode==='sandbox'?'good':(G.money<20000?'bad':''))
-  );
+  html+=grp('Time',pill('Year',G.year)+
+    pill('Funds',money(G.money),G.mode==='sandbox'?'good':(G.money<20000?'bad':'')));
   html+=grp('People',
     pill('Pop',fmt(G.pop))+
     pill('Jobs',fmt(s.jobs),s.jobs>=G.pop*0.95?'good':'warn')+
     pill('Homes',fmt(s.housing),s.housing>=G.pop?'good':'bad')+
-    pill('Wellbeing',Math.round(hc)+'%',cls(hc),hc,hb)
-  );
+    pill('Happy',Math.round(hc)+'%',cls(hc),hc,hb));
   html+=grp('City',
     pill('Environ',Math.round(env)+'%',cls(env),env,eb)+
     pill('Traffic',s.congestion>0.15?'Heavy':s.congestion>0.04?'Busy':'Clear',
-         s.congestion>0.15?'bad':s.congestion>0.04?'warn':'good')
-  );
+         s.congestion>0.15?'bad':s.congestion>0.04?'warn':'good'));
   html+=grp('Supply',
     pill('Energy',Math.round(s.energySupply)+'/'+Math.round(s.energyDemand),
          s.energyShort>0.05?'bad':'good')+
     pill('Water',Math.round(s.waterSupply)+'/'+Math.round(s.waterDemand),
-         s.waterShort>0.05?'bad':'good')
-  );
-  if(s.unconnected>0){
-    html+='<div class="warnbox">⚠️ '+s.unconnected+' no road</div>';
-  }
-  if(s.underConstruction>0){
-    html+='<div class="warnbox" style="background:#3a2d17;color:#fcd34d;border-color:#5a4317">🏗️ '+s.underConstruction+' building…</div>';
-  }
+         s.waterShort>0.05?'bad':'good'));
+  if(s.unconnected>0) html+='<div class="warnbox">⚠️ '+s.unconnected+' no road</div>';
+  if(s.underConstruction>0) html+='<div class="warnbox" style="background:#3a2d17;color:#fcd34d;border-color:#5a4317">🏗️ '+s.underConstruction+' building…</div>';
   $('hud').innerHTML=html;
 }
 
@@ -1497,12 +1540,10 @@ function renderHUD(s){
    PALETTE
    ========================================================== */
 let paletteBuilt=false;
-
 function renderPalette(s){
   if(!paletteBuilt) buildPalette();
   updatePalette(s);
 }
-
 function buildPalette(){
   const el=$('tabBuild');
   el.innerHTML=`
@@ -1514,48 +1555,35 @@ function buildPalette(){
       </div>
       <div class="chips" id="chips"></div>
     </div>
-    <div id="paletteList"></div>
-  `;
+    <div id="paletteList"></div>`;
   $('searchInput').addEventListener('input',e=>{
     G.searchQ=e.target.value.toLowerCase().trim();
-    renderPaletteList();
-    updatePalette(G.stats);
+    renderPaletteList();updatePalette(G.stats);
   });
   if(G.searchQ) $('searchInput').value=G.searchQ;
   paletteBuilt=true;
-  renderChips();
-  renderPaletteList();
+  renderChips();renderPaletteList();
 }
-
 function renderChips(){
   const cats=[['all','All'],...Object.entries(CATS).map(([k,v])=>[k,v.name])];
   $('chips').innerHTML=cats.map(([k,n])=>
-    `<button class="chip ${G.catFilter===k?'on':''}" data-cat="${k}">${n}</button>`
-  ).join('');
+    `<button class="chip ${G.catFilter===k?'on':''}" data-cat="${k}">${n}</button>`).join('');
   $('chips').querySelectorAll('.chip').forEach(ch=>{
     ch.addEventListener('click',()=>{
-      G.catFilter=ch.dataset.cat;
-      renderChips();
-      renderPaletteList();
-      updatePalette(G.stats);
+      G.catFilter=ch.dataset.cat;renderChips();renderPaletteList();updatePalette(G.stats);
     });
   });
 }
-
 function renderPaletteList(){
   const list=$('paletteList');
   let cats=Object.keys(CATS);
   if(G.catFilter!=='all') cats=cats.filter(c=>c===G.catFilter);
-
-  let html='';
-  let total=0;
+  let html='';let total=0;
   for(const ck of cats){
     let items=BUILDINGS.filter(b=>b.c===ck);
     if(G.searchQ){
-      items=items.filter(b=>
-        b.n.toLowerCase().includes(G.searchQ)||
-        CATS[b.c].name.toLowerCase().includes(G.searchQ)
-      );
+      items=items.filter(b=>b.n.toLowerCase().includes(G.searchQ)||
+        CATS[b.c].name.toLowerCase().includes(G.searchQ));
     }
     if(!items.length) continue;
     total+=items.length;
@@ -1573,14 +1601,13 @@ function renderPaletteList(){
   }
   if(!total) html='<div class="none">No buildings match your search.</div>';
   list.innerHTML=html;
-
   list.querySelectorAll('canvas[data-icon]').forEach(cc=>{
     const c2=cc.getContext('2d');
+    c2.imageSmoothingEnabled=false;
     c2.translate(26,26);c2.scale(26/26,26/26);
     c2.lineJoin='round';c2.lineCap='round';
     (ICONS[cc.dataset.icon]||ICONS.house)(c2,cc.dataset.col,'#0a1119');
   });
-
   list.querySelectorAll('.item').forEach(btn=>{
     const b=BMAP[btn.dataset.b];
     btn.addEventListener('click',()=>{
@@ -1594,7 +1621,6 @@ function renderPaletteList(){
     btn.addEventListener('mouseleave',hideTip);
   });
 }
-
 function updatePalette(s){
   const list=$('paletteList');
   if(!list) return;
@@ -1609,11 +1635,10 @@ function updatePalette(s){
     const cEl=list.querySelector(`[data-cost="${b.id}"]`);
     const mEl=list.querySelector(`[data-meta="${b.id}"]`);
     if(cEl) cEl.textContent=locked?('Unlocks '+b.from):(G.mode==='sandbox'?'free':money(cost));
-    if(mEl) mEl.textContent=locked?('Not yet available in '+G.year):effectSummary(b);
+    if(mEl) mEl.textContent=locked?('Not yet in '+G.year):effectSummary(b);
   });
   $('demolishBtn').classList.toggle('active',G.demolish);
 }
-
 function effectSummary(b){
   const p=[];
   if(b.e.housing)p.push('🏠'+b.e.housing);
@@ -1634,22 +1659,21 @@ function effectSummary(b){
 }
 
 /* ==========================================================
-   REPORT
+   REPORT / LOG / TIPS
    ========================================================== */
 function renderInfo(s){
   const el=$('tabInfo');
   const p=Math.max(1,G.pop);
   const rows=[
-    ['🎓 Education coverage',cov(s.edu+G.mods.eduBoost,p,120)],
-    ['❤️ Healthcare coverage',cov(s.health,p,150)],
-    ['🚇 Transit coverage',cov(s.transit,p,130)],
-    ['🎭 Culture & leisure',cov(s.culture,p,180)],
-    ['🛡️ Safety services',cov(s.safety,p,200)],
-    ['🏛️ Civic institutions',cov(s.civic,p,250)],
+    ['🎓 Education',cov(s.edu+G.mods.eduBoost,p,120)],
+    ['❤️ Healthcare',cov(s.health,p,150)],
+    ['🚇 Transit',cov(s.transit,p,130)],
+    ['🎭 Culture',cov(s.culture,p,180)],
+    ['🛡️ Safety',cov(s.safety,p,200)],
+    ['🏛️ Civic',cov(s.civic,p,250)],
   ];
   let html=`<div class="insight"><span class="ico">🏙️</span><div><b>${G.loc.flag} ${G.loc.name}, ${G.year}</b><br>${G.era.name} — ${G.era.desc}</div></div>`;
-  if(G.loc.trade) html+=`<div class="insight good"><span class="ico">🤝</span><div><b>Trade specialisation:</b> ${G.loc.trade.label}</div></div>`;
-
+  if(G.loc.trade) html+=`<div class="insight good"><span class="ico">🤝</span><div><b>Trade:</b> ${G.loc.trade.label}</div></div>`;
   html+=`<div class="sechead">Service coverage</div>`;
   for(const [label,v] of rows){
     const pct=clamp(v,0,1)*100;
@@ -1657,55 +1681,46 @@ function renderInfo(s){
     html+=`<div class="meter"><div class="row"><span>${label}</span><span>${Math.round(pct)}%</span></div>
       <div class="bar"><i style="width:${clamp(pct,0,100)}%;background:${col}"></i></div></div>`;
   }
-
   const total=s.totalTiles;
   const pct=n=>Math.round(n/total*100);
   html+=`<div class="sechead">Land use <span class="v">${total} tiles</span></div>`;
   html+=`<div class="landgrid">
-    <div class="landcell"><div class="lk">Built</div><div class="lv">${pct(s.built)}%</div>
-      <div class="ls">${s.built} tiles</div></div>
-    <div class="landcell"><div class="lk">Roads</div><div class="lv">${pct(s.roadTiles)}%</div>
-      <div class="ls">${s.roadTiles} tiles</div></div>
-    <div class="landcell"><div class="lk">Natural</div><div class="lv" style="color:#34d399">${pct(s.naturalTiles)}%</div>
-      <div class="ls">forest, water, open</div></div>
-    <div class="landcell"><div class="lk">Green value</div><div class="lv" style="color:#22c55e">+${Math.round(s.natEnv)}</div>
-      <div class="ls">from untouched land</div></div>
+    <div class="landcell"><div class="lk">Built</div><div class="lv">${pct(s.built)}%</div><div class="ls">${s.built} tiles</div></div>
+    <div class="landcell"><div class="lk">Roads</div><div class="lv">${pct(s.roadTiles)}%</div><div class="ls">${s.roadTiles} tiles</div></div>
+    <div class="landcell"><div class="lk">Natural</div><div class="lv" style="color:#34d399">${pct(s.naturalTiles)}%</div><div class="ls">forest, water, open</div></div>
+    <div class="landcell"><div class="lk">Green value</div><div class="lv" style="color:#22c55e">+${Math.round(s.natEnv)}</div><div class="ls">from untouched land</div></div>
   </div>`;
-
   html+=`<div class="sechead">City report</div>`+insights(s);
-
   html+=`<div class="sechead">Annual balance</div>
-    <div class="meter"><div class="row"><span>Tax & business revenue</span><span>${money(revenue(s))}</span></div></div>
-    <div class="meter"><div class="row"><span>Maintenance & services</span><span style="color:#f87171">−${money(expenses(s))}</span></div></div>
+    <div class="meter"><div class="row"><span>Revenue</span><span>${money(revenue(s))}</span></div></div>
+    <div class="meter"><div class="row"><span>Expenses</span><span style="color:#f87171">−${money(expenses(s))}</span></div></div>
     <div class="meter"><div class="row"><b>Net</b><span style="color:${net(s)>=0?'#34d399':'#f87171'}"><b>${money(net(s))}</b></span></div></div>`;
   el.innerHTML=html;
 }
-
 function insights(s){
   const out=[];const p=Math.max(1,G.pop);
   const totalT=G.loc.grid*G.loc.grid;
-  if(G.pop<300) out.push(['good','🌱','Your settlement is just beginning. Build <b>roads first</b>, then housing and jobs together — people only move in when both exist and are reachable.']);
-  if(s.unconnected>0) out.push(['bad','🚧',`<b>${s.unconnected} building${s.unconnected>1?'s':''} have no road access</b> and are producing nothing. Connect them with roads.`]);
-  if(s.underConstruction>0) out.push(['warn','🏗️',`<b>${s.underConstruction} building${s.underConstruction>1?'s':''} under construction.</b> They will become active once complete.`]);
-  if(s.unemployment>0.2) out.push(['bad','💼',`<b>${Math.round(s.unemployment*100)}% unemployment.</b> People are leaving to find work. Add businesses, offices or industry.`]);
-  else if(s.jobs>p*1.35&&G.pop>300) out.push(['warn','💼','<b>More jobs than workers.</b> Businesses can\'t hire. Build housing to bring in residents.']);
+  if(G.pop<300) out.push(['good','🌱','Your settlement is just beginning. Build <b>roads first</b>, then housing and jobs together.']);
+  if(s.unconnected>0) out.push(['bad','🚧',`<b>${s.unconnected} building${s.unconnected>1?'s':''} with no road access.</b> Connect them with a street to make them work.`]);
+  if(s.underConstruction>0) out.push(['warn','🏗️',`<b>${s.underConstruction} building${s.underConstruction>1?'s':''} under construction.</b> Effects kick in once complete.`]);
+  if(s.unemployment>0.2) out.push(['bad','💼',`<b>${Math.round(s.unemployment*100)}% unemployment.</b> Add businesses, offices or industry.`]);
+  else if(s.jobs>p*1.35&&G.pop>300) out.push(['warn','💼','<b>More jobs than workers.</b> Build housing to bring in residents.']);
   else if(G.pop>300) out.push(['good','💼',`<b>Employment is healthy</b> — ${fmt(s.jobs)} jobs for ${fmt(G.pop)} people.`]);
-  if(s.housing>0&&s.vacancy>0.35) out.push(['warn','🏠',`<b>${Math.round(s.vacancy*100)}% of housing is empty.</b> There is room to grow if the jobs exist.`]);
-  if(G.pop>0&&s.housing<G.pop*1.02) out.push(['bad','🏠','<b>Housing is at capacity.</b> Overcrowding pushes rents up and wellbeing down.']);
-  if(s.energyShort>0.08) out.push(['bad','⚡',`<b>Energy shortfall of ${Math.round(s.energyShort*100)}%.</b> Blackouts cut productivity and happiness.`]);
-  if(s.waterShort>0.08) out.push(['bad','💧',`<b>Water shortfall of ${Math.round(s.waterShort*100)}%.</b> Treatment plants and reservoirs are needed.`]);
-  if(s.congestion>0.15) out.push(['bad','🚗',`<b>Severe congestion.</b> Traffic exceeds road capacity. Build arterial roads or expand transit.`]);
-  else if(s.congestion>0.05) out.push(['warn','🚗','<b>Roads are getting busy.</b> Consider transit or wider roads before congestion bites.']);
-  if(G.environment<38) out.push(['bad','🌿','<b>Environmental quality is poor.</b> Pollution is hurting health. Try parks, wetlands and recycling.']);
-  else if(G.environment>75) out.push(['good','🌿','<b>The city is green and clean.</b> This attracts residents and raises land value.']);
-  if(cov(s.transit,p,130)<0.5&&G.pop>800) out.push(['warn','🚇','<b>Transit coverage is thin.</b> Build transit stops <i>where people live</i> — coverage is weighted by nearby population.']);
-  if(cov(s.edu+G.mods.eduBoost,p,120)<0.55&&G.pop>800) out.push(['warn','🎓','<b>Schools are overcrowded.</b> Education drives long-run productivity.']);
-  if(cov(s.health,p,150)<0.55&&G.pop>800) out.push(['warn','❤️','<b>Healthcare is stretched.</b> Sick workers mean a weaker economy.']);
-  if(s.naturalTiles/totalT>0.55&&G.pop>2500) out.push(['good','🌳',`<b>${Math.round(s.naturalTiles/totalT*100)}% of the map remains natural.</b> That is a valuable asset — it cleans air and cools the city.`]);
-  if(out.length===0) out.push(['good','✨','Your city is running smoothly. Keep balancing growth with liveability.']);
+  if(s.housing>0&&s.vacancy>0.35) out.push(['warn','🏠',`<b>${Math.round(s.vacancy*100)}% housing vacant.</b> Room to grow.`]);
+  if(G.pop>0&&s.housing<G.pop*1.02) out.push(['bad','🏠','<b>Housing at capacity.</b> Overcrowding hurts wellbeing.']);
+  if(s.energyShort>0.08) out.push(['bad','⚡',`<b>Energy shortfall ${Math.round(s.energyShort*100)}%.</b> Add power generation.`]);
+  if(s.waterShort>0.08) out.push(['bad','💧',`<b>Water shortfall ${Math.round(s.waterShort*100)}%.</b> Build treatment and reservoirs.`]);
+  if(s.congestion>0.15) out.push(['bad','🚗',`<b>Severe congestion.</b> Roads are over capacity.`]);
+  else if(s.congestion>0.05) out.push(['warn','🚗','<b>Roads getting busy.</b> Consider transit or wider roads.']);
+  if(G.environment<38) out.push(['bad','🌿','<b>Environment poor.</b> Pollution is hurting health. Try parks, wetlands, recycling.']);
+  else if(G.environment>75) out.push(['good','🌿','<b>The city is green and clean.</b> Attracts residents.']);
+  if(cov(s.transit,p,130)<0.5&&G.pop>800) out.push(['warn','🚇','<b>Transit coverage thin.</b> Build stops near housing — value is weighted by nearby population.']);
+  if(cov(s.edu+G.mods.eduBoost,p,120)<0.55&&G.pop>800) out.push(['warn','🎓','<b>Schools overcrowded.</b>']);
+  if(cov(s.health,p,150)<0.55&&G.pop>800) out.push(['warn','❤️','<b>Healthcare stretched.</b>']);
+  if(s.naturalTiles/totalT>0.55&&G.pop>2500) out.push(['good','🌳',`<b>${Math.round(s.naturalTiles/totalT*100)}% still natural.</b> Valuable — cleans air and cools the city.`]);
+  if(out.length===0) out.push(['good','✨','Your city is running smoothly.']);
   return out.map(([t,i,m])=>`<div class="insight ${t}"><span class="ico">${i}</span><div>${m}</div></div>`).join('');
 }
-
 function renderLog(){
   $('tabLog').innerHTML=G.log.map(l=>{
     const ev=l.ev?`<span class="ev">${l.ev}</span>`:'';
@@ -1717,9 +1732,6 @@ function addLog(msg,t,ev){
   if(G.log.length>90)G.log.pop();
 }
 
-/* ==========================================================
-   TOOLTIPS
-   ========================================================== */
 const TIP=$('tip');
 function moveTip(e){
   const pad=14;
@@ -1733,7 +1745,6 @@ const EFF={housing:'🏠 Housing',jobs:'💼 Jobs',income:'💰 Revenue',happy:'
   env:'🌿 Environment',pollution:'🏭 Pollution',energy:'⚡ Energy',water:'💧 Water',
   edu:'🎓 Education',health:'❤️ Health',safety:'🛡️ Safety',culture:'🎭 Culture',
   civic:'🏛️ Civic trust',transit:'🚇 Transit'};
-
 function showBuildingTip(e,b){
   let rows='';
   for(const k in b.e){
@@ -1747,8 +1758,8 @@ function showBuildingTip(e,b){
     <span>Upkeep / yr</span><b style="color:#f87171">−$${fmt(up)}</b></div>`;
   if(b.bt) rows+=`<div class="ef"><span>Build time</span><b style="color:#fbbf24">${b.bt} years</b></div>`;
   let note='';
-  if(b.isRoad) note=`<div class="warnline">Roads can be dragged. Buildings must touch a road to function.</div>`;
-  if(b.transitR) note=`<div class="okline">Transit value is weighted by how many residents live within ${b.transitR} tiles.</div>`;
+  if(b.isRoad) note=`<div class="warnline">Drag to lay roads. Every building needs one adjacent road.</div>`;
+  if(b.transitR) note=`<div class="okline">Transit value scales with nearby population within ${b.transitR} tiles.</div>`;
   TIP.innerHTML=`<div class="t">${b.n}</div>
     <div class="c" style="color:${CATS[b.c].color}">${CATS[b.c].name} · ${b.size}×${b.size}</div>
     <div class="ef" style="margin-bottom:4px"><span>Build cost</span>
@@ -1767,7 +1778,7 @@ function showTerrainTip(e,i){
   let extra='';
   if(t.b){
     const b=BMAP[t.b];
-    if(t.constLeft>0) extra=`<div class="progline">Under construction — ${t.constLeft} years remaining</div>`;
+    if(t.constLeft>0) extra=`<div class="progline">Under construction — ${t.constLeft}y left</div>`;
   }
   TIP.innerHTML=`<div class="t">${names[t.t]}</div>
     <div class="c">${t.road?'Road':t.b?'Building':'Empty tile'}</div>
@@ -1798,36 +1809,27 @@ function canPlace(anchorIdx,b){
   if(G.mode!=='sandbox'&&G.money<cost) return {ok:false,reason:'Not enough funds'};
   return {ok:true,cost,hillCount};
 }
-
 function placeBuilding(anchorIdx,b){
   const N=G.loc.grid;
   const chk=canPlace(anchorIdx,b);
   if(!chk.ok){ addLog(chk.reason,'bad'); render(); return false; }
   const t=G.tiles[anchorIdx],size=b.size;
   if(G.mode!=='sandbox') G.money-=chk.cost;
-  if(b.isRoad){
-    t.road=true;t.roadId=b.id;t.occ=anchorIdx;
-    return true;
-  }
+  if(b.isRoad){t.road=true;t.roadId=b.id;t.occ=anchorIdx;return true;}
   for(let dy=0;dy<size;dy++)for(let dx=0;dx<size;dx++){
     const tt=G.tiles[(t.ty+dy)*N+(t.tx+dx)];
-    tt.occ=anchorIdx;
-    tt.bsize=size;
+    tt.occ=anchorIdx;tt.bsize=size;
   }
-  t.b=b.id;
-  t.bsize=size;
-  t.constLeft=b.bt||0;
-  const suffix = (b.bt||0)>0 ? ` — construction begins (${b.bt}y)` : '';
-  if(chk.hillCount>0) addLog(`Built ${b.n} on hillside (+25% cost) for ${money(chk.cost)}${suffix}.`,'good');
+  t.b=b.id;t.bsize=size;t.constLeft=b.bt||0;
+  const suffix=(b.bt||0)>0?` — construction begins (${b.bt}y)`:'';
+  if(chk.hillCount>0) addLog(`Built ${b.n} on hillside (+25%) for ${money(chk.cost)}${suffix}.`,'good');
   else addLog(`Built ${b.n} for ${money(chk.cost)}${suffix}.`,'good');
   return true;
 }
-
 function onTile(i){
   if(!G) return;
   const N=G.loc.grid;
   const t=G.tiles[i];
-
   if(G.demolish){
     let anchor=-1;
     if(t.b) anchor=i;
@@ -1855,7 +1857,6 @@ function onTile(i){
     addLog(`Demolished ${removed}.${refund?` Recovered ${money(refund)}.`:''}`,'warn');
     render(); return;
   }
-
   if(!G.selected){
     if(t.b||t.road){
       const b=BMAP[t.b||t.roadId];
@@ -1868,7 +1869,6 @@ function onTile(i){
     }
     return;
   }
-
   const b=BMAP[G.selected];
   if(G.year<b.from){ addLog(`${b.n} is not available until ${b.from}.`,'warn'); render(); return; }
   placeBuilding(i,b);
@@ -1876,13 +1876,12 @@ function onTile(i){
 }
 
 /* ==========================================================
-   MAP INTERACTION (with rotation)
+   MAP INTERACTION
    ========================================================== */
 function tileFromEvent(e){
   const r=cv.getBoundingClientRect();
   const mx=(e.clientX-r.left)/r.width;
   const my=(e.clientY-r.top)/r.height;
-  // rotate the click point back into world space
   const cx=0.5,cy=0.5;
   const dx=mx-cx,dy=my-cy;
   const cos=Math.cos(-camRot),sin=Math.sin(-camRot);
@@ -1893,19 +1892,16 @@ function tileFromEvent(e){
   if(tx<0||ty<0||tx>=N||ty>=N) return -1;
   return ty*N+tx;
 }
-
 cv.addEventListener('pointerdown',e=>{
   if(!G) return;
   const i=tileFromEvent(e);
   if(i<0) return;
   if(G.selected&&BMAP[G.selected].isRoad&&!G.demolish){
     dragRoad=true;dragLast=i;
-    placeRoadAt(i);
-    render();
+    placeRoadAt(i);render();
     cv.setPointerCapture(e.pointerId);
   }
 });
-
 cv.addEventListener('pointermove',e=>{
   if(!G) return;
   const i=tileFromEvent(e);
@@ -1918,11 +1914,9 @@ cv.addEventListener('pointermove',e=>{
     if(i>=0) showTerrainTip(e,i);
   } else if(i>=0){ moveTip(e); }
 });
-
 cv.addEventListener('pointerup',()=>{ dragRoad=false;dragLast=-1; });
 cv.addEventListener('pointercancel',()=>{ dragRoad=false;dragLast=-1; });
 cv.addEventListener('pointerleave',()=>{ if(G){G.hover=-1;present();} hideTip(); });
-
 cv.addEventListener('click',e=>{
   if(!G) return;
   if(dragRoad) return;
@@ -1930,7 +1924,6 @@ cv.addEventListener('click',e=>{
   if(i<0) return;
   onTile(i);
 });
-
 function placeRoadAt(i){
   const b=BMAP[G.selected];
   const t=G.tiles[i];
@@ -1942,7 +1935,7 @@ function placeRoadAt(i){
 }
 
 /* ==========================================================
-   BANNER
+   BANNER / EVENTS / TURN
    ========================================================== */
 function showBanner(ev){
   const el=$('banner');
@@ -1955,7 +1948,6 @@ function showBanner(ev){
   clearTimeout(el._t);
   el._t=setTimeout(()=>{ el.classList.remove('show'); },7000);
 }
-
 function checkEvents(prevYear){
   for(let i=G.lastEventIdx+1;i<EVENTS.length;i++){
     const ev=EVENTS[i];
@@ -1973,56 +1965,35 @@ function checkEvents(prevYear){
       if(m.eduBoost) G.mods.eduBoost=m.eduBoost;
       if(m.oneOffPopLoss&&G.pop>0) G.pop=Math.round(G.pop*(1-m.oneOffPopLoss));
       if(m.oneOffMoneyLoss&&G.mode!=='sandbox') G.money=Math.round(G.money*(1-m.oneOffMoneyLoss));
-
       addLog(`<b>${ev.name}</b> — ${ev.desc}`,ev.tone==='good'?'good':ev.tone==='bad'?'bad':'warn',ev.icon+' EVENT');
       showBanner(ev);
       break;
     }
   }
 }
-
-/* ==========================================================
-   TURN
-   ========================================================== */
 function nextTurn(){
   if(!G) return;
   const s=computeStats();
   const prevYear=G.year;
-  G.year+=1;   // 1 year per tick now
-
+  G.year+=1;
   checkEvents(prevYear);
-
-  // --- construction progress ---
   const N=G.loc.grid;
   const seen=new Set();
   for(let i=0;i<G.tiles.length;i++){
     const t=G.tiles[i];
     if(!t.b) continue;
     if(seen.has(i)) continue;
-    // mark all tiles of this building as seen
     const size=t.bsize||1;
-    for(let dy=0;dy<size;dy++)for(let dx=0;dx<size;dx++){
-      seen.add((t.ty+dy)*N+(t.tx+dx));
-    }
+    for(let dy=0;dy<size;dy++)for(let dx=0;dx<size;dx++) seen.add((t.ty+dy)*N+(t.tx+dx));
     if(t.constLeft>0){
       t.constLeft--;
-      if(t.constLeft===0){
-        const b=BMAP[t.b];
-        addLog(`✅ ${b.n} completed.`,'good');
-      }
+      if(t.constLeft===0){ addLog(`✅ ${BMAP[t.b].n} completed.`,'good'); }
     }
   }
-
-  // environment
-  const envTarget=clamp(
-    50+s.env*0.5-s.pollution*0.45+s.forests*0.85-s.built*0.40
-    +s.natEnv*0.9
-    +(G.year<1950?10:G.year<2000?0:-6),
-    3,100);
+  const envTarget=clamp(50+s.env*0.5-s.pollution*0.45+s.forests*0.85-s.built*0.40
+    +s.natEnv*0.9+(G.year<1950?10:G.year<2000?0:-6),3,100);
   G.environment+=(envTarget-G.environment)*0.09;
   G.environment=clamp(G.environment,0,100);
-
-  // happiness
   let h=42+(G.year<1950?-5:G.year<2000?0:2);
   h+=14*cov(s.edu+G.mods.eduBoost,G.pop,120);
   h+=14*cov(s.health,G.pop,150);
@@ -2039,50 +2010,33 @@ function nextTurn(){
   if(s.housing>0&&G.pop>s.housing*0.96) h-=10;
   G.happiness+=(clamp(h,0,100)-G.happiness)*0.09;
   G.happiness=clamp(G.happiness,0,100);
-
-  // population (smaller per-year increments)
   const target=Math.min(s.housing,s.jobs*1.15+250);
   const prev=G.pop;
-  if(target>G.pop){
-    G.pop+=(target-G.pop)*clamp(0.03*G.loc.growth*G.era.growth*G.mods.growthMult*(G.happiness/60),0.01,0.10);
-  } else {
-    G.pop+=(target-G.pop)*0.02;
-  }
+  if(target>G.pop) G.pop+=(target-G.pop)*clamp(0.03*G.loc.growth*G.era.growth*G.mods.growthMult*(G.happiness/60),0.01,0.10);
+  else G.pop+=(target-G.pop)*0.02;
   G.pop=Math.max(0,G.pop);
-
   const n=net(s);
   if(G.mode!=='sandbox') G.money+=n;
-
   const growth=G.pop-prev;
   if(growth>0.5&&Math.random()<0.15) addLog(`Population grew by ${fmt(growth)} to ${fmt(G.pop)}.`,'good');
   else if(growth<-0.5&&Math.random()<0.15) addLog(`Population fell by ${fmt(-growth)} to ${fmt(G.pop)}.`,'bad');
-  if(s.energyShort>0.15&&Math.random()<0.08) addLog(`⚠️ Blackouts — energy supply short by ${Math.round(s.energyShort*100)}%.`,'bad');
-  if(s.waterShort>0.15&&Math.random()<0.08) addLog(`⚠️ Water rationing — supply short by ${Math.round(s.waterShort*100)}%.`,'bad');
-  if(G.environment<30&&Math.random()<0.06) addLog('⚠️ Air and water quality are dangerously poor.','bad');
   if(G.mode!=='sandbox'&&G.money<0&&Math.random()<0.06) addLog('🔻 The city is running a deficit.','bad');
-  if(G.pop>20000&&prev<=20000) addLog('🏙️ The city has passed 20,000 residents and is officially a metropolis.','good');
-
-  // random event, less frequent
+  if(G.pop>20000&&prev<=20000) addLog('🏙️ The city has passed 20,000 residents.','good');
   if(Math.random()<0.05&&G.pop>600){
     const ev=[
-      ()=>{ if(G.mode!=='sandbox') G.money-=Math.round(G.pop*0.3);
-            addLog('🌊 A storm surge damaged infrastructure.','warn'); },
-      ()=>{ G.happiness=clamp(G.happiness+4,0,100);
-            addLog('🎊 A cultural festival boosted wellbeing.','good'); },
-      ()=>{ if(G.mode!=='sandbox') G.money+=Math.round(G.pop*0.7);
-            addLog('📈 A new trade agreement brought investment.','good'); },
-      ()=>{ G.environment=clamp(G.environment-3,0,100);
-            addLog('🔥 A heatwave worsened air quality.','warn'); },
+      ()=>{if(G.mode!=='sandbox')G.money-=Math.round(G.pop*0.3);addLog('🌊 A storm surge damaged infrastructure.','warn');},
+      ()=>{G.happiness=clamp(G.happiness+4,0,100);addLog('🎊 A cultural festival boosted wellbeing.','good');},
+      ()=>{if(G.mode!=='sandbox')G.money+=Math.round(G.pop*0.7);addLog('📈 A new trade agreement brought investment.','good');},
+      ()=>{G.environment=clamp(G.environment-3,0,100);addLog('🔥 A heatwave worsened air quality.','warn');},
     ];
     ev[Math.floor(Math.random()*ev.length)]();
   }
-
   G.era=ERAS.filter(e=>e.y<=G.year).pop();
   render();
 }
 
 /* ==========================================================
-   SPEED / TIMER
+   SPEED / ROTATION
    ========================================================== */
 function setSpeed(level){
   tickSpeed=level;
@@ -2093,14 +2047,9 @@ function setSpeed(level){
     b.classList.toggle('on',+b.dataset.speed===level);
   });
 }
-
-/* ==========================================================
-   ROTATION
-   ========================================================== */
 function rotateBy(deg){
   camRot+=deg*Math.PI/180;
-  drawScene();
-  present();
+  drawScene();present();
 }
 
 /* ==========================================================
@@ -2115,31 +2064,23 @@ document.querySelectorAll('.tab').forEach(t=>{
     $('tabLog').classList.toggle('hide',t.dataset.tab!=='log');
   });
 });
-
 document.querySelectorAll('.speedbtn').forEach(b=>{
-  b.addEventListener('click',()=>{
-    if(!G) return;
-    setSpeed(+b.dataset.speed);
-  });
+  b.addEventListener('click',()=>{ if(G) setSpeed(+b.dataset.speed); });
 });
-
 $('rotL').addEventListener('click',()=>{ if(G) rotateBy(-90); });
 $('rotR').addEventListener('click',()=>{ if(G) rotateBy(90); });
-
 $('demolishBtn').addEventListener('click',()=>{
   if(!G) return;
   G.demolish=!G.demolish;
   if(G.demolish) G.selected=null;
   updatePalette(G.stats);present();
 });
-
 $('quitBtn').addEventListener('click',()=>{
   if(gameTick){ clearInterval(gameTick);gameTick=null; }
   G=null;paletteBuilt=false;hideTip();
   $('game').style.display='none';
   $('start').style.display='block';
 });
-
 window.addEventListener('keydown',e=>{
   if(!G) return;
   if(e.key===' '){ e.preventDefault(); setSpeed(tickSpeed===0?2:0); }
@@ -2150,14 +2091,23 @@ window.addEventListener('keydown',e=>{
    START SCREEN
    ========================================================== */
 function renderStart(){
-  $('locGrid').innerHTML=LOCATIONS.map(l=>`
+  const grid=$('locGrid');
+  grid.innerHTML=LOCATIONS.map(l=>`
     <button class="loc" data-loc="${l.id}">
-      <div class="flag">${l.flag}</div>
-      <div class="nm">${l.name}</div>
-      <div class="rg">${l.region} · ${l.grid}×${l.grid} map</div>
-      <div class="tags">${l.tags.map(([t,c])=>`<span class="tag ${c}">${t}</span>`).join('')}</div>
-      <div class="desc">${l.desc}</div>
+      <canvas class="pixmap" width="128" height="128" data-locid="${l.id}"></canvas>
+      <div class="body">
+        <div class="nm">${l.flag} ${l.name}</div>
+        <div class="rg">${l.region} · ${l.grid}×${l.grid}</div>
+        <div class="tags">${l.tags.map(([t,c])=>`<span class="tag ${c}">${t}</span>`).join('')}</div>
+        <div class="desc">${l.desc}</div>
+      </div>
     </button>`).join('');
+
+  // Draw pixel previews
+  grid.querySelectorAll('canvas[data-locid]').forEach(c=>{
+    const loc=LOCATIONS.find(x=>x.id===c.dataset.locid);
+    drawLocationPreview(c,loc);
+  });
 
   $('eraGrid').innerHTML=ERAS.map(e=>`
     <button class="era" data-era="${e.y}">
@@ -2197,7 +2147,8 @@ function updateEraSummary(){
     <div class="summary">
       <div><div class="lbl">Starting funds</div><div class="big">${money(funds)}</div></div>
       <div><div class="lbl">Available</div><div class="big" style="color:#a78bfa">${n} / ${BUILDINGS.length}</div></div>
-      <div class="txt">${loc.flag} <b>${loc.name}</b> — ${loc.grid}×${loc.grid} map. ${loc.trade.label}<br>
+      <div class="txt">${loc.flag} <b>${loc.name}</b> — ${loc.grid}×${loc.grid} map.<br>
+      ${loc.trade.label}.<br>
       ${era.y} · ${era.name}. Costs are ${Math.round(era.costMult*100)}% of today's.</div>
     </div>`;
 }
