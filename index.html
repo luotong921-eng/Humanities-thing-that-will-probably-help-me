@@ -3,10 +3,10 @@
 <head>
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1"/>
-<title>Future City — Humanities Simulator</title>
+<title>Future City — Pixel Edition</title>
 <style>
 :root{
-  --bg:#0a1018;--bg2:#0e1720;--panel:#121a26;--panel2:#182231;--panel3:#1e2a3b;
+  --bg:#0a1018;--panel:#121a26;--panel2:#182231;--panel3:#1e2a3b;
   --line:#2a3a52;--line2:#3d5470;
   --txt:#e8eff7;--dim:#8ba0b8;--accent:#38bdf8;--accent2:#a78bfa;
   --good:#34d399;--warn:#fbbf24;--bad:#f87171;
@@ -14,182 +14,145 @@
 }
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html,body{height:100%;margin:0;overflow:hidden}
-body{
-  font-family:ui-monospace,'SF Mono',Menlo,Consolas,monospace;
-  background:var(--bg);color:var(--txt);
-  image-rendering:pixelated;
-}
+body{font-family:ui-monospace,'SF Mono',Menlo,Consolas,monospace;
+  background:var(--bg);color:var(--txt);image-rendering:pixelated}
 button,input{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit;outline:none}
 ::-webkit-scrollbar{width:8px;height:8px}
 ::-webkit-scrollbar-thumb{background:#2a3b52}
 ::-webkit-scrollbar-track{background:transparent}
 
-/* ============================================================
-   START SCREEN — pixel-art theme
-   ============================================================ */
 #start{position:fixed;inset:0;overflow-y:auto;padding:26px 16px 70px;z-index:60;
-  background:
-    radial-gradient(900px 500px at 50% -100px,#1a3552,transparent 70%),
+  background:radial-gradient(900px 500px at 50% -100px,#1a3552,transparent 70%),
     linear-gradient(180deg,#0a1018 0%,#0d1a28 60%,#0a1018 100%)}
 .wrap{max-width:1180px;margin:0 auto}
-
-.title-block{text-align:center;padding:12px 0 28px;position:relative}
-.title-block h1{
-  font-size:clamp(34px,7vw,66px);letter-spacing:3px;font-weight:900;
-  color:#f9d976;
-  text-shadow:
-    3px 3px 0 #7a4b00,
-    6px 6px 0 #2d1a00,
-    0 0 22px rgba(249,217,118,.35);
-  margin:0 0 10px;line-height:1.05;
-  font-family:ui-monospace,Menlo,monospace}
-.title-block .tagline{
-  color:var(--dim);font-size:13px;letter-spacing:1.4px;
+.title-block{text-align:center;padding:12px 0 28px}
+.title-block h1{font-size:clamp(34px,7vw,66px);letter-spacing:3px;font-weight:900;
+  color:#f9d976;text-shadow:3px 3px 0 #7a4b00,6px 6px 0 #2d1a00,0 0 22px rgba(249,217,118,.35);
+  margin:0 0 10px;line-height:1.05}
+.title-block .tagline{color:var(--dim);font-size:13px;letter-spacing:1.4px;
   text-transform:uppercase;margin:0}
 .title-block .blurb{color:#a8bdd2;font-size:13.5px;line-height:1.65;
-  max-width:640px;margin:16px auto 0}
-
-/* how to play */
-.howto{
-  background:var(--panel);border:2px solid var(--line);padding:18px 20px;
+  max-width:680px;margin:16px auto 0}
+.howto{background:var(--panel);border:2px solid var(--line);padding:18px 20px;
   box-shadow:var(--shadow);margin:8px 0 28px;position:relative}
-.howto::before{
-  content:'▶ HOW TO PLAY';position:absolute;top:-11px;left:16px;
+.howto::before{content:'▶ HOW TO PLAY';position:absolute;top:-11px;left:16px;
   background:var(--bg);padding:0 10px;font-size:10px;font-weight:900;
   letter-spacing:2.2px;color:var(--accent)}
-.steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px;
-  margin-top:6px}
+.steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px;margin-top:6px}
 .step{display:flex;gap:11px;align-items:flex-start}
-.step .num{
-  flex-shrink:0;width:26px;height:26px;background:var(--accent);color:#00121e;
-  display:flex;align-items:center;justify-content:center;font-weight:900;
-  font-size:13px;border:2px solid #003b52;box-shadow:2px 2px 0 #060b12}
-.step .txt{font-size:12px;line-height:1.55;color:#b8cadd}
-.step .txt b{color:#fff;display:block;margin-bottom:2px;font-size:12.5px}
+.step .num{flex-shrink:0;width:26px;height:26px;background:var(--accent);color:#00121e;
+  display:flex;align-items:center;justify-content:center;font-weight:900;font-size:13px;
+  border:2px solid #003b52;box-shadow:2px 2px 0 #060b12}
+.step .txt{font-size:11.5px;line-height:1.55;color:#b8cadd}
+.step .txt b{color:#fff;display:block;margin-bottom:2px;font-size:12px}
 
-/* section heads */
 h2{font-size:11px;text-transform:uppercase;letter-spacing:2.4px;color:var(--accent);
   margin:32px 0 12px;font-weight:900;display:flex;align-items:center;gap:10px}
 h2::before{content:'';width:6px;height:6px;background:var(--accent)}
 h2::after{content:'';flex:1;height:2px;background:var(--line)}
 
-/* location cards */
-.loc-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(248px,1fr));gap:12px}
-.loc{
-  background:var(--panel);border:2px solid var(--line);padding:0;
-  text-align:left;transition:.12s;box-shadow:var(--shadow);
-  display:flex;flex-direction:column;position:relative;overflow:hidden}
-.loc:hover{border-color:var(--line2);transform:translate(-1px,-1px);
-  box-shadow:6px 6px 0 #060b12}
-.loc.sel{border-color:var(--accent);box-shadow:
-  0 0 0 2px var(--accent),
-  4px 4px 0 #060b12}
-.loc.sel::before{
-  content:'✓';position:absolute;top:6px;right:6px;width:22px;height:22px;
+.loc-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(238px,1fr));gap:12px}
+.loc{background:var(--panel);border:2px solid var(--line);padding:0;text-align:left;
+  transition:.12s;box-shadow:var(--shadow);display:flex;flex-direction:column;
+  position:relative;overflow:hidden}
+.loc:hover{border-color:var(--line2);transform:translate(-1px,-1px);box-shadow:6px 6px 0 #060b12}
+.loc.sel{border-color:var(--accent);box-shadow:0 0 0 2px var(--accent),4px 4px 0 #060b12}
+.loc.sel::before{content:'✓';position:absolute;top:6px;right:6px;width:22px;height:22px;
   background:var(--accent);color:#00121e;font-weight:900;font-size:14px;
-  display:flex;align-items:center;justify-content:center;z-index:2;
-  border:2px solid #003b52}
-.loc .pixmap{
-  display:block;width:100%;aspect-ratio:1;
-  image-rendering:pixelated;image-rendering:crisp-edges;
+  display:flex;align-items:center;justify-content:center;z-index:2;border:2px solid #003b52}
+.loc .pixmap{display:block;width:100%;aspect-ratio:1;image-rendering:pixelated;
   border-bottom:2px solid var(--line)}
 .loc .body{padding:12px 13px 13px}
 .loc .nm{font-weight:900;font-size:15px;color:#fff;letter-spacing:.3px}
-.loc .rg{font-size:9.5px;color:var(--dim);text-transform:uppercase;
-  letter-spacing:1.3px;margin-top:2px;font-weight:700}
+.loc .rg{font-size:9.5px;color:var(--dim);text-transform:uppercase;letter-spacing:1.3px;
+  margin-top:2px;font-weight:700}
 .loc .tags{display:flex;flex-wrap:wrap;gap:4px;margin-top:9px}
-.tag{font-size:9.5px;font-weight:800;padding:3px 7px;
-  background:#1d2b3c;color:#9fb6cd;border:1px solid #293d54;letter-spacing:.4px}
+.tag{font-size:9.5px;font-weight:800;padding:3px 7px;background:#1d2b3c;color:#9fb6cd;
+  border:1px solid #293d54;letter-spacing:.4px}
 .tag.bad{background:#3a1d20;color:#f0a0a0;border-color:#5a2a2e}
 .tag.good{background:#12301f;color:#8fe0b0;border-color:#1e4a2f}
 .tag.tr{background:#1e1b3d;color:#c4b5fd;border-color:#4c1d95}
+.tag.lim{background:#3d2415;color:#fbbf24;border-color:#78350f}
 .loc .desc{font-size:10.5px;color:var(--dim);margin-top:9px;line-height:1.5}
 
-/* era cards */
-.era-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(178px,1fr));gap:10px}
-.era{
-  background:var(--panel);border:2px solid var(--line);padding:12px;
-  text-align:left;transition:.12s;box-shadow:var(--shadow);position:relative}
-.era:hover{border-color:var(--line2);transform:translate(-1px,-1px);
-  box-shadow:6px 6px 0 #060b12}
-.era.sel{border-color:var(--accent2);box-shadow:
-  0 0 0 2px var(--accent2),4px 4px 0 #060b12}
+.era-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:10px}
+.era{background:var(--panel);border:2px solid var(--line);padding:12px;text-align:left;
+  transition:.12s;box-shadow:var(--shadow)}
+.era:hover{border-color:var(--line2);transform:translate(-1px,-1px);box-shadow:6px 6px 0 #060b12}
+.era.sel{border-color:var(--accent2);box-shadow:0 0 0 2px var(--accent2),4px 4px 0 #060b12}
 .era .yr{font-size:22px;font-weight:900;color:#c4b5fd;letter-spacing:1px;
   text-shadow:2px 2px 0 #1a1030}
-.era .nm{font-size:11.5px;font-weight:800;margin:3px 0 7px;color:#e0e6ed}
+.era .nm{font-size:11px;font-weight:800;margin:3px 0 7px;color:#e0e6ed}
 .era .ds{font-size:10px;color:var(--dim);line-height:1.5;min-height:44px}
-.era .stat{display:flex;justify-content:space-between;font-size:9.5px;
-  margin-top:8px;padding-top:7px;border-top:1px solid #1e2b3a;color:var(--dim);
-  font-weight:800;letter-spacing:.5px}
+.era .stat{display:flex;justify-content:space-between;font-size:9.5px;margin-top:8px;
+  padding-top:7px;border-top:1px solid #1e2b3a;color:var(--dim);font-weight:800;
+  letter-spacing:.5px}
 .era .stat b{color:#9fb6cd;font-variant-numeric:tabular-nums}
-
 #eraSummary{margin-top:14px}
 .summary{background:linear-gradient(100deg,#10202e,#0d1720);border:2px solid var(--line2);
   padding:15px 18px;display:flex;gap:24px;flex-wrap:wrap;align-items:center;
   box-shadow:var(--shadow)}
-.summary .big{font-size:26px;font-weight:900;color:var(--good);
-  letter-spacing:.5px;text-shadow:2px 2px 0 #052a1c}
-.summary .lbl{font-size:9.5px;text-transform:uppercase;letter-spacing:1.5px;
-  color:var(--dim);font-weight:800;margin-bottom:3px}
+.summary .big{font-size:26px;font-weight:900;color:var(--good);letter-spacing:.5px;
+  text-shadow:2px 2px 0 #052a1c}
+.summary .lbl{font-size:9.5px;text-transform:uppercase;letter-spacing:1.5px;color:var(--dim);
+  font-weight:800;margin-bottom:3px}
 .summary .txt{font-size:11.5px;color:#a8bdd2;max-width:480px;line-height:1.6}
 
-/* mode buttons */
 .start-btns{display:flex;gap:12px;flex-wrap:wrap;margin-top:26px}
-.bigbtn{
-  flex:1;min-width:230px;padding:16px 20px;font-size:14px;font-weight:900;
+.bigbtn{flex:1;min-width:230px;padding:16px 20px;font-size:14px;font-weight:900;
   background:var(--panel);color:#fff;transition:.12s;text-align:left;
-  border:2px solid var(--line2);box-shadow:var(--shadow);position:relative;
-  letter-spacing:.4px}
-.bigbtn:hover{transform:translate(-1px,-1px);box-shadow:6px 6px 0 #060b12;
-  border-color:var(--accent)}
+  border:2px solid var(--line2);box-shadow:var(--shadow);position:relative;letter-spacing:.4px}
+.bigbtn:hover{transform:translate(-1px,-1px);box-shadow:6px 6px 0 #060b12;border-color:var(--accent)}
 .bigbtn.sandbox:hover{border-color:var(--accent2)}
-.bigbtn::before{content:'';position:absolute;left:0;top:0;bottom:0;width:5px;
-  background:var(--accent)}
+.bigbtn::before{content:'';position:absolute;left:0;top:0;bottom:0;width:5px;background:var(--accent)}
 .bigbtn.sandbox::before{background:var(--accent2)}
-.bigbtn small{display:block;font-weight:500;opacity:.78;font-size:10.5px;
-  margin-top:4px;line-height:1.45;letter-spacing:0}
-.bigbtn:disabled{opacity:.32;cursor:not-allowed;transform:none;
-  box-shadow:var(--shadow);border-color:var(--line)}
+.bigbtn small{display:block;font-weight:500;opacity:.78;font-size:10.5px;margin-top:4px;
+  line-height:1.45;letter-spacing:0}
+.bigbtn:disabled{opacity:.32;cursor:not-allowed;transform:none;box-shadow:var(--shadow);
+  border-color:var(--line)}
 
-/* ============================================================
-   GAME
-   ============================================================ */
 #game{display:none;height:100vh;flex-direction:column}
 .hud{display:flex;flex-wrap:wrap;gap:6px;padding:8px 10px;background:var(--panel);
   border-bottom:2px solid var(--line);flex-shrink:0;align-items:center}
-.grp{display:flex;gap:6px;align-items:center;padding:4px 9px;
-  background:var(--panel2);border:2px solid var(--line)}
-.grp .gl{font-size:8px;text-transform:uppercase;letter-spacing:1.4px;
-  color:var(--dim);font-weight:900;writing-mode:vertical-rl;transform:rotate(180deg);
-  height:32px;line-height:1;text-align:center;opacity:.6}
-.pill{display:flex;flex-direction:column;gap:1px;min-width:60px}
-.pill .k{font-size:8px;text-transform:uppercase;letter-spacing:1.2px;
-  color:var(--dim);font-weight:800}
+.grp{display:flex;gap:6px;align-items:center;padding:4px 9px;background:var(--panel2);
+  border:2px solid var(--line)}
+.grp .gl{font-size:8px;text-transform:uppercase;letter-spacing:1.4px;color:var(--dim);
+  font-weight:900;writing-mode:vertical-rl;transform:rotate(180deg);height:32px;
+  line-height:1;text-align:center;opacity:.6}
+.pill{display:flex;flex-direction:column;gap:1px;min-width:58px}
+.pill .k{font-size:8px;text-transform:uppercase;letter-spacing:1.2px;color:var(--dim);font-weight:800}
 .pill .v{font-size:14px;font-weight:900;font-variant-numeric:tabular-nums}
 .pill.good .v{color:var(--good)}.pill.warn .v{color:var(--warn)}.pill.bad .v{color:var(--bad)}
 .pill .bar{height:3px;background:#1e2b3a;overflow:hidden;margin-top:2px}
 .pill .bar>i{display:block;height:100%;transition:width .35s}
 .hud .warnbox{display:flex;align-items:center;gap:6px;font-size:10.5px;font-weight:800;
-  padding:6px 11px;background:#3a1d20;color:#fca5a5;border:2px solid #5a2a2e;
-  letter-spacing:.3px}
+  padding:6px 11px;background:#3a1d20;color:#fca5a5;border:2px solid #5a2a2e}
 
 .main{display:flex;flex:1;overflow:hidden}
 .mapwrap{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;
   padding:12px;overflow:auto;gap:11px;min-width:0;position:relative}
-#cv{width:min(100%,620px);aspect-ratio:1;display:block;
-  border:3px solid var(--line);background:#0a1018;
+.canvas-wrap{position:relative;width:min(100%,620px);aspect-ratio:1}
+#cv{width:100%;height:100%;display:block;border:3px solid var(--line);background:#0a1018;
   box-shadow:var(--shadow);touch-action:none;cursor:crosshair;
-  transition:transform .35s ease}
+  image-rendering:pixelated;image-rendering:crisp-edges}
+#minimap{position:absolute;bottom:8px;right:8px;width:80px;height:80px;
+  border:2px solid var(--line2);background:#0a1018;display:none;
+  box-shadow:2px 2px 0 #060b12;image-rendering:pixelated}
+#minimap.on{display:block}
+#minimap .view{position:absolute;border:2px solid var(--warn);pointer-events:none;
+  box-shadow:0 0 0 1px #000 inset}
+
 .controls{display:flex;gap:7px;flex-wrap:wrap;justify-content:center;align-items:center}
-.btn{padding:9px 15px;background:var(--panel2);border:2px solid var(--line);
+.btn{padding:9px 14px;background:var(--panel2);border:2px solid var(--line);
   font-weight:900;font-size:12px;transition:.12s;white-space:nowrap;
   box-shadow:3px 3px 0 #060b12;letter-spacing:.3px}
-.btn:hover{background:var(--panel3);border-color:var(--line2);
-  transform:translate(-1px,-1px);box-shadow:4px 4px 0 #060b12}
+.btn:hover{background:var(--panel3);border-color:var(--line2);transform:translate(-1px,-1px);
+  box-shadow:4px 4px 0 #060b12}
 .btn.primary{background:var(--accent);color:#00121e;border-color:#0077a8}
 .btn.primary:hover{background:#55c9ff}
 .btn.active{background:#7f1d1d;border-color:#b91c1c;color:#fca5a5}
 .btn.on{background:#134e4a;border-color:#14b8a6;color:#5eead4}
+.btn.small{padding:6px 10px;font-size:11px}
 
 .speedbar{display:flex;gap:2px;background:var(--panel2);border:2px solid var(--line);
   padding:3px;box-shadow:3px 3px 0 #060b12}
@@ -198,10 +161,15 @@ h2::after{content:'';flex:1;height:2px;background:var(--line)}
 .speedbtn:hover{color:#b6cadf}
 .speedbtn.on{background:#134e4a;color:#5eead4}
 
+.zoombar{display:flex;gap:2px;background:var(--panel2);border:2px solid var(--line);
+  padding:3px;box-shadow:3px 3px 0 #060b12}
+.zoombtn{padding:6px 10px;font-size:11px;font-weight:900;color:var(--dim);transition:.15s}
+.zoombtn:hover{color:#b6cadf}
+.zoombtn.on{background:#1e3a52;color:var(--accent)}
+
 #banner{position:absolute;top:18px;left:50%;transform:translateX(-50%) translateY(-14px);
-  max-width:90%;padding:14px 20px;background:#0d1720;
-  border:3px solid var(--accent);box-shadow:6px 6px 0 #060b12;
-  opacity:0;pointer-events:none;transition:.35s;
+  max-width:90%;padding:14px 20px;background:#0d1720;border:3px solid var(--accent);
+  box-shadow:6px 6px 0 #060b12;opacity:0;pointer-events:none;transition:.35s;
   display:flex;gap:14px;align-items:flex-start;z-index:20}
 #banner.show{opacity:1;transform:translateX(-50%) translateY(0)}
 #banner .bi{font-size:26px;line-height:1;flex-shrink:0;margin-top:1px}
@@ -213,12 +181,11 @@ h2::after{content:'';flex:1;height:2px;background:var(--line)}
 #banner.good{border-color:var(--good)}#banner.good .by{color:var(--good)}
 #banner.warn{border-color:var(--warn)}#banner.warn .by{color:var(--warn)}
 
-.side{width:340px;flex-shrink:0;background:var(--panel);
-  border-left:2px solid var(--line);display:flex;flex-direction:column;overflow:hidden}
+.side{width:340px;flex-shrink:0;background:var(--panel);border-left:2px solid var(--line);
+  display:flex;flex-direction:column;overflow:hidden}
 .tabs{display:flex;border-bottom:2px solid var(--line);flex-shrink:0;background:var(--panel2)}
 .tab{flex:1;padding:11px 4px;font-size:10.5px;font-weight:900;text-transform:uppercase;
-  letter-spacing:1.4px;color:var(--dim);border-bottom:3px solid transparent;
-  transition:.15s}
+  letter-spacing:1.4px;color:var(--dim);border-bottom:3px solid transparent;transition:.15s}
 .tab.on{color:var(--accent);border-bottom-color:var(--accent);background:#0f1b27}
 .tabbody{flex:1;overflow-y:auto;padding:11px}
 .tabbody.hide{display:none}
@@ -232,9 +199,8 @@ h2::after{content:'';flex:1;height:2px;background:var(--line)}
 .searchbox input{flex:1;font-size:12.5px;background:none;min-width:0}
 .searchbox input::placeholder{color:#54708c}
 .chips{display:flex;gap:4px;flex-wrap:wrap;margin-top:8px}
-.chip{font-size:10px;font-weight:800;padding:4px 9px;
-  background:var(--panel2);border:2px solid var(--line);color:var(--dim);
-  transition:.14s;letter-spacing:.3px}
+.chip{font-size:10px;font-weight:800;padding:4px 9px;background:var(--panel2);
+  border:2px solid var(--line);color:var(--dim);transition:.14s;letter-spacing:.3px}
 .chip:hover{border-color:var(--line2);color:#b6cadf}
 .chip.on{background:#1e3a52;border-color:var(--accent);color:var(--accent)}
 
@@ -243,52 +209,47 @@ h2::after{content:'';flex:1;height:2px;background:var(--line)}
   color:var(--dim);font-weight:900;display:flex;align-items:center;gap:7px}
 .cat h4::before{content:'';width:9px;height:9px;background:var(--c)}
 .items{display:flex;flex-direction:column;gap:3px}
-.item{display:flex;align-items:center;gap:9px;padding:6px 8px;
-  background:var(--panel2);border:2px solid transparent;text-align:left;
-  transition:.12s;width:100%}
+.item{display:flex;align-items:center;gap:9px;padding:6px 8px;background:var(--panel2);
+  border:2px solid transparent;text-align:left;transition:.12s;width:100%}
 .item:hover{border-color:var(--line2);background:var(--panel3)}
 .item.sel{border-color:var(--accent);background:#102336}
 .item.locked{opacity:.34;cursor:not-allowed}
 .item.locked:hover{border-color:transparent;background:var(--panel2)}
 .item.poor{opacity:.46}
-.item .ic{width:26px;height:26px;flex-shrink:0;display:block;
-  image-rendering:pixelated}
+.item.capped{opacity:.55;border-color:#78350f}
+.item .ic{width:26px;height:26px;flex-shrink:0;display:block;image-rendering:pixelated}
 .item .tx{flex:1;min-width:0}
-.item .nm{font-size:11.5px;font-weight:800;white-space:nowrap;overflow:hidden;
-  text-overflow:ellipsis}
-.item .meta{font-size:9px;color:var(--dim);margin-top:1px;white-space:nowrap;
-  overflow:hidden;text-overflow:ellipsis}
+.item .nm{font-size:11.5px;font-weight:800;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.item .meta{font-size:9px;color:var(--dim);margin-top:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .item .rt{display:flex;flex-direction:column;align-items:flex-end;gap:2px;flex-shrink:0}
 .item .cost{font-size:10.5px;font-weight:900;color:var(--good);white-space:nowrap}
+.item .cost.full{color:#fbbf24}
 .item .sz{font-size:8px;font-weight:800;color:#5f7a94;letter-spacing:.5px}
 .none{text-align:center;color:var(--dim);font-size:11.5px;padding:22px 10px}
 
-.insight{display:flex;gap:9px;padding:10px;background:var(--panel2);
-  margin-bottom:8px;font-size:11.5px;line-height:1.55;border-left:4px solid var(--accent)}
+.insight{display:flex;gap:9px;padding:10px;background:var(--panel2);margin-bottom:8px;
+  font-size:11.5px;line-height:1.55;border-left:4px solid var(--accent)}
 .insight.warn{border-left-color:var(--warn)}
 .insight.bad{border-left-color:var(--bad)}
 .insight.good{border-left-color:var(--good)}
 .insight .ico{font-size:14px;flex-shrink:0;line-height:1.3}
 .sechead{font-size:9px;text-transform:uppercase;letter-spacing:1.8px;color:var(--dim);
-  font-weight:900;margin:15px 0 8px;display:flex;justify-content:space-between;
-  align-items:center}
+  font-weight:900;margin:15px 0 8px;display:flex;justify-content:space-between;align-items:center}
 .sechead .v{color:#9fb6cd;font-size:10.5px;letter-spacing:.4px}
 .meter{margin-bottom:9px}
-.meter .row{display:flex;justify-content:space-between;font-size:11px;margin-bottom:3px;
-  font-weight:700}
+.meter .row{display:flex;justify-content:space-between;font-size:11px;margin-bottom:3px;font-weight:700}
 .meter .row span:last-child{color:var(--dim);font-variant-numeric:tabular-nums}
 .bar{height:5px;background:#1e2b3a;overflow:hidden}
 .bar>i{display:block;height:100%;transition:width .4s}
-
 .landgrid{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-bottom:4px}
 .landcell{background:var(--panel2);padding:9px 11px;border-left:3px solid var(--line2)}
-.landcell .lk{font-size:8.5px;text-transform:uppercase;letter-spacing:1.3px;
-  color:var(--dim);font-weight:900;margin-bottom:3px}
+.landcell .lk{font-size:8.5px;text-transform:uppercase;letter-spacing:1.3px;color:var(--dim);
+  font-weight:900;margin-bottom:3px}
 .landcell .lv{font-size:15px;font-weight:900;font-variant-numeric:tabular-nums}
 .landcell .ls{font-size:9.5px;color:var(--dim);margin-top:1px}
 
-.logitem{font-size:11px;padding:8px 10px;background:var(--panel2);
-  margin-bottom:6px;line-height:1.5;border-left:4px solid #2a3d55}
+.logitem{font-size:11px;padding:8px 10px;background:var(--panel2);margin-bottom:6px;
+  line-height:1.5;border-left:4px solid #2a3d55}
 .logitem .yr{color:var(--dim);font-size:9px;font-weight:900;letter-spacing:1.2px}
 .logitem.good{border-left-color:var(--good)}
 .logitem.bad{border-left-color:var(--bad)}
@@ -298,11 +259,10 @@ h2::after{content:'';flex:1;height:2px;background:var(--line)}
   color:var(--accent2);display:block;margin-bottom:2px}
 
 #tip{position:fixed;z-index:200;pointer-events:none;background:#0b1420;
-  border:2px solid var(--line2);padding:10px 12px;font-size:11px;
-  max-width:260px;display:none;box-shadow:4px 4px 0 #060b12;line-height:1.55}
+  border:2px solid var(--line2);padding:10px 12px;font-size:11px;max-width:260px;
+  display:none;box-shadow:4px 4px 0 #060b12;line-height:1.55}
 #tip .t{font-weight:900;font-size:12.5px;margin-bottom:3px;color:#fff}
-#tip .c{font-size:9px;text-transform:uppercase;letter-spacing:1.3px;margin-bottom:7px;
-  font-weight:900}
+#tip .c{font-size:9px;text-transform:uppercase;letter-spacing:1.3px;margin-bottom:7px;font-weight:900}
 #tip .ef{display:flex;justify-content:space-between;gap:12px;font-size:10.5px}
 #tip .ef b{font-variant-numeric:tabular-nums}
 #tip .warnline{margin-top:6px;padding-top:6px;border-top:1px solid #25344a;color:#f87171;
@@ -310,6 +270,8 @@ h2::after{content:'';flex:1;height:2px;background:var(--line)}
 #tip .okline{margin-top:6px;padding-top:6px;border-top:1px solid #25344a;color:#34d399;
   font-size:10px;font-weight:800}
 #tip .progline{margin-top:6px;padding-top:6px;border-top:1px solid #25344a;color:#fbbf24;
+  font-size:10px;font-weight:800}
+#tip .limline{margin-top:6px;padding-top:6px;border-top:1px solid #25344a;color:#fb923c;
   font-size:10px;font-weight:800}
 
 #loading{position:fixed;inset:0;background:#080d13;display:none;align-items:center;
@@ -323,7 +285,7 @@ h2::after{content:'';flex:1;height:2px;background:var(--line)}
 @media(max-width:900px){
   .main{flex-direction:column}
   .side{width:100%;height:42vh;border-left:none;border-top:2px solid var(--line)}
-  #cv{width:min(100%,420px)}
+  .canvas-wrap{width:min(100%,400px)}
   .mapwrap{padding:9px}
   .grp .gl{display:none}
 }
@@ -337,28 +299,20 @@ h2::after{content:'';flex:1;height:2px;background:var(--line)}
   <div class="wrap">
     <div class="title-block">
       <h1>FUTURE CITY</h1>
-      <p class="tagline">A century of urban choices</p>
-      <p class="blurb">Build a city from 1900 to 2060 and beyond. Every road, home and power plant ripples through <b style="color:#34d399">people</b>, <b style="color:#38bdf8">planet</b> and <b style="color:#fbbf24">profit</b> — and history will interrupt you.</p>
+      <p class="tagline">A century of urban choices · Pixel Edition</p>
+      <p class="blurb">Build a city from 1900 to 2060. Every road, home and power plant ripples through <b style="color:#34d399">people</b>, <b style="color:#38bdf8">planet</b> and <b style="color:#fbbf24">profit</b> — and history will interrupt you.</p>
     </div>
 
     <div class="howto">
       <div class="steps">
-        <div class="step">
-          <div class="num">1</div>
-          <div class="txt"><b>Lay roads first</b>Every building needs a road touching it. Red dots mean no access — nothing works.</div>
-        </div>
-        <div class="step">
-          <div class="num">2</div>
-          <div class="txt"><b>Balance jobs &amp; homes</b>People move in only when both exist. Too many jobs = empty offices.</div>
-        </div>
-        <div class="step">
-          <div class="num">3</div>
-          <div class="txt"><b>Watch wellbeing &amp; nature</b>Schools, parks and clinics raise happiness. Pollution drags it down.</div>
-        </div>
-        <div class="step">
-          <div class="num">4</div>
-          <div class="txt"><b>Time runs itself</b>Use the speed bar to pause, slow down or speed up. Rotate the map with ⟲ ⟳.</div>
-        </div>
+        <div class="step"><div class="num">1</div>
+          <div class="txt"><b>Lay roads first</b>Every building needs a road touching it. Red dots mean no access.</div></div>
+        <div class="step"><div class="num">2</div>
+          <div class="txt"><b>Balance jobs &amp; homes</b>People move in only when both exist and are reachable.</div></div>
+        <div class="step"><div class="num">3</div>
+          <div class="txt"><b>Watch limits</b>Some cities have restrictions on industry, ports or airports.</div></div>
+        <div class="step"><div class="num">4</div>
+          <div class="txt"><b>Zoom &amp; rotate</b>Use the zoom bar to see detail. Arrow buttons pan when zoomed.</div></div>
       </div>
     </div>
 
@@ -387,7 +341,10 @@ h2::after{content:'';flex:1;height:2px;background:var(--line)}
   <div class="hud" id="hud"></div>
   <div class="main">
     <div class="mapwrap">
-      <canvas id="cv" width="660" height="660"></canvas>
+      <div class="canvas-wrap">
+        <canvas id="cv" width="660" height="660"></canvas>
+        <canvas id="minimap" width="160" height="160"></canvas>
+      </div>
       <div id="banner"></div>
       <div class="controls">
         <div class="speedbar">
@@ -397,10 +354,19 @@ h2::after{content:'';flex:1;height:2px;background:var(--line)}
           <button class="speedbtn" data-speed="3">2×</button>
           <button class="speedbtn" data-speed="4">4×</button>
         </div>
-        <button class="btn" id="rotL">⟲</button>
-        <button class="btn" id="rotR">⟳</button>
-        <button class="btn" id="demolishBtn">🧨 Demolish</button>
-        <button class="btn" id="quitBtn">↩ New City</button>
+        <div class="zoombar">
+          <button class="zoombtn on" data-zoom="1">1×</button>
+          <button class="zoombtn" data-zoom="2">2×</button>
+          <button class="zoombtn" data-zoom="3">3×</button>
+        </div>
+        <button class="btn small" data-pan="up">▲</button>
+        <button class="btn small" data-pan="down">▼</button>
+        <button class="btn small" data-pan="left">◀</button>
+        <button class="btn small" data-pan="right">▶</button>
+        <button class="btn small" id="rotL">⟲</button>
+        <button class="btn small" id="rotR">⟳</button>
+        <button class="btn" id="demolishBtn">🧨</button>
+        <button class="btn" id="quitBtn">↩</button>
       </div>
     </div>
     <aside class="side">
@@ -495,7 +461,6 @@ function landL(u,v,type,seed){
   return L;
 }
 const moist=(u,v,seed)=>fbm(u*2.2+41,v*2.2+19,seed+77,3);
-
 function biomeColor(m,e,type){
   if(type==='desert'){
     const sand=[228,206,150],dry=[186,168,112],rock=[158,136,108],peak=[196,190,180];
@@ -514,169 +479,81 @@ function biomeColor(m,e,type){
 }
 
 /* ==========================================================
-   PIXEL PREVIEW — mini map for each location card
-   ========================================================== */
-function drawLocationPreview(canvas, loc){
-  const c = canvas.getContext('2d');
-  c.imageSmoothingEnabled = false;
-  const S = 96;         // logical pixel grid
-  const px = canvas.width / S;
-  c.clearRect(0,0,canvas.width,canvas.height);
-
-  // Sample terrain
-  for (let y = 0; y < S; y++){
-    for (let x = 0; x < S; x++){
-      const u = x/S, v = y/S;
-      const L = landL(u, v, loc.map, loc.seed);
-      const m = moist(u, v, loc.seed);
-      let col;
-      if (L < 0.5){
-        // water with depth steps
-        if (L < 0.32) col = [10, 34, 62];
-        else if (L < 0.42) col = [22, 58, 96];
-        else col = [40, 92, 130];
-      } else {
-        const e = clamp((L - 0.5) * 2, 0, 1);
-        col = biomeColor(m, e, loc.map);
-        // Pixel quantization for chunky look
-        col = [Math.floor(col[0]/24)*24, Math.floor(col[1]/24)*24, Math.floor(col[2]/24)*24];
-      }
-      c.fillStyle = `rgb(${col[0]},${col[1]},${col[2]})`;
-      c.fillRect(Math.floor(x*px), Math.floor(y*px), Math.ceil(px), Math.ceil(px));
-    }
-  }
-
-  // Draw a tiny pixel city block in the middle if land
-  const N = 5;
-  const cx = S*0.5, cy = S*0.55;
-  const midX = Math.floor(S/2), midY = Math.floor(S/2);
-  const midLand = landL(midX/S, midY/S, loc.map, loc.seed);
-
-  if (midLand > 0.5){
-    // Pixel "buildings" — chunky rectangles with pixel highlights
-    const blocks = [
-      {dx:-10, dy:-3,  w:6, h:9,  col:'#f59e0b', hi:'#fbbf24'},   // housing
-      {dx:-2,  dy:-6,  w:6, h:12, col:'#eab308', hi:'#fde047'},   // economy
-      {dx:5,   dy:-2,  w:8, h:8,  col:'#22c55e', hi:'#4ade80'},   // green
-      {dx:1,   dy:3,   w:5, h:5,  col:'#3b82f6', hi:'#60a5fa'},   // infra
-      {dx:-7,  dy:4,   w:5, h:4,  col:'#a855f7', hi:'#c084fc'},   // culture
-    ];
-    for (const b of blocks){
-      const bx = (cx + b.dx) * px;
-      const by = (cy + b.dy) * px;
-      const bw = b.w * px;
-      const bh = b.h * px;
-      // shadow
-      c.fillStyle = 'rgba(0,0,0,0.45)';
-      c.fillRect(bx + px, by + bh, bw, px*1.5);
-      // body
-      c.fillStyle = b.col;
-      c.fillRect(bx, by, bw, bh);
-      // top highlight
-      c.fillStyle = b.hi;
-      c.fillRect(bx, by, bw, px*0.7);
-      // windows
-      c.fillStyle = '#0a1018';
-      for (let wy = 0; wy < Math.floor(bh/px) - 3; wy += 2){
-        c.fillRect(bx + px*0.7, by + px*(2 + wy), px*0.7, px*0.7);
-        c.fillRect(bx + bw - px*1.4, by + px*(2 + wy), px*0.7, px*0.7);
-      }
-    }
-    // tiny road strip
-    c.fillStyle = '#3b4148';
-    c.fillRect(0, Math.floor(cy*px + px*1.5), canvas.width, px*1.2);
-    c.fillStyle = '#facc15';
-    for (let i = 0; i < S; i += 3){
-      c.fillRect(i*px, Math.floor(cy*px + px*2), px*1.2, px*0.4);
-    }
-  }
-
-  // Pixel frame
-  c.fillStyle = 'rgba(255,255,255,0.06)';
-  c.fillRect(0,0,canvas.width,px);
-  c.fillRect(0,canvas.height-px,canvas.width,px);
-  c.fillRect(0,0,px,canvas.height);
-  c.fillRect(canvas.width-px,0,px,canvas.height);
-}
-
-/* ==========================================================
-   ICON LIBRARY
+   ICONS — pixel-ish vector glyphs
    ========================================================== */
 const ICONS = {
-house(c,f,d){c.fillStyle=f;c.strokeStyle=d;c.lineWidth=1.4;
-  c.beginPath();c.moveTo(-11,1);c.lineTo(0,-10);c.lineTo(11,1);c.closePath();c.fill();c.stroke();
-  c.beginPath();c.rect(-8,1,16,10);c.fill();c.stroke();
-  c.fillStyle=d;c.fillRect(-3,5,6,6);},
-apartment(c,f,d){c.fillStyle=f;c.strokeStyle=d;c.lineWidth=1.4;
-  c.beginPath();c.rect(-9,-11,18,22);c.fill();c.stroke();
+house(c,f,d){c.fillStyle=f;c.strokeStyle=d;c.lineWidth=1.6;
+  c.beginPath();c.moveTo(-10,0);c.lineTo(0,-10);c.lineTo(10,0);c.closePath();c.fill();c.stroke();
+  c.beginPath();c.rect(-7,0,14,10);c.fill();c.stroke();
+  c.fillStyle=d;c.fillRect(-2,4,4,6);},
+apartment(c,f,d){c.fillStyle=f;c.strokeStyle=d;c.lineWidth=1.6;
+  c.beginPath();c.rect(-8,-11,16,22);c.fill();c.stroke();
   c.fillStyle=d;
-  for(let r=0;r<3;r++)for(let k=0;k<2;k++)c.fillRect(-6.5+k*7,-8+r*7,4.5,4);},
-tower(c,f,d){c.fillStyle=f;c.strokeStyle=d;c.lineWidth=1.4;
+  for(let r=0;r<3;r++)for(let k=0;k<2;k++)c.fillRect(-5.5+k*6,-8+r*7,4,4);},
+tower(c,f,d){c.fillStyle=f;c.strokeStyle=d;c.lineWidth=1.6;
+  c.beginPath();c.rect(-6,-13,12,26);c.fill();c.stroke();
+  c.fillStyle=d;
+  for(let r=0;r<5;r++)for(let k=0;k<2;k++)c.fillRect(-3.8+k*4.6,-10.5+r*5,3,3);},
+ecohouse(c,f,d){c.fillStyle=f;c.strokeStyle=d;c.lineWidth=1.6;
+  c.beginPath();c.moveTo(-10,1);c.lineTo(0,-9);c.lineTo(10,1);c.closePath();c.fill();c.stroke();
+  c.beginPath();c.rect(-7,1,14,9);c.fill();c.stroke();
+  c.fillStyle=d;c.beginPath();c.arc(0,5,2.5,0,7);c.fill();},
+pod(c,f,d){c.fillStyle=f;c.strokeStyle=d;c.lineWidth=1.6;
+  c.beginPath();c.arc(0,2,9,Math.PI,0);c.closePath();c.fill();c.stroke();
+  c.beginPath();c.rect(-9,2,18,3);c.fill();c.stroke();
+  c.fillStyle=d;c.beginPath();c.arc(0,5,2.4,Math.PI,0);c.fill();},
+mixed(c,f,d){c.fillStyle=f;c.strokeStyle=d;c.lineWidth=1.6;
+  c.beginPath();c.rect(-8,-12,16,14);c.fill();c.stroke();
+  c.beginPath();c.rect(-9,2,18,9);c.fill();c.stroke();
+  c.fillStyle=d;
+  for(let r=0;r<2;r++)for(let k=0;k<2;k++)c.fillRect(-5+k*6,-9+r*5,3.5,3);
+  c.fillRect(-5,5,3.5,5);c.fillRect(1.5,5,3.5,5);},
+market(c,f,d){c.fillStyle=f;c.strokeStyle=d;c.lineWidth=1.6;
+  c.beginPath();c.rect(-9,2,18,8);c.fill();c.stroke();
+  for(let i=0;i<3;i++){c.fillStyle=i%2?f:d;c.fillRect(-9,-2+i*3,18,3);c.strokeRect(-9,-2+i*3,18,3);}
+  c.fillStyle=d;c.fillRect(-5,5,3.5,5);c.fillRect(1.5,5,3.5,5);},
+office(c,f,d){c.fillStyle=f;c.strokeStyle=d;c.lineWidth=1.6;
   c.beginPath();c.rect(-7,-13,14,26);c.fill();c.stroke();
   c.fillStyle=d;
-  for(let r=0;r<5;r++)for(let k=0;k<2;k++)c.fillRect(-4.8+k*5.6,-10.5+r*5,3.6,3);},
-ecohouse(c,f,d){c.fillStyle=f;c.strokeStyle=d;c.lineWidth=1.4;
-  c.beginPath();c.moveTo(-11,2);c.lineTo(0,-9);c.lineTo(11,2);c.closePath();c.fill();c.stroke();
-  c.beginPath();c.rect(-8,2,16,9);c.fill();c.stroke();
-  c.fillStyle=d;c.beginPath();c.ellipse(0,6,3.2,4.4,0,0,7);c.fill();
-  c.strokeStyle=d;c.lineWidth=1.6;c.beginPath();c.moveTo(0,2.5);c.lineTo(0,9.5);c.stroke();},
-pod(c,f,d){c.fillStyle=f;c.strokeStyle=d;c.lineWidth=1.4;
-  c.beginPath();c.arc(0,3,10,Math.PI,0);c.closePath();c.fill();c.stroke();
-  c.beginPath();c.rect(-10,3,20,2.4);c.fill();c.stroke();
-  c.fillStyle=d;c.beginPath();c.arc(0,5.5,3,Math.PI,0);c.fill();},
-mixed(c,f,d){c.fillStyle=f;c.strokeStyle=d;c.lineWidth=1.4;
-  c.beginPath();c.rect(-9,-12,18,14);c.fill();c.stroke();
-  c.beginPath();c.rect(-10,2,20,9);c.fill();c.stroke();
+  for(let r=0;r<6;r++)c.fillRect(-4.8,-10.6+r*4,9.6,2.2);},
+chip(c,f,d){c.fillStyle=f;c.strokeStyle=d;c.lineWidth=1.6;
+  c.beginPath();c.rect(-7,-7,14,14);c.fill();c.stroke();
   c.fillStyle=d;
-  for(let r=0;r<2;r++)for(let k=0;k<2;k++)c.fillRect(-5.5+k*7,-9+r*5,4,3);
-  c.fillRect(-6.5,5,4.5,6);c.fillRect(2,5,4.5,6);},
-market(c,f,d){c.fillStyle=f;c.strokeStyle=d;c.lineWidth=1.4;
-  c.beginPath();c.rect(-10,2,20,9);c.fill();c.stroke();
-  for(let i=0;i<4;i++){c.fillStyle=i%2?f:d;
-    c.beginPath();c.rect(-10,-2+i*3,20,3);c.fill();c.stroke();}
-  c.fillStyle=d;c.fillRect(-6,5,4,6);c.fillRect(2,5,4,6);},
-office(c,f,d){c.fillStyle=f;c.strokeStyle=d;c.lineWidth=1.4;
-  c.beginPath();c.rect(-8,-13,16,26);c.fill();c.stroke();
+  for(let i=0;i<3;i++){c.fillRect(-10.5,-4+i*4,3,1.8);c.fillRect(7.5,-4+i*4,3,1.8);
+    c.fillRect(-4+i*4,-10.5,1.8,3);c.fillRect(-4+i*4,7.5,1.8,3);}
+  c.fillRect(-3,-3,6,6);},
+factory(c,f,d){c.fillStyle=f;c.strokeStyle=d;c.lineWidth=1.6;
+  c.beginPath();c.rect(-10,0,20,10);c.fill();c.stroke();
+  c.beginPath();c.rect(-7,-5,4,5);c.fill();c.stroke();
+  c.beginPath();c.rect(0,-8,4,8);c.fill();c.stroke();
   c.fillStyle=d;
-  for(let r=0;r<6;r++)c.fillRect(-5.6,-10.6+r*4,11.2,2.2);},
-chip(c,f,d){c.fillStyle=f;c.strokeStyle=d;c.lineWidth=1.4;
-  c.beginPath();c.rect(-8,-8,16,16);c.fill();c.stroke();
+  for(let i=0;i<3;i++)c.fillRect(-7+i*5,3,3,4);},
+mall(c,f,d){c.fillStyle=f;c.strokeStyle=d;c.lineWidth=1.6;
+  c.beginPath();c.rect(-10,-6,20,16);c.fill();c.stroke();
+  c.fillStyle=d;c.fillRect(-10,-6,20,3.5);
+  c.fillStyle=f;c.beginPath();c.rect(-5,0,10,10);c.fill();c.stroke();},
+bank(c,f,d){c.fillStyle=f;c.strokeStyle=d;c.lineWidth=1.6;
+  c.beginPath();c.moveTo(-11,-3);c.lineTo(0,-11);c.lineTo(11,-3);c.closePath();c.fill();c.stroke();
   c.fillStyle=d;
-  for(let i=0;i<3;i++){c.fillRect(-11.5,-5+i*5,3.5,2);c.fillRect(8,-5+i*5,3.5,2);
-    c.fillRect(-5+i*5,-11.5,2,3.5);c.fillRect(-5+i*5,8,2,3.5);}
-  c.fillRect(-4,-4,8,8);},
-factory(c,f,d){c.fillStyle=f;c.strokeStyle=d;c.lineWidth=1.4;
-  c.beginPath();c.rect(-11,0,22,11);c.fill();c.stroke();
-  c.beginPath();c.rect(-8,-6,4,6);c.fill();c.stroke();
-  c.beginPath();c.rect(0,-9,4,9);c.fill();c.stroke();
-  c.fillStyle=d;
-  for(let i=0;i<3;i++)c.fillRect(-7.5+i*5,3,3.5,4.5);},
-mall(c,f,d){c.fillStyle=f;c.strokeStyle=d;c.lineWidth=1.4;
-  c.beginPath();c.rect(-11,-6,22,17);c.fill();c.stroke();
-  c.fillStyle=d;c.fillRect(-11,-6,22,4);
-  c.fillStyle=f;c.beginPath();c.rect(-6,1,12,10);c.fill();c.stroke();},
-bank(c,f,d){c.fillStyle=f;c.strokeStyle=d;c.lineWidth=1.4;
-  c.beginPath();c.moveTo(-12,-4);c.lineTo(0,-11);c.lineTo(12,-4);c.closePath();c.fill();c.stroke();
-  c.fillStyle=d;
-  for(let i=0;i<4;i++)c.fillRect(-9+i*6,-3,3.6,11);
-  c.fillStyle=f;c.beginPath();c.rect(-11,8,22,3);c.fill();c.stroke();},
-box(c,f,d){c.fillStyle=f;c.strokeStyle=d;c.lineWidth=1.4;
-  c.beginPath();c.rect(-10,-8,20,16);c.fill();c.stroke();
-  c.fillStyle=d;c.fillRect(-10,-2,20,3);c.fillRect(-2,-8,3.2,16);},
-laptop(c,f,d){c.fillStyle=f;c.strokeStyle=d;c.lineWidth=1.4;
-  c.beginPath();c.rect(-9,-9,18,13);c.fill();c.stroke();
-  c.fillStyle=d;c.beginPath();c.rect(-7,-7,14,9);c.fill();
-  c.fillStyle=f;c.beginPath();c.moveTo(-12.5,4);c.lineTo(12.5,4);
-  c.lineTo(10,8);c.lineTo(-10,8);c.closePath();c.fill();c.stroke();},
-sprout(c,f,d){c.strokeStyle=d;c.lineWidth=1.8;c.lineCap='round';
+  for(let i=0;i<4;i++)c.fillRect(-8+i*5.3,-2,3.3,10);
+  c.fillStyle=f;c.beginPath();c.rect(-10,8,20,3);c.fill();c.stroke();},
+box(c,f,d){c.fillStyle=f;c.strokeStyle=d;c.lineWidth=1.6;
+  c.beginPath();c.rect(-9,-7,18,14);c.fill();c.stroke();
+  c.fillStyle=d;c.fillRect(-9,-1.5,18,3);c.fillRect(-1.5,-7,3,14);},
+laptop(c,f,d){c.fillStyle=f;c.strokeStyle=d;c.lineWidth=1.6;
+  c.beginPath();c.rect(-8,-9,16,12);c.fill();c.stroke();
+  c.fillStyle=d;c.beginPath();c.rect(-6,-7,12,8);c.fill();
+  c.fillStyle=f;c.beginPath();c.moveTo(-11,3);c.lineTo(11,3);c.lineTo(9,7);c.lineTo(-9,7);
+  c.closePath();c.fill();c.stroke();},
+sprout(c,f,d){c.strokeStyle=d;c.lineWidth=2;c.lineCap='round';
   c.beginPath();c.moveTo(0,11);c.lineTo(0,-2);c.stroke();
   c.fillStyle=f;
-  c.beginPath();c.ellipse(-5.5,-3.5,6,3.6,-0.5,0,7);c.fill();c.stroke();
-  c.beginPath();c.ellipse(5.5,-6.5,6,3.6,0.5,0,7);c.fill();c.stroke();},
-server(c,f,d){c.fillStyle=f;c.strokeStyle=d;c.lineWidth=1.4;
-  for(let i=0;i<3;i++){c.beginPath();c.rect(-9,-11+i*8,18,6);c.fill();c.stroke();}
+  c.beginPath();c.ellipse(-4.5,-3,5,3,-0.4,0,7);c.fill();c.stroke();
+  c.beginPath();c.ellipse(4.5,-6,5,3,0.4,0,7);c.fill();c.stroke();},
+server(c,f,d){c.fillStyle=f;c.strokeStyle=d;c.lineWidth=1.6;
+  for(let i=0;i<3;i++){c.beginPath();c.rect(-8,-11+i*8,16,6);c.fill();c.stroke();}
   c.fillStyle=d;
-  for(let i=0;i<3;i++)c.fillRect(-6.5,-9.5+i*8,2.2,3);},
+  for(let i=0;i<3;i++)c.fillRect(-5.5,-9.5+i*8,2,3);},
 road(c,f,d){c.fillStyle=d;
   c.beginPath();c.moveTo(-4,-13);c.lineTo(4,-13);c.lineTo(9,13);c.lineTo(-9,13);
   c.closePath();c.fill();
@@ -686,233 +563,222 @@ highway(c,f,d){c.fillStyle=d;
   c.beginPath();c.moveTo(-6,-13);c.lineTo(6,-13);c.lineTo(11,13);c.lineTo(-11,13);
   c.closePath();c.fill();
   c.fillStyle=f;
-  for(let i=-11;i<12;i+=6){c.fillRect(-3.5,i,2,3.5);c.fillRect(1.5,i,2,3.5);}},
+  for(let i=-11;i<12;i+=6){c.fillRect(-3,i,2,3.5);c.fillRect(1,i,2,3.5);}},
 bridge(c,f,d){c.fillStyle=d;
-  c.beginPath();c.rect(-13,-6,26,7);c.fill();
-  c.fillStyle=f;c.fillRect(-13,-4.5,26,2);
+  c.beginPath();c.rect(-12,-6,24,7);c.fill();
+  c.fillStyle=f;c.fillRect(-12,-4.5,24,2);
   c.strokeStyle=d;c.lineWidth=2;
-  c.beginPath();c.moveTo(-13,1);c.quadraticCurveTo(0,9,13,1);c.stroke();
-  c.fillRect(-13,6,26,3.5);},
-train(c,f,d){c.fillStyle=f;c.strokeStyle=d;c.lineWidth=1.4;
-  c.beginPath();c.moveTo(-9,10);c.lineTo(-9,-6);
-  c.quadraticCurveTo(-9,-11.5,0,-11.5);
-  c.quadraticCurveTo(9,-11.5,9,-6);c.lineTo(9,10);c.closePath();c.fill();c.stroke();
-  c.fillStyle=d;c.fillRect(-7,-9,14,4);c.fillRect(-6.5,-2,4.5,4.5);c.fillRect(2,-2,4.5,4.5);},
-station(c,f,d){c.fillStyle=f;c.strokeStyle=d;c.lineWidth=1.4;
-  c.beginPath();c.rect(-12,-7,24,16);c.fill();c.stroke();
-  c.fillStyle=d;c.fillRect(-12,-7,24,4);
-  c.fillStyle=f;c.beginPath();c.moveTo(-14,-7);c.lineTo(0,-13);c.lineTo(14,-7);
+  c.beginPath();c.moveTo(-12,1);c.quadraticCurveTo(0,8,12,1);c.stroke();
+  c.fillRect(-12,6,24,3.5);},
+train(c,f,d){c.fillStyle=f;c.strokeStyle=d;c.lineWidth=1.6;
+  c.beginPath();c.moveTo(-8,10);c.lineTo(-8,-5);
+  c.quadraticCurveTo(-8,-11,0,-11);
+  c.quadraticCurveTo(8,-11,8,-5);c.lineTo(8,10);c.closePath();c.fill();c.stroke();
+  c.fillStyle=d;c.fillRect(-6,-9,12,4);c.fillRect(-5.5,-2,4,4);c.fillRect(1.5,-2,4,4);},
+station(c,f,d){c.fillStyle=f;c.strokeStyle=d;c.lineWidth=1.6;
+  c.beginPath();c.rect(-11,-7,22,16);c.fill();c.stroke();
+  c.fillStyle=d;c.fillRect(-11,-7,22,4);
+  c.fillStyle=f;c.beginPath();c.moveTo(-13,-7);c.lineTo(0,-13);c.lineTo(13,-7);
   c.closePath();c.fill();c.stroke();
-  c.fillStyle=d;c.fillRect(-8,0,6,9);c.fillRect(2,0,6,9);},
-bus(c,f,d){c.fillStyle=f;c.strokeStyle=d;c.lineWidth=1.4;
-  rr(c,-11,-8,22,15,3);c.fill();c.stroke();
-  c.fillStyle=d;c.fillRect(-9,-6,18,4);
-  c.beginPath();c.arc(-6,8.5,2.6,0,7);c.fill();
-  c.beginPath();c.arc(6,8.5,2.6,0,7);c.fill();},
-bike(c,f,d){c.strokeStyle=d;c.lineWidth=1.8;
-  c.beginPath();c.arc(-6,5,5,0,7);c.stroke();
-  c.beginPath();c.arc(6,5,5,0,7);c.stroke();
-  c.beginPath();c.moveTo(-6,5);c.lineTo(-1,-3.5);c.lineTo(4,-3.5);c.lineTo(6,5);c.stroke();
+  c.fillStyle=d;c.fillRect(-7,0,5,8);c.fillRect(2,0,5,8);},
+bus(c,f,d){c.fillStyle=f;c.strokeStyle=d;c.lineWidth=1.6;
+  rr(c,-10,-8,20,14,3);c.fill();c.stroke();
+  c.fillStyle=d;c.fillRect(-8,-6,16,4);
+  c.beginPath();c.arc(-5.5,8,2.4,0,7);c.fill();
+  c.beginPath();c.arc(5.5,8,2.4,0,7);c.fill();},
+bike(c,f,d){c.strokeStyle=d;c.lineWidth=2;
+  c.beginPath();c.arc(-5.5,5,4.5,0,7);c.stroke();
+  c.beginPath();c.arc(5.5,5,4.5,0,7);c.stroke();
+  c.beginPath();c.moveTo(-5.5,5);c.lineTo(-1,-3.5);c.lineTo(4,-3.5);c.lineTo(5.5,5);c.stroke();
   c.beginPath();c.moveTo(-1,-3.5);c.lineTo(2,5);c.stroke();
-  c.fillStyle=f;c.beginPath();c.arc(0,-4.5,2.2,0,7);c.fill();},
-panel(c,f,d){c.fillStyle=f;c.strokeStyle=d;c.lineWidth=1.4;
-  c.save();c.rotate(-0.24);
-  c.beginPath();c.rect(-10.5,-6,21,12);c.fill();c.stroke();
+  c.fillStyle=f;c.beginPath();c.arc(0,-4.5,2,0,7);c.fill();},
+panel(c,f,d){c.fillStyle=f;c.strokeStyle=d;c.lineWidth=1.6;
+  c.save();c.rotate(-0.22);
+  c.beginPath();c.rect(-10,-5.5,20,11);c.fill();c.stroke();
   c.fillStyle=d;
-  for(let i=1;i<4;i++)c.fillRect(-10.5,-6+i*3,21,1);
-  for(let i=1;i<3;i++)c.fillRect(-10.5+i*7,-6,1,12);
+  for(let i=1;i<4;i++)c.fillRect(-10,-5.5+i*2.75,20,1);
+  for(let i=1;i<3;i++)c.fillRect(-10+i*6.6,-5.5,1,11);
   c.restore();
-  c.fillStyle=d;c.fillRect(-1.2,5,2.4,7);},
-turbine(c,f,d){c.strokeStyle=d;c.lineWidth=1.8;c.lineCap='round';
-  c.beginPath();c.moveTo(0,11.5);c.lineTo(0,-1);c.stroke();
+  c.fillStyle=d;c.fillRect(-1,4.5,2,6.5);},
+turbine(c,f,d){c.strokeStyle=d;c.lineWidth=2;c.lineCap='round';
+  c.beginPath();c.moveTo(0,11);c.lineTo(0,-1);c.stroke();
   c.fillStyle=f;
   for(let i=0;i<3;i++){c.save();c.rotate(i*2.0944);
-    c.beginPath();c.moveTo(0,0);c.lineTo(-2.2,-10.5);c.lineTo(2.2,-10.5);
-    c.closePath();c.fill();c.stroke();c.restore();}
-  c.beginPath();c.arc(0,-1,2.2,0,7);c.fill();c.stroke();},
-flame(c,f,d){c.fillStyle=f;c.strokeStyle=d;c.lineWidth=1.4;
-  c.beginPath();c.moveTo(0,-11.5);
-  c.bezierCurveTo(6.5,-4,9.5,0,9.5,4.2);
-  c.bezierCurveTo(9.5,9.5,4.5,11.5,0,11.5);
-  c.bezierCurveTo(-4.5,11.5,-9.5,9.5,-9.5,4.2);
-  c.bezierCurveTo(-9.5,0,-6.5,-4,0,-11.5);c.closePath();c.fill();c.stroke();
-  c.fillStyle=d;c.beginPath();c.ellipse(0,4,4,5,0,0,7);c.fill();},
-atom(c,f,d){c.strokeStyle=d;c.lineWidth=1.6;c.fillStyle=f;
+    c.beginPath();c.moveTo(0,0);c.lineTo(-2,-10);c.lineTo(2,-10);c.closePath();
+    c.fill();c.stroke();c.restore();}
+  c.beginPath();c.arc(0,-1,2,0,7);c.fill();c.stroke();},
+flame(c,f,d){c.fillStyle=f;c.strokeStyle=d;c.lineWidth=1.6;
+  c.beginPath();c.moveTo(0,-11);
+  c.bezierCurveTo(6,-4,9,0,9,4);
+  c.bezierCurveTo(9,9,4,11,0,11);
+  c.bezierCurveTo(-4,11,-9,9,-9,4);
+  c.bezierCurveTo(-9,0,-6,-4,0,-11);c.closePath();c.fill();c.stroke();
+  c.fillStyle=d;c.beginPath();c.ellipse(0,4,3.5,4.5,0,0,7);c.fill();},
+atom(c,f,d){c.strokeStyle=d;c.lineWidth=1.8;c.fillStyle=f;
   c.beginPath();c.arc(0,0,3,0,7);c.fill();
   for(let i=0;i<3;i++){c.save();c.rotate(i*1.0472);
-    c.beginPath();c.ellipse(0,0,11.5,4.6,0,0,7);c.stroke();c.restore();}},
-droplet(c,f,d){c.fillStyle=f;c.strokeStyle=d;c.lineWidth=1.4;
-  c.beginPath();c.moveTo(0,-11.5);
-  c.bezierCurveTo(7.5,-3.5,9.5,2,9.5,4.2);
-  c.bezierCurveTo(9.5,9.5,4.5,11.5,0,11.5);
-  c.bezierCurveTo(-4.5,11.5,-9.5,9.5,-9.5,4.2);
-  c.bezierCurveTo(-9.5,2,-7.5,-3.5,0,-11.5);c.closePath();c.fill();c.stroke();},
-dam(c,f,d){c.fillStyle=f;c.strokeStyle=d;c.lineWidth=1.4;
-  c.beginPath();c.moveTo(-11.5,4);c.lineTo(11.5,4);c.lineTo(8,10.5);c.lineTo(-8,10.5);
+    c.beginPath();c.ellipse(0,0,10.5,4.2,0,0,7);c.stroke();c.restore();}},
+droplet(c,f,d){c.fillStyle=f;c.strokeStyle=d;c.lineWidth=1.6;
+  c.beginPath();c.moveTo(0,-11);
+  c.bezierCurveTo(7,-3,9,2,9,4);
+  c.bezierCurveTo(9,9,4,11,0,11);
+  c.bezierCurveTo(-4,11,-9,9,-9,4);
+  c.bezierCurveTo(-9,2,-7,-3,0,-11);c.closePath();c.fill();c.stroke();},
+dam(c,f,d){c.fillStyle=f;c.strokeStyle=d;c.lineWidth=1.6;
+  c.beginPath();c.moveTo(-11,4);c.lineTo(11,4);c.lineTo(8,10);c.lineTo(-8,10);
   c.closePath();c.fill();c.stroke();
-  c.fillStyle=d;c.fillRect(-11.5,-2.5,23,4.5);},
-recycle(c,f,d){c.strokeStyle=d;c.lineWidth=2.4;c.lineCap='round';c.lineJoin='round';
+  c.fillStyle=d;c.fillRect(-11,-2.5,22,4.5);},
+recycle(c,f,d){c.strokeStyle=d;c.lineWidth=2.6;c.lineCap='round';c.lineJoin='round';
   for(let i=0;i<3;i++){c.save();c.rotate(i*2.0944);
-    c.beginPath();c.moveTo(-5.5,-5.5);c.lineTo(0,-9.8);c.lineTo(5.5,-5.5);c.stroke();
+    c.beginPath();c.moveTo(-5,-5);c.lineTo(0,-9);c.lineTo(5,-5);c.stroke();
     c.restore();}},
-wifi(c,f,d){c.strokeStyle=d;c.lineWidth=2.1;c.lineCap='round';c.fillStyle=f;
-  c.beginPath();c.arc(0,7.5,2.2,0,7);c.fill();
+wifi(c,f,d){c.strokeStyle=d;c.lineWidth=2.2;c.lineCap='round';c.fillStyle=f;
+  c.beginPath();c.arc(0,7,2,0,7);c.fill();
   for(let i=1;i<=3;i++){c.beginPath();
-    c.arc(0,7.5,i*4.6,Math.PI*1.22,Math.PI*1.78);c.stroke();}},
-school(c,f,d){c.fillStyle=f;c.strokeStyle=d;c.lineWidth=1.4;
-  c.beginPath();c.rect(-11,-2,22,12);c.fill();c.stroke();
-  c.beginPath();c.moveTo(-12,-2);c.lineTo(0,-9);c.lineTo(12,-2);c.closePath();c.fill();c.stroke();
+    c.arc(0,7,i*4.4,Math.PI*1.22,Math.PI*1.78);c.stroke();}},
+school(c,f,d){c.fillStyle=f;c.strokeStyle=d;c.lineWidth=1.6;
+  c.beginPath();c.rect(-10,-2,20,12);c.fill();c.stroke();
+  c.beginPath();c.moveTo(-11,-2);c.lineTo(0,-9);c.lineTo(11,-2);c.closePath();c.fill();c.stroke();
   c.fillStyle=d;c.fillRect(-3,3,6,7);
-  c.fillRect(-8.5,0,3.5,3.5);c.fillRect(5,0,3.5,3.5);
-  c.fillRect(0,-17,1.6,8);
-  c.beginPath();c.moveTo(1.6,-17);c.lineTo(7,-15.2);c.lineTo(1.6,-13.4);c.closePath();c.fill();},
-grad(c,f,d){c.fillStyle=f;c.strokeStyle=d;c.lineWidth=1.4;
-  c.beginPath();c.moveTo(-11,-3);c.lineTo(0,-9.5);c.lineTo(11,-3);c.lineTo(0,3.5);
+  c.fillRect(-8,0,3.5,3.5);c.fillRect(4.5,0,3.5,3.5);
+  c.fillRect(0,-16,1.5,7);
+  c.beginPath();c.moveTo(1.5,-16);c.lineTo(6.5,-14.3);c.lineTo(1.5,-12.6);c.closePath();c.fill();},
+grad(c,f,d){c.fillStyle=f;c.strokeStyle=d;c.lineWidth=1.6;
+  c.beginPath();c.moveTo(-10,-3);c.lineTo(0,-9.5);c.lineTo(10,-3);c.lineTo(0,3);
   c.closePath();c.fill();c.stroke();
-  c.fillStyle=d;c.fillRect(-6,3.5,12,3);
-  c.strokeStyle=d;c.lineWidth=1.6;
-  c.beginPath();c.moveTo(8.5,-1);c.lineTo(8.5,7.5);c.stroke();},
-hospital(c,f,d){c.fillStyle=f;c.strokeStyle=d;c.lineWidth=1.4;
-  c.beginPath();c.rect(-10,-8,20,18);c.fill();c.stroke();
-  c.fillStyle=d;c.fillRect(-2.2,-5.5,4.4,13);c.fillRect(-6.5,-1.2,13,4.4);},
-cross(c,f,d){c.fillStyle=f;c.strokeStyle=d;c.lineWidth=1.4;
-  rr(c,-4,-11.5,8,23,2);c.fill();c.stroke();
-  rr(c,-11.5,-4,23,8,2);c.fill();c.stroke();},
-bell(c,f,d){c.fillStyle=f;c.strokeStyle=d;c.lineWidth=1.4;
-  c.beginPath();c.moveTo(-8.5,6);c.quadraticCurveTo(-8.5,-9.5,0,-9.5);
-  c.quadraticCurveTo(8.5,-9.5,8.5,6);c.closePath();c.fill();c.stroke();
-  c.fillStyle=d;c.beginPath();c.arc(0,8,3.2,0,Math.PI);c.fill();},
-shield(c,f,d){c.fillStyle=f;c.strokeStyle=d;c.lineWidth=1.4;
-  c.beginPath();c.moveTo(0,-11.5);c.lineTo(9.5,-7.5);c.lineTo(9.5,2);
-  c.quadraticCurveTo(9.5,8.5,0,11.5);
-  c.quadraticCurveTo(-9.5,8.5,-9.5,2);c.lineTo(-9.5,-7.5);
-  c.closePath();c.fill();c.stroke();},
-elder(c,f,d){c.fillStyle=f;c.strokeStyle=d;c.lineWidth=1.5;c.lineCap='round';
-  c.beginPath();c.arc(0,-7,3.6,0,7);c.fill();c.stroke();
-  c.beginPath();c.moveTo(-4.5,10.5);c.lineTo(-4.5,-3);
-  c.quadraticCurveTo(-4.5,-2,0,-2);c.lineTo(4.5,-2);c.lineTo(4.5,10.5);c.stroke();
-  c.beginPath();c.moveTo(8.5,10.5);c.lineTo(8.5,-2.5);c.stroke();},
-stadium(c,f,d){c.fillStyle=f;c.strokeStyle=d;c.lineWidth=1.4;
-  c.beginPath();c.ellipse(0,2,11.5,7.5,0,0,7);c.fill();c.stroke();
-  c.fillStyle=d;c.beginPath();c.ellipse(0,3,6.2,3.6,0,0,7);c.fill();},
-tree(c,f,d){c.fillStyle=d;c.fillRect(-1.6,2,3.2,8.5);
-  c.fillStyle=f;c.strokeStyle=d;c.lineWidth=1.4;
-  c.beginPath();c.arc(0,-2,8.2,0,7);c.fill();c.stroke();},
-pine(c,f,d){c.fillStyle=d;c.fillRect(-1.6,4,3.2,6.5);
-  c.fillStyle=f;c.strokeStyle=d;c.lineWidth=1.4;
-  c.beginPath();c.moveTo(0,-12.5);c.lineTo(7,-2);c.lineTo(-7,-2);c.closePath();c.fill();c.stroke();
-  c.beginPath();c.moveTo(0,-6);c.lineTo(9.5,4.5);c.lineTo(-9.5,4.5);c.closePath();c.fill();c.stroke();},
-carrot(c,f,d){c.fillStyle=f;c.strokeStyle=d;c.lineWidth=1.4;
-  c.beginPath();c.moveTo(0,10.5);c.lineTo(-5.5,-1);c.lineTo(5.5,-1);c.closePath();
-  c.fill();c.stroke();
-  c.strokeStyle=d;c.lineWidth=1.9;c.lineCap='round';
-  c.beginPath();c.moveTo(-4.5,-2);c.lineTo(-9.5,-8.5);c.stroke();
-  c.beginPath();c.moveTo(0,-2);c.lineTo(0,-10.5);c.stroke();
-  c.beginPath();c.moveTo(4.5,-2);c.lineTo(9.5,-8.5);c.stroke();},
-reed(c,f,d){c.strokeStyle=d;c.lineWidth=1.9;c.lineCap='round';
-  for(let i=-1;i<=1;i++){c.beginPath();c.moveTo(i*4.5,11.5);c.lineTo(i*4.5,-4);c.stroke();}
-  c.fillStyle=f;
-  for(let i=-1;i<=1;i++){c.beginPath();c.ellipse(i*4.5,-6.5,2.2,4.4,0,0,7);
-    c.fill();c.stroke();}},
-roofgarden(c,f,d){c.fillStyle=f;c.strokeStyle=d;c.lineWidth=1.4;
-  c.beginPath();c.moveTo(-11,1);c.lineTo(0,-9);c.lineTo(11,1);c.closePath();c.fill();c.stroke();
-  c.beginPath();c.rect(-8,1,16,10);c.fill();c.stroke();
-  c.fillStyle=d;c.fillRect(-3,5,6,6);
-  c.fillStyle=f;
-  for(let i=0;i<3;i++){c.beginPath();c.arc(-6+i*6,0,2.4,0,7);c.fill();c.stroke();}},
-museum(c,f,d){c.fillStyle=f;c.strokeStyle=d;c.lineWidth=1.4;
-  c.beginPath();c.moveTo(-12,-4);c.lineTo(0,-11);c.lineTo(12,-4);c.closePath();
-  c.fill();c.stroke();
-  c.fillStyle=d;
-  for(let i=0;i<4;i++)c.fillRect(-9+i*6,-3,3.6,11);
-  c.fillStyle=f;c.beginPath();c.rect(-11,8,22,3);c.fill();c.stroke();},
-masks(c,f,d){c.fillStyle=f;c.strokeStyle=d;c.lineWidth=1.4;
-  c.beginPath();c.ellipse(-5.2,0,5.2,7.2,0,0,7);c.fill();c.stroke();
-  c.beginPath();c.ellipse(5.2,0,5.2,7.2,0,0,7);c.fill();c.stroke();
-  c.fillStyle=d;
-  c.beginPath();c.arc(-5.2,-1,1.4,0,7);c.fill();
-  c.beginPath();c.arc(5.2,-1,1.4,0,7);c.fill();
-  c.beginPath();c.arc(-5.2,3,2.6,0,Math.PI);c.fill();},
-lantern(c,f,d){c.fillStyle=f;c.strokeStyle=d;c.lineWidth=1.4;
-  c.beginPath();c.ellipse(0,0,8.2,9.2,0,0,7);c.fill();c.stroke();
-  c.fillStyle=d;c.fillRect(-8.2,-3,16.4,1.6);c.fillRect(-8.2,2,16.4,1.6);
-  c.fillRect(-2.2,-13.5,4.4,4.5);c.fillRect(-2.2,9,4.4,4.5);},
-note(c,f,d){c.fillStyle=f;c.strokeStyle=d;c.lineWidth=1.4;
-  c.beginPath();c.ellipse(-5,6,4.2,3.2,0,0,7);c.fill();c.stroke();
-  c.beginPath();c.ellipse(5,3,4.2,3.2,0,0,7);c.fill();c.stroke();
+  c.fillStyle=d;c.fillRect(-5.5,3,11,3);
   c.strokeStyle=d;c.lineWidth=1.8;
-  c.beginPath();c.moveTo(-1,6);c.lineTo(-1,-8.5);c.lineTo(9.2,-10.5);c.lineTo(9.2,3);
-  c.stroke();},
-book(c,f,d){c.fillStyle=f;c.strokeStyle=d;c.lineWidth=1.4;
-  c.beginPath();c.moveTo(0,-8.5);
-  c.quadraticCurveTo(-6,-10.5,-11.5,-8.5);c.lineTo(-11.5,8.5);
-  c.quadraticCurveTo(-6,6.5,0,8.5);
-  c.quadraticCurveTo(6,6.5,11.5,8.5);c.lineTo(11.5,-8.5);
-  c.quadraticCurveTo(6,-10.5,0,-8.5);c.closePath();c.fill();c.stroke();
-  c.strokeStyle=d;c.lineWidth=1.6;
-  c.beginPath();c.moveTo(0,-8.5);c.lineTo(0,8.5);c.stroke();},
-people(c,f,d){c.fillStyle=f;c.strokeStyle=d;c.lineWidth=1.4;
-  c.beginPath();c.arc(-5.2,-6,3.6,0,7);c.fill();c.stroke();
-  c.beginPath();c.arc(5.2,-6,3.6,0,7);c.fill();c.stroke();
-  c.beginPath();c.arc(-5.2,3,5.2,Math.PI,0);c.closePath();c.fill();c.stroke();
-  c.beginPath();c.arc(5.2,3,5.2,Math.PI,0);c.closePath();c.fill();c.stroke();},
-cityhall(c,f,d){c.fillStyle=f;c.strokeStyle=d;c.lineWidth=1.4;
-  c.beginPath();c.rect(-10,0,20,11);c.fill();c.stroke();
-  c.beginPath();c.arc(0,0,7,Math.PI,0);c.fill();c.stroke();
-  c.fillStyle=d;c.fillRect(-3.2,4,6.4,7);
-  c.fillRect(-2.6,-11.5,5.2,3.2);},
-fountain(c,f,d){c.fillStyle=f;c.strokeStyle=d;c.lineWidth=1.4;
-  c.beginPath();c.ellipse(0,6.5,11.5,4.2,0,0,7);c.fill();c.stroke();
-  c.fillStyle=d;c.fillRect(-2.2,-3.5,4.4,9.5);
-  c.beginPath();c.arc(0,-5.5,3.2,0,7);c.fill();
-  c.strokeStyle=d;c.lineWidth=1.5;
-  c.beginPath();c.moveTo(-7.5,-4.5);c.quadraticCurveTo(0,-10,7.5,-4.5);c.stroke();},
-cable(c,f,d){c.strokeStyle=d;c.lineWidth=2.5;c.lineCap='round';
-  c.beginPath();c.moveTo(-11.5,6.5);c.quadraticCurveTo(0,-6.5,11.5,6.5);c.stroke();
-  c.fillStyle=f;
-  c.beginPath();c.arc(-11.5,6.5,2.8,0,7);c.fill();c.stroke();
-  c.beginPath();c.arc(11.5,6.5,2.8,0,7);c.fill();c.stroke();},
-plane(c,f,d){c.fillStyle=f;c.strokeStyle=d;c.lineWidth=1.3;
-  c.beginPath();
-  c.moveTo(0,-11);c.lineTo(2.2,-2);c.lineTo(11,2);c.lineTo(11,4.6);
-  c.lineTo(2.2,2.4);c.lineTo(1.4,8);c.lineTo(4.6,11);c.lineTo(4.6,12.6);
-  c.lineTo(0,11);c.lineTo(-4.6,12.6);c.lineTo(-4.6,11);c.lineTo(-1.4,8);
-  c.lineTo(-2.2,2.4);c.lineTo(-11,4.6);c.lineTo(-11,2);c.lineTo(-2.2,-2);
+  c.beginPath();c.moveTo(8,-1);c.lineTo(8,7);c.stroke();},
+hospital(c,f,d){c.fillStyle=f;c.strokeStyle=d;c.lineWidth=1.6;
+  c.beginPath();c.rect(-9,-7,18,17);c.fill();c.stroke();
+  c.fillStyle=d;c.fillRect(-2,-5,4,12);c.fillRect(-6,-1,12,4);},
+cross(c,f,d){c.fillStyle=f;c.strokeStyle=d;c.lineWidth=1.6;
+  rr(c,-3.5,-10,7,20,1);c.fill();c.stroke();
+  rr(c,-10,-3.5,20,7,1);c.fill();c.stroke();},
+bell(c,f,d){c.fillStyle=f;c.strokeStyle=d;c.lineWidth=1.6;
+  c.beginPath();c.moveTo(-7.5,6);c.quadraticCurveTo(-7.5,-9,0,-9);
+  c.quadraticCurveTo(7.5,-9,7.5,6);c.closePath();c.fill();c.stroke();
+  c.fillStyle=d;c.beginPath();c.arc(0,7.5,3,0,Math.PI);c.fill();},
+shield(c,f,d){c.fillStyle=f;c.strokeStyle=d;c.lineWidth=1.6;
+  c.beginPath();c.moveTo(0,-10.5);c.lineTo(8.5,-7);c.lineTo(8.5,2);
+  c.quadraticCurveTo(8.5,8,0,10.5);
+  c.quadraticCurveTo(-8.5,8,-8.5,2);c.lineTo(-8.5,-7);
   c.closePath();c.fill();c.stroke();},
-ship(c,f,d){c.fillStyle=f;c.strokeStyle=d;c.lineWidth=1.4;
-  c.beginPath();c.moveTo(-12,4);c.lineTo(12,4);c.lineTo(9,10);c.lineTo(-9,10);
+elder(c,f,d){c.fillStyle=f;c.strokeStyle=d;c.lineWidth=1.6;c.lineCap='round';
+  c.beginPath();c.arc(0,-7,3.4,0,7);c.fill();c.stroke();
+  c.beginPath();c.moveTo(-4,10);c.lineTo(-4,-2.5);
+  c.quadraticCurveTo(-4,-2,0,-2);c.lineTo(4,-2);c.lineTo(4,10);c.stroke();
+  c.beginPath();c.moveTo(7.5,10);c.lineTo(7.5,-2);c.stroke();},
+stadium(c,f,d){c.fillStyle=f;c.strokeStyle=d;c.lineWidth=1.6;
+  c.beginPath();c.ellipse(0,2,10.5,7,0,0,7);c.fill();c.stroke();
+  c.fillStyle=d;c.beginPath();c.ellipse(0,3,5.5,3.2,0,0,7);c.fill();},
+tree(c,f,d){c.fillStyle=d;c.fillRect(-1.4,2,2.8,8);
+  c.fillStyle=f;c.strokeStyle=d;c.lineWidth=1.6;
+  c.beginPath();c.arc(0,-2,7.5,0,7);c.fill();c.stroke();},
+pine(c,f,d){c.fillStyle=d;c.fillRect(-1.4,4,2.8,6);
+  c.fillStyle=f;c.strokeStyle=d;c.lineWidth=1.6;
+  c.beginPath();c.moveTo(0,-11);c.lineTo(6.5,-2);c.lineTo(-6.5,-2);c.closePath();c.fill();c.stroke();
+  c.beginPath();c.moveTo(0,-5.5);c.lineTo(8.5,4.5);c.lineTo(-8.5,4.5);c.closePath();c.fill();c.stroke();},
+carrot(c,f,d){c.fillStyle=f;c.strokeStyle=d;c.lineWidth=1.6;
+  c.beginPath();c.moveTo(0,10);c.lineTo(-5,-1);c.lineTo(5,-1);c.closePath();c.fill();c.stroke();
+  c.strokeStyle=d;c.lineWidth=2;c.lineCap='round';
+  c.beginPath();c.moveTo(-4,-2);c.lineTo(-8.5,-7.5);c.stroke();
+  c.beginPath();c.moveTo(0,-2);c.lineTo(0,-9.5);c.stroke();
+  c.beginPath();c.moveTo(4,-2);c.lineTo(8.5,-7.5);c.stroke();},
+reed(c,f,d){c.strokeStyle=d;c.lineWidth=2;c.lineCap='round';
+  for(let i=-1;i<=1;i++){c.beginPath();c.moveTo(i*4,10);c.lineTo(i*4,-3);c.stroke();}
+  c.fillStyle=f;
+  for(let i=-1;i<=1;i++){c.beginPath();c.ellipse(i*4,-6,2,4,0,0,7);c.fill();c.stroke();}},
+roofgarden(c,f,d){c.fillStyle=f;c.strokeStyle=d;c.lineWidth=1.6;
+  c.beginPath();c.moveTo(-10,1);c.lineTo(0,-9);c.lineTo(10,1);c.closePath();c.fill();c.stroke();
+  c.beginPath();c.rect(-7,1,14,9);c.fill();c.stroke();
+  c.fillStyle=d;c.fillRect(-2.5,4.5,5,5.5);
+  c.fillStyle=f;
+  for(let i=0;i<3;i++){c.beginPath();c.arc(-5.5+i*5.5,0,2.2,0,7);c.fill();c.stroke();}},
+museum(c,f,d){c.fillStyle=f;c.strokeStyle=d;c.lineWidth=1.6;
+  c.beginPath();c.moveTo(-11,-3);c.lineTo(0,-11);c.lineTo(11,-3);c.closePath();c.fill();c.stroke();
+  c.fillStyle=d;
+  for(let i=0;i<4;i++)c.fillRect(-8+i*5.3,-2,3.3,10);
+  c.fillStyle=f;c.beginPath();c.rect(-10,8,20,3);c.fill();c.stroke();},
+masks(c,f,d){c.fillStyle=f;c.strokeStyle=d;c.lineWidth=1.6;
+  c.beginPath();c.ellipse(-4.8,0,4.8,6.8,0,0,7);c.fill();c.stroke();
+  c.beginPath();c.ellipse(4.8,0,4.8,6.8,0,0,7);c.fill();c.stroke();
+  c.fillStyle=d;
+  c.beginPath();c.arc(-4.8,-1,1.2,0,7);c.fill();
+  c.beginPath();c.arc(4.8,-1,1.2,0,7);c.fill();
+  c.beginPath();c.arc(-4.8,2.5,2.2,0,Math.PI);c.fill();},
+lantern(c,f,d){c.fillStyle=f;c.strokeStyle=d;c.lineWidth=1.6;
+  c.beginPath();c.ellipse(0,0,7.5,8.5,0,0,7);c.fill();c.stroke();
+  c.fillStyle=d;c.fillRect(-7.5,-3,15,1.5);c.fillRect(-7.5,2,15,1.5);
+  c.fillRect(-2,-12.5,4,4);c.fillRect(-2,9,4,4);},
+note(c,f,d){c.fillStyle=f;c.strokeStyle=d;c.lineWidth=1.6;
+  c.beginPath();c.ellipse(-4.5,5.5,3.8,2.8,0,0,7);c.fill();c.stroke();
+  c.beginPath();c.ellipse(4.5,3,3.8,2.8,0,0,7);c.fill();c.stroke();
+  c.strokeStyle=d;c.lineWidth=2;
+  c.beginPath();c.moveTo(-1,5.5);c.lineTo(-1,-8);c.lineTo(8.5,-10);c.lineTo(8.5,3);c.stroke();},
+book(c,f,d){c.fillStyle=f;c.strokeStyle=d;c.lineWidth=1.6;
+  c.beginPath();c.moveTo(0,-8.5);
+  c.quadraticCurveTo(-6,-10.5,-11,-8.5);c.lineTo(-11,8.5);
+  c.quadraticCurveTo(-6,6.5,0,8.5);
+  c.quadraticCurveTo(6,6.5,11,8.5);c.lineTo(11,-8.5);
+  c.quadraticCurveTo(6,-10.5,0,-8.5);c.closePath();c.fill();c.stroke();
+  c.strokeStyle=d;c.lineWidth=1.8;
+  c.beginPath();c.moveTo(0,-8.5);c.lineTo(0,8.5);c.stroke();},
+people(c,f,d){c.fillStyle=f;c.strokeStyle=d;c.lineWidth=1.6;
+  c.beginPath();c.arc(-4.8,-6,3.4,0,7);c.fill();c.stroke();
+  c.beginPath();c.arc(4.8,-6,3.4,0,7);c.fill();c.stroke();
+  c.beginPath();c.arc(-4.8,3,5,Math.PI,0);c.closePath();c.fill();c.stroke();
+  c.beginPath();c.arc(4.8,3,5,Math.PI,0);c.closePath();c.fill();c.stroke();},
+cityhall(c,f,d){c.fillStyle=f;c.strokeStyle=d;c.lineWidth=1.6;
+  c.beginPath();c.rect(-9,0,18,11);c.fill();c.stroke();
+  c.beginPath();c.arc(0,0,6.5,Math.PI,0);c.fill();c.stroke();
+  c.fillStyle=d;c.fillRect(-3,4,6,7);
+  c.fillRect(-2.4,-11,4.8,3);},
+fountain(c,f,d){c.fillStyle=f;c.strokeStyle=d;c.lineWidth=1.6;
+  c.beginPath();c.ellipse(0,6.5,10.5,4,0,0,7);c.fill();c.stroke();
+  c.fillStyle=d;c.fillRect(-2,-3,4,9);
+  c.beginPath();c.arc(0,-5,3,0,7);c.fill();
+  c.strokeStyle=d;c.lineWidth=1.8;
+  c.beginPath();c.moveTo(-7,-4);c.quadraticCurveTo(0,-9,7,-4);c.stroke();},
+cable(c,f,d){c.strokeStyle=d;c.lineWidth=2.8;c.lineCap='round';
+  c.beginPath();c.moveTo(-11,6.5);c.quadraticCurveTo(0,-6.5,11,6.5);c.stroke();
+  c.fillStyle=f;
+  c.beginPath();c.arc(-11,6.5,2.6,0,7);c.fill();c.stroke();
+  c.beginPath();c.arc(11,6.5,2.6,0,7);c.fill();c.stroke();},
+plane(c,f,d){c.fillStyle=f;c.strokeStyle=d;c.lineWidth=1.4;
+  c.beginPath();
+  c.moveTo(0,-11);c.lineTo(2,-2);c.lineTo(11,2);c.lineTo(11,4.5);
+  c.lineTo(2,2.4);c.lineTo(1.4,8);c.lineTo(4.5,10.5);c.lineTo(4.5,12);
+  c.lineTo(0,10.5);c.lineTo(-4.5,12);c.lineTo(-4.5,10.5);c.lineTo(-1.4,8);
+  c.lineTo(-2,2.4);c.lineTo(-11,4.5);c.lineTo(-11,2);c.lineTo(-2,-2);
+  c.closePath();c.fill();c.stroke();},
+ship(c,f,d){c.fillStyle=f;c.strokeStyle=d;c.lineWidth=1.6;
+  c.beginPath();c.moveTo(-11,4);c.lineTo(11,4);c.lineTo(8,10);c.lineTo(-8,10);
   c.closePath();c.fill();c.stroke();
   c.fillStyle=d;
-  c.fillRect(-8,-6,5,9);c.fillRect(-2,-4,5,7);c.fillRect(4,-7,5,10);
-  c.fillStyle=f;c.fillRect(-9.5,-1,20,1.5);},
-ferry(c,f,d){c.fillStyle=f;c.strokeStyle=d;c.lineWidth=1.4;
-  c.beginPath();c.moveTo(-10,3);c.lineTo(10,3);c.lineTo(7,9);c.lineTo(-7,9);
+  c.fillRect(-7,-6,5,9);c.fillRect(-2,-4,5,7);c.fillRect(3,-7,5,10);
+  c.fillStyle=f;c.fillRect(-9,-1,18,1.5);},
+ferry(c,f,d){c.fillStyle=f;c.strokeStyle=d;c.lineWidth=1.6;
+  c.beginPath();c.moveTo(-9,3);c.lineTo(9,3);c.lineTo(6.5,9);c.lineTo(-6.5,9);
   c.closePath();c.fill();c.stroke();
-  c.fillStyle=d;c.fillRect(-4,-4,8,6);
-  c.fillRect(-1,-10,2,6);},
-heli(c,f,d){c.fillStyle=f;c.strokeStyle=d;c.lineWidth=1.4;
-  c.beginPath();c.ellipse(0,2,8,5,0,0,7);c.fill();c.stroke();
-  c.fillStyle=d;c.fillRect(-7,-1,3.5,3);c.fillRect(1,6,7,1.6);
-  c.strokeStyle=d;c.lineWidth=1.6;
+  c.fillStyle=d;c.fillRect(-4,-4,8,6);c.fillRect(-1,-10,2,6);},
+heli(c,f,d){c.fillStyle=f;c.strokeStyle=d;c.lineWidth=1.6;
+  c.beginPath();c.ellipse(0,2,7.5,4.8,0,0,7);c.fill();c.stroke();
+  c.fillStyle=d;c.fillRect(-6.5,-1,3.2,3);c.fillRect(1,6,6.5,1.5);
+  c.strokeStyle=d;c.lineWidth=1.8;
   c.beginPath();c.moveTo(-11,-5);c.lineTo(11,-5);c.stroke();
   c.beginPath();c.moveTo(0,-5);c.lineTo(0,-1);c.stroke();},
-parking(c,f,d){c.fillStyle=d;rr(c,-9,-9,18,18,3);c.fill();
+parking(c,f,d){c.fillStyle=d;rr(c,-8,-8,16,16,2);c.fill();
   c.fillStyle=f;c.font='bold 15px sans-serif';c.textAlign='center';c.textBaseline='middle';
   c.fillText('P',0,1);},
 hydro(c,f,d){c.fillStyle=d;
-  c.beginPath();c.moveTo(-12,2);c.lineTo(12,2);c.lineTo(9,11);c.lineTo(-9,11);
+  c.beginPath();c.moveTo(-11,2);c.lineTo(11,2);c.lineTo(8,10);c.lineTo(-8,10);
   c.closePath();c.fill();
   c.fillStyle=f;
-  c.beginPath();c.moveTo(-12,-9);c.quadraticCurveTo(-4,-3,-4,2);
-  c.lineTo(-4,2);c.lineTo(-12,2);c.closePath();c.fill();
-  c.beginPath();c.moveTo(12,-9);c.quadraticCurveTo(4,-3,4,2);
-  c.lineTo(4,2);c.lineTo(12,2);c.closePath();c.fill();},
-anchor(c,f,d){c.strokeStyle=d;c.fillStyle=f;c.lineWidth=2;c.lineCap='round';
-  c.beginPath();c.arc(0,-8,3,0,7);c.stroke();
-  c.beginPath();c.moveTo(0,-5);c.lineTo(0,8);c.stroke();
-  c.beginPath();c.moveTo(-6.5,-1);c.lineTo(6.5,-1);c.stroke();
-  c.beginPath();c.moveTo(-9,4);c.quadraticCurveTo(-9,10.5,0,10.5);
-  c.quadraticCurveTo(9,10.5,9,4);c.stroke();},
+  c.beginPath();c.moveTo(-11,-9);c.quadraticCurveTo(-4,-3,-4,2);
+  c.lineTo(-4,2);c.lineTo(-11,2);c.closePath();c.fill();
+  c.beginPath();c.moveTo(11,-9);c.quadraticCurveTo(4,-3,4,2);
+  c.lineTo(4,2);c.lineTo(11,2);c.closePath();c.fill();},
 };
 function drawIcon(c,id,x,y,size,fill,dark){
   c.save();
@@ -924,7 +790,7 @@ function drawIcon(c,id,x,y,size,fill,dark){
 }
 
 /* ==========================================================
-   CATEGORIES & BUILDINGS
+   CATEGORIES
    ========================================================== */
 const CATS={
   road:{name:'Roads & Transit',color:'#94a3b8'},
@@ -937,6 +803,9 @@ const CATS={
   civic:{name:'Civic & Governance',color:'#14b8a6'},
 };
 
+/* ==========================================================
+   BUILDINGS
+   ========================================================== */
 const BUILDINGS=[
 {id:'road',icon:'road',n:'Local Street',c:'road',from:1900,cost:6000,up:60,e:{},size:1,isRoad:true,cap:400,bt:0},
 {id:'highway',icon:'highway',n:'Arterial Road',c:'road',from:1930,cost:22000,up:220,e:{pollution:3},size:1,isRoad:true,cap:1800,bt:0},
@@ -1004,84 +873,197 @@ const BUILDINGS=[
 const BMAP=Object.fromEntries(BUILDINGS.map(b=>[b.id,b]));
 
 /* ==========================================================
-   LOCATIONS
+   LOCATIONS (14 cities, each with limits + trade bonuses)
    ========================================================== */
 const LOCATIONS=[
 {id:'singapore',name:'Singapore',flag:'🇸🇬',region:'Southeast Asia',map:'island',seed:11,
  grid:20,funds:2200000,growth:1.0,energyMult:1.15,waterMult:1.0,incomeMult:1.25,
- desc:'Island city-state and global trade hub — land is scarce, cooling costs bite.',
+ desc:'Island city-state and global trade hub — land is scarce, so heavy industry is limited.',
  tags:[['Trade hub','good'],['High cooling','bad'],['Scarce land','bad'],['Port bonus','tr']],
  trade:{bonus:{economy:1.35,infra:1.15},label:'Global port — economy +35%'},
+ limits:{industry:3,gas:1,airport:1,port:2,nuclear:0,forest:3},
  start:[{id:'road',x:9,y:10},{id:'road',x:10,y:10},{id:'road',x:11,y:10},
         {id:'road',x:10,y:9},{id:'road',x:10,y:11},
         {id:'market',x:9,y:9},{id:'affordable',x:11,y:9},
         {id:'port',x:14,y:13},{id:'office',x:11,y:11},{id:'park',x:8,y:11}]},
+
 {id:'rotterdam',name:'Rotterdam',flag:'🇳🇱',region:'Rhine Delta, Europe',map:'delta',seed:23,
  grid:22,funds:1800000,growth:0.8,energyMult:1.0,waterMult:0.85,incomeMult:1.1,
  desc:'Low-lying delta port adapting to sea-level rise. Water is abundant; dry land is precious.',
  tags:[['Flood-adaptive','good'],['Water surplus','good'],['Slow growth','bad'],['Logistics','tr']],
  trade:{bonus:{economy:1.25,road:1.15},label:'Logistics hub — economy +25%'},
+ limits:{industry:6,gas:3,nuclear:1,port:2,airport:1},
  start:[{id:'road',x:10,y:11},{id:'road',x:11,y:11},{id:'road',x:12,y:11},
         {id:'road',x:11,y:10},{id:'road',x:11,y:12},
         {id:'port',x:15,y:12},{id:'logistics',x:9,y:12},
         {id:'affordable',x:10,y:10},{id:'market',x:12,y:10},{id:'industry',x:8,y:14}]},
+
 {id:'nairobi',name:'Nairobi',flag:'🇰🇪',region:'East Africa',map:'inland',seed:37,
  grid:26,funds:900000,growth:1.6,energyMult:0.9,waterMult:1.05,incomeMult:0.85,
  desc:'Fast-growing hub with a young population. Infrastructure must race to keep up.',
  tags:[['Fast growth','good'],['Tiny budget','bad'],['Infra gap','bad'],['Regional market','tr']],
  trade:{bonus:{economy:1.15,services:1.1},label:'Regional market — economy +15%'},
+ limits:{industry:8,gas:4,port:0,nuclear:0,airport:1},
  start:[{id:'road',x:12,y:13},{id:'road',x:13,y:13},{id:'road',x:14,y:13},
         {id:'road',x:13,y:12},{id:'road',x:13,y:14},
         {id:'market',x:12,y:12},{id:'affordable',x:14,y:12},
         {id:'industry',x:11,y:15},{id:'school',x:15,y:14}]},
+
 {id:'reykjavik',name:'Reykjavík',flag:'🇮🇸',region:'North Atlantic',map:'coastal',seed:41,
  grid:18,funds:2000000,growth:0.6,energyMult:1.4,waterMult:0.9,incomeMult:1.05,
  desc:'Geothermal energy and clean air make people happy — but heating demand is enormous.',
  tags:[['Clean air','good'],['High trust','good'],['Heavy heating','bad'],['Fishing port','tr']],
  trade:{bonus:{infra:1.2,green:1.15},label:'Geothermal nation — utilities +20%'},
+ limits:{industry:3,gas:0,nuclear:0,airport:1,port:1,forest:2},
  start:[{id:'road',x:8,y:9},{id:'road',x:9,y:9},{id:'road',x:10,y:9},
         {id:'road',x:9,y:8},{id:'road',x:9,y:10},
         {id:'ferry',x:13,y:10},{id:'market',x:8,y:8},
         {id:'affordable',x:10,y:8},{id:'school',x:9,y:11}]},
+
 {id:'phoenix',name:'Phoenix',flag:'🇺🇸',region:'Sonoran Desert, N. America',map:'desert',seed:53,
  grid:30,funds:1600000,growth:1.0,energyMult:1.3,waterMult:1.8,incomeMult:1.15,
  desc:'Sprawling desert metropolis. Air conditioning is life; water is the binding constraint.',
  tags:[['Wealthy taxes','good'],['Water scarcity','bad'],['Car sprawl','bad'],['Tech economy','tr']],
  trade:{bonus:{economy:1.2,services:1.15},label:'Tech & services — economy +20%'},
+ limits:{forest:0,gas:3,nuclear:1,airport:2},
  start:[{id:'road',x:14,y:15},{id:'road',x:15,y:15},{id:'road',x:16,y:15},
         {id:'road',x:15,y:14},{id:'road',x:15,y:16},{id:'road',x:15,y:17},
         {id:'airport',x:20,y:20},{id:'mall',x:14,y:14},
         {id:'office',x:16,y:14},{id:'affordable',x:14,y:16},{id:'solar',x:19,y:13}]},
+
 {id:'mumbai',name:'Mumbai',flag:'🇮🇳',region:'South Asia',map:'coastal',seed:67,
  grid:24,funds:800000,growth:1.8,energyMult:1.1,waterMult:1.15,incomeMult:0.9,
  desc:'Enormous, dense and dynamic. Housing and sanitation are the defining challenges.',
  tags:[['Explosive growth','good'],['Tiny budget','bad'],['Housing crisis','bad'],['Trade port','tr']],
  trade:{bonus:{economy:1.2,housing:0.9},label:'Trade port — economy +20%'},
+ limits:{industry:9,gas:4,port:2,airport:1,nuclear:0},
  start:[{id:'road',x:11,y:12},{id:'road',x:12,y:12},{id:'road',x:13,y:12},
         {id:'road',x:12,y:11},{id:'road',x:12,y:13},
         {id:'port',x:17,y:14},{id:'market',x:11,y:11},
         {id:'affordable',x:13,y:11},{id:'affordable',x:11,y:13},
         {id:'industry',x:10,y:14},{id:'school',x:14,y:13}]},
+
 {id:'saopaulo',name:'São Paulo',flag:'🇧🇷',region:'South America',map:'hills',seed:79,
  grid:26,funds:1300000,growth:1.2,energyMult:1.0,waterMult:1.1,incomeMult:1.0,
  desc:'Hilly megacity of deep inequality. Transport and social services shape daily life.',
  tags:[['Large workforce','good'],['Hilly terrain','bad'],['Inequality','bad'],['Industry','tr']],
  trade:{bonus:{economy:1.15,services:1.1},label:'Industrial base — economy +15%'},
+ limits:{industry:7,gas:3,port:1,airport:1},
  start:[{id:'road',x:13,y:13},{id:'road',x:14,y:13},{id:'road',x:15,y:13},
         {id:'road',x:14,y:12},{id:'road',x:14,y:14},
         {id:'industry',x:12,y:14},{id:'industry',x:15,y:15},
         {id:'market',x:13,y:12},{id:'affordable',x:15,y:12},
         {id:'school',x:12,y:11},{id:'hospital',x:16,y:12}]},
+
 {id:'tokyo',name:'Tokyo',flag:'🇯🇵',region:'East Asia',map:'coastal',seed:83,
  grid:28,funds:2800000,growth:0.4,energyMult:1.1,waterMult:1.0,incomeMult:1.3,
  desc:'Superb infrastructure and a wealthy economy — but an ageing, shrinking population.',
  tags:[['Infrastructure','good'],['High income','good'],['Ageing pop.','bad'],['Finance hub','tr']],
  trade:{bonus:{economy:1.3,road:1.25},label:'Finance hub — economy +30%'},
+ limits:{industry:4,gas:2,nuclear:0,port:2,airport:2},
  start:[{id:'road',x:13,y:14},{id:'road',x:14,y:14},{id:'road',x:15,y:14},
         {id:'road',x:16,y:14},{id:'road',x:14,y:13},{id:'road',x:14,y:15},
         {id:'metro',x:15,y:13},{id:'office',x:13,y:13},
         {id:'tower',x:15,y:15},{id:'tower',x:12,y:14},
         {id:'finance',x:17,y:14},{id:'park',x:12,y:16},{id:'hospital',x:16,y:15}]},
+
+{id:'newyork',name:'New York',flag:'🇺🇸',region:'N. America',map:'coastal',seed:101,
+ grid:30,funds:3200000,growth:0.9,energyMult:1.1,waterMult:1.0,incomeMult:1.35,
+ desc:'Dense, wealthy, and built on a harbour. Financial capital of the world.',
+ tags:[['Finance hub','good'],['Very dense','good'],['Aging infra','bad'],['Global hub','tr']],
+ trade:{bonus:{economy:1.4,road:1.2},label:'Financial capital — economy +40%'},
+ limits:{industry:5,gas:2,nuclear:1,port:2,airport:2},
+ start:[{id:'road',x:14,y:15},{id:'road',x:15,y:15},{id:'road',x:16,y:15},
+        {id:'road',x:15,y:14},{id:'road',x:15,y:16},{id:'road',x:15,y:17},
+        {id:'tower',x:13,y:14},{id:'tower',x:17,y:14},{id:'tower',x:14,y:17},
+        {id:'finance',x:16,y:16},{id:'port',x:11,y:20},
+        {id:'park',x:19,y:15},{id:'bank',x:14,y:13}]},
+
+{id:'london',name:'London',flag:'🇬🇧',region:'Europe',map:'delta',seed:103,
+ grid:24,funds:2600000,growth:0.7,energyMult:1.05,waterMult:0.95,incomeMult:1.3,
+ desc:'Historic river city and global finance centre. Congestion and housing are perennial.',
+ tags:[['Global finance','good'],['Dense core','good'],['Housing crisis','bad'],['Finance','tr']],
+ trade:{bonus:{economy:1.3,services:1.15},label:'Global finance — economy +30%'},
+ limits:{industry:4,gas:2,nuclear:0,port:1,airport:2},
+ start:[{id:'road',x:11,y:12},{id:'road',x:12,y:12},{id:'road',x:13,y:12},
+        {id:'road',x:12,y:11},{id:'road',x:12,y:13},{id:'road',x:12,y:14},
+        {id:'bank',x:11,y:11},{id:'office',x:13,y:11},
+        {id:'tower',x:11,y:13},{id:'market',x:14,y:12},
+        {id:'park',x:10,y:14},{id:'metro',x:14,y:14}]},
+
+{id:'dubai',name:'Dubai',flag:'🇦🇪',region:'Middle East',map:'desert',seed:107,
+ grid:26,funds:3000000,growth:1.4,energyMult:1.5,waterMult:2.0,incomeMult:1.25,
+ desc:'Desert metropolis built on trade and tourism. Cooling and desalination dominate costs.',
+ tags:[['Trade & tourism','good'],['Wealthy','good'],['Extreme water cost','bad'],['Trade hub','tr']],
+ trade:{bonus:{economy:1.4},label:'Trade & tourism — economy +40%'},
+ limits:{forest:0,gas:1,nuclear:0,industry:4,port:2,airport:2},
+ start:[{id:'road',x:12,y:13},{id:'road',x:13,y:13},{id:'road',x:14,y:13},
+        {id:'road',x:13,y:12},{id:'road',x:13,y:14},
+        {id:'tower',x:11,y:12},{id:'tower',x:15,y:12},
+        {id:'mall',x:11,y:14},{id:'finance',x:15,y:14},
+        {id:'port',x:17,y:16},{id:'airport',x:8,y:17},
+        {id:'solar',x:17,y:11}]},
+
+{id:'lagos',name:'Lagos',flag:'🇳🇬',region:'West Africa',map:'coastal',seed:109,
+ grid:28,funds:700000,growth:2.0,energyMult:0.95,waterMult:1.1,incomeMult:0.8,
+ desc:'Africa\'s largest city and a booming commercial hub. Housing can barely keep up.',
+ tags:[['Very fast growth','good'],['Tiny budget','bad'],['Housing crisis','bad'],['Commercial','tr']],
+ trade:{bonus:{economy:1.15,growth:1.1},label:'Commercial hub — economy +15%'},
+ limits:{industry:10,gas:5,nuclear:0,airport:1,port:2},
+ start:[{id:'road',x:13,y:14},{id:'road',x:14,y:14},{id:'road',x:15,y:14},
+        {id:'road',x:14,y:13},{id:'road',x:14,y:15},
+        {id:'market',x:13,y:13},{id:'affordable',x:15,y:13},
+        {id:'industry',x:12,y:16},{id:'port',x:18,y:15},
+        {id:'school',x:16,y:15},{id:'affordable',x:13,y:16}]},
+
+{id:'sydney',name:'Sydney',flag:'🇦🇺',region:'Oceania',map:'coastal',seed:113,
+ grid:24,funds:2400000,growth:0.8,energyMult:1.0,waterMult:1.1,incomeMult:1.15,
+ desc:'Harbour city with beaches and a services economy. Water and green space are prized.',
+ tags:[['Harbour','good'],['Clean air','good'],['Costly housing','bad'],['Services','tr']],
+ trade:{bonus:{economy:1.15,green:1.2},label:'Harbour city — economy +15%, green +20%'},
+ limits:{industry:4,gas:2,nuclear:0,port:2,airport:1},
+ start:[{id:'road',x:11,y:12},{id:'road',x:12,y:12},{id:'road',x:13,y:12},
+        {id:'road',x:12,y:11},{id:'road',x:12,y:13},
+        {id:'tower',x:11,y:11},{id:'office',x:13,y:11},
+        {id:'park',x:10,y:13},{id:'ferry',x:15,y:14},
+        {id:'market',x:11,y:13},{id:'school',x:13,y:13}]},
+
+{id:'seoul',name:'Seoul',flag:'🇰🇷',region:'East Asia',map:'hills',seed:127,
+ grid:26,funds:2500000,growth:0.5,energyMult:1.1,waterMult:1.0,incomeMult:1.2,
+ desc:'Tech powerhouse squeezed between mountains. Superb transit, ageing population.',
+ tags:[['Tech economy','good'],['Great transit','good'],['Ageing pop.','bad'],['Tech hub','tr']],
+ trade:{bonus:{economy:1.25,infra:1.2},label:'Tech powerhouse — economy +25%'},
+ limits:{industry:4,gas:2,nuclear:1,port:1,airport:1},
+ start:[{id:'road',x:12,y:13},{id:'road',x:13,y:13},{id:'road',x:14,y:13},
+        {id:'road',x:13,y:12},{id:'road',x:13,y:14},
+        {id:'tech',x:11,y:12},{id:'metro',x:14,y:12},
+        {id:'apartment',x:11,y:14},{id:'office',x:14,y:14},
+        {id:'park',x:10,y:15},{id:'hospital',x:15,y:15}]},
+
+{id:'mexicocity',name:'Mexico City',flag:'🇲🇽',region:'N. America',map:'hills',seed:131,
+ grid:30,funds:1400000,growth:1.1,energyMult:1.05,waterMult:1.4,incomeMult:0.95,
+ desc:'High-altitude megacity built on a drained lakebed. Sinking ground, water stress.',
+ tags:[['Huge population','good'],['Cultural capital','good'],['Water sinking','bad'],['Regional hub','tr']],
+ trade:{bonus:{economy:1.1,services:1.1},label:'Regional hub — economy +10%'},
+ limits:{industry:7,gas:4,nuclear:0,port:0,airport:2},
+ start:[{id:'road',x:14,y:15},{id:'road',x:15,y:15},{id:'road',x:16,y:15},
+        {id:'road',x:15,y:14},{id:'road',x:15,y:16},
+        {id:'market',x:14,y:14},{id:'affordable',x:16,y:14},
+        {id:'industry',x:13,y:17},{id:'hospital',x:17,y:16},
+        {id:'school',x:13,y:13},{id:'park',x:17,y:13}]},
+
+{id:'cairo',name:'Cairo',flag:'🇪🇬',region:'N. Africa',map:'desert',seed:137,
+ grid:28,funds:1000000,growth:1.5,energyMult:1.15,waterMult:1.5,incomeMult:0.9,
+ desc:'Nile crossroads and the largest city in the Arab world. Ancient and modern collide.',
+ tags:[['Nile water','good'],['Cultural heart','good'],['Water pressure','bad'],['Cultural','tr']],
+ trade:{bonus:{economy:1.15,culture:1.2},label:'Nile crossroads — economy +15%, culture +20%'},
+ limits:{industry:6,gas:3,nuclear:0,port:1,airport:2,forest:1},
+ start:[{id:'road',x:13,y:14},{id:'road',x:14,y:14},{id:'road',x:15,y:14},
+        {id:'road',x:14,y:13},{id:'road',x:14,y:15},
+        {id:'market',x:13,y:13},{id:'museum',x:15,y:13},
+        {id:'mosque_placeholder_unused',x:0,y:0},
+        {id:'affordable',x:13,y:15},{id:'industry',x:12,y:16},
+        {id:'school',x:16,y:14},{id:'hospital',x:15,y:15}]},
 ];
 
 /* ==========================================================
@@ -1107,17 +1089,17 @@ const ERAS=[
    ========================================================== */
 const EVENTS=[
  {y:1901,icon:'⚫',name:'The Old World Fades',tone:'warn',desc:'Queen Victoria dies. Empires shift.',mods:{}},
- {y:1914,icon:'⚔️',name:'World War I Begins',tone:'bad',desc:'Young workers leave for the front. Construction halts.',mods:{growthMult:0.4,incomeMult:0.9,happyDrift:-4,oneOffPopLoss:0.05}},
+ {y:1914,icon:'⚔️',name:'World War I Begins',tone:'bad',desc:'Young workers leave for the front.',mods:{growthMult:0.4,incomeMult:0.9,happyDrift:-4,oneOffPopLoss:0.05}},
  {y:1918,icon:'🦠',name:'Influenza Pandemic',tone:'bad',desc:'Crowded neighbourhoods suffer terribly.',mods:{happyDrift:-5,oneOffPopLoss:0.03}},
  {y:1925,icon:'⚙️',name:'The Roaring Twenties',tone:'good',desc:'Mass production and electricity transform daily life.',mods:{incomeMult:1.15,growthMult:1.2,happyDrift:+4}},
  {y:1929,icon:'📉',name:'The Great Depression',tone:'bad',desc:'Markets crash. Unemployment soars.',mods:{incomeMult:0.7,growthMult:0.5,happyDrift:-8,oneOffMoneyLoss:0.25}},
  {y:1939,icon:'💣',name:'World War II Begins',tone:'bad',desc:'Cities black out. Factories convert to wartime production.',mods:{growthMult:0.55,incomeMult:0.85,happyDrift:-8,envDrift:-3,oneOffPopLoss:0.04}},
  {y:1945,icon:'🕊️',name:'The War Ends',tone:'good',desc:'Peace returns. A baby boom and reconstruction begin.',mods:{growthMult:1.5,happyDrift:+8,incomeMult:1.1}},
  {y:1956,icon:'🛢️',name:'The Suez Crisis',tone:'warn',desc:'Oil supplies are disrupted. Fuel prices spike.',mods:{energyCostMult:1.35}},
- {y:1969,icon:'🌕',name:'The Moon Landing',tone:'good',desc:'A wave of technological optimism sweeps the world.',mods:{happyDrift:+5,eduBoost:6}},
+ {y:1969,icon:'🌕',name:'The Moon Landing',tone:'good',desc:'Technological optimism sweeps the world.',mods:{happyDrift:+5,eduBoost:6}},
  {y:1973,icon:'🛢️',name:'The Oil Crisis',tone:'bad',desc:'OPEC embargoes oil. Fuel prices quadruple.',mods:{energyCostMult:1.8,happyDrift:-6,growthMult:0.7}},
  {y:1989,icon:'🌐',name:'The Berlin Wall Falls',tone:'good',desc:'A new era of globalisation begins.',mods:{incomeMult:1.15,growthMult:1.2}},
- {y:1997,icon:'💱',name:'The Asian Financial Crisis',tone:'bad',desc:'Currency collapses ripple through Asian economies.',mods:{incomeMult:0.82,growthMult:0.7}},
+ {y:1997,icon:'💱',name:'The Asian Financial Crisis',tone:'bad',desc:'Currency collapses ripple through Asia.',mods:{incomeMult:0.82,growthMult:0.7}},
  {y:2001,icon:'📡',name:'The Dot-Com Bust',tone:'warn',desc:'Tech stocks crash. Office vacancies spike.',mods:{incomeMult:0.9,jobsMult:0.95}},
  {y:2008,icon:'🏦',name:'Global Financial Crisis',tone:'bad',desc:'Banks fail and credit freezes.',mods:{incomeMult:0.82,growthMult:0.6,oneOffMoneyLoss:0.2}},
  {y:2020,icon:'🦠',name:'The COVID-19 Pandemic',tone:'bad',desc:'Cities empty out. Remote work takes hold.',mods:{incomeMult:0.9,happyDrift:-5,transitMult:0.8}},
@@ -1128,18 +1110,24 @@ const EVENTS=[
 /* ==========================================================
    STATE
    ========================================================== */
+const PPT = 16; // pixels per tile (internal resolution)
 const cv=$('cv'),ctx=cv.getContext('2d');
+const minimap=$('minimap'),mmctx=minimap.getContext('2d');
 const sceneCv=document.createElement('canvas');
 const terrainCv=document.createElement('canvas');
 const TN=480;
 let G=null,selectedLoc=null,selectedEra=null;
 let gameTick=null,tickSpeed=2;
-let dragRoad=false,dragLast=-1;
 let camRot=0;
+let zoom=1,panX=0,panY=0;
+let activePointers=new Map();
+let panGestureStart=null; // {x, y, panX, panY, dist}
+let dragRoad=false,dragLast=-1;
+let clickStart=null; // for distinguishing click vs drag
 const SPEED_INTERVALS={0:null,1:2200,2:1100,3:550,4:220};
 
 /* ==========================================================
-   TERRAIN
+   TERRAIN BUILD
    ========================================================== */
 function buildTerrain(loc){
   terrainCv.width=terrainCv.height=TN;
@@ -1169,9 +1157,7 @@ function buildTerrain(loc){
         const xp=(x<TN-1)?Lm[i+1]:L;
         const yn=(y>0)?Lm[i-TN]:L;
         const yp=(y<TN-1)?Lm[i+TN]:L;
-        const dx=(xp-xn)*TN*0.05;
-        const dy=(yp-yn)*TN*0.05;
-        const shade=clamp(1+(dx+dy)*0.9,0.66,1.34);
+        const shade=clamp(1+((xp-xn)+(yp-yn))*TN*0.045,0.66,1.34);
         col=[col[0]*shade,col[1]*shade,col[2]*shade];
         const gr=vnoise(x*0.7,y*0.7,loc.seed+777)*0.14-0.07;
         col=[col[0]*(1+gr),col[1]*(1+gr),col[2]*(1+gr)];
@@ -1184,7 +1170,6 @@ function buildTerrain(loc){
   }
   tctx.putImageData(img,0,0);
 }
-
 function deriveTiles(loc){
   const N=loc.grid;
   const tiles=[];
@@ -1205,13 +1190,13 @@ function deriveTiles(loc){
       else if(loc.map==='hills'){if(e>0.32)t='hill';else if(Mc>0.50)t='forest';}
       else{if(e>0.42)t='hill';else if(Mc>0.52)t='forest';}
     }
-    tiles.push({t,b:null,tx,ty,occ:-1,road:false,roadId:null,bsize:0,constLeft:0});
+    tiles.push({t,b:null,tx,ty,occ:-1,road:false,roadId:null,bsize:0,constLeft:0,deco:hash2(tx,ty,loc.seed+555)});
   }
   return tiles;
 }
 
 /* ==========================================================
-   START GAME
+   START
    ========================================================== */
 function startGame(locId,eraYear,mode){
   const loc=LOCATIONS.find(l=>l.id===locId);
@@ -1242,6 +1227,8 @@ function startGame(locId,eraYear,mode){
     } else {
       addLog(`Founded a new settlement at ${loc.name} in ${era.y}. ${mode==='sandbox'?'Sandbox — unlimited funds.':'Budget: '+money(G.money)+'.'}`,'good');
     }
+    zoom=1;panX=0;panY=0;camRot=0;
+    updateZoomButtons();
     $('start').style.display='none';
     $('game').style.display='flex';
     $('loading').style.display='none';
@@ -1249,7 +1236,6 @@ function startGame(locId,eraYear,mode){
     render();
   },60);
 }
-
 function placeStarting(x,y,b){
   const N=G.loc.grid;
   if(x<0||y<0||x+b.size>N||y+b.size>N) return;
@@ -1268,13 +1254,26 @@ function placeStarting(x,y,b){
 /* ==========================================================
    STATS
    ========================================================== */
+function countBuilding(id){
+  const seen=new Set();let n=0;
+  const N=G.loc.grid;
+  for(let i=0;i<G.tiles.length;i++){
+    const t=G.tiles[i];
+    if(t.b===id&&!seen.has(i)){
+      seen.add(i);n++;
+      const size=t.bsize||1;
+      for(let dy=0;dy<size;dy++)for(let dx=0;dx<size;dx++) seen.add((t.ty+dy)*N+(t.tx+dx));
+    }
+  }
+  return n;
+}
 function computeStats(){
   const N=G.loc.grid;
   const s={housing:0,jobs:0,income:0,upkeep:0,happy:0,env:0,pollution:0,
     energyProd:0,energyUse:0,waterProd:0,waterUse:0,
     edu:0,health:0,safety:0,culture:0,civic:0,transit:0,
     built:0,roadTiles:0,forests:0,unconnected:0,trafficCap:0,
-    transitPopCov:0,natEnv:0,natPlain:0,natWater:0,natHill:0,naturalTiles:0,
+    natEnv:0,natPlain:0,natWater:0,natHill:0,naturalTiles:0,
     underConstruction:0,totalTiles:N*N};
   const pop=Math.max(G.pop,1);
   const anchors=[];
@@ -1333,7 +1332,6 @@ function computeStats(){
     transitRaw+=b.e.transit*weight;
   }
   s.transit=transitRaw*G.mods.transitMult;
-  s.transitPopCov=transitRaw;
   const carUse=clamp(1-(s.transit/240),0.25,1);
   s.traffic=G.pop*0.55*carUse;
   s.trafficCap+=300;
@@ -1384,108 +1382,184 @@ function expenses(s){return s.upkeep+G.pop*2.2*G.era.costMult+s.energyCost;}
 const net=s=>revenue(s)-expenses(s);
 
 /* ==========================================================
-   RENDER
+   SCENE RENDERING (pixel resolution)
    ========================================================== */
 function drawScene(){
-  sceneCv.width=sceneCv.height=cv.width;
-  const c=sceneCv.getContext('2d');
   const N=G.loc.grid;
-  const ts=cv.width/N;
-  const W=cv.width;
-  c.imageSmoothingEnabled=true;
-  c.imageSmoothingQuality='high';
-  c.save();
-  c.translate(W/2,W/2);c.rotate(camRot);c.translate(-W/2,-W/2);
-  c.drawImage(terrainCv,0,0,W,W);
+  const scenePx=N*PPT;
+  sceneCv.width=sceneCv.height=scenePx;
+  const c=sceneCv.getContext('2d');
+  c.imageSmoothingEnabled=false;
 
+  c.save();
+  c.translate(scenePx/2,scenePx/2);
+  c.rotate(camRot);
+  c.translate(-scenePx/2,-scenePx/2);
+
+  // Terrain
+  c.drawImage(terrainCv,0,0,scenePx,scenePx);
+
+  // Terrain decorations (pixel trees/rocks/waves)
+  drawDecorations(c, PPT);
+
+  // Roads
+  const ts=PPT;
   for(let i=0;i<G.tiles.length;i++){
     const t=G.tiles[i];
     if(!t.road) continue;
     const x=t.tx*ts,y=t.ty*ts,cx=x+ts/2,cy=y+ts/2;
     const isHwy=t.roadId==='highway';
-    const w=ts*(isHwy?0.62:0.48);
+    const w=isHwy?ts*0.65:ts*0.5;
     const n=neighborRoad(t.tx,t.ty-1),sN=neighborRoad(t.tx,t.ty+1);
     const e=neighborRoad(t.tx+1,t.ty),wN=neighborRoad(t.tx-1,t.ty);
-    c.fillStyle=isHwy?'#414850':'#3b4148';
+    c.fillStyle=isHwy?'#454b52':'#3b4148';
     if(e||wN){const x1=wN?x:cx-w/2,x2=e?x+ts:cx+w/2;c.fillRect(x1,cy-w/2,x2-x1,w);}
     if(n||sN){const y1=n?y:cy-w/2,y2=sN?y+ts:cy+w/2;c.fillRect(cx-w/2,y1,w,y2-y1);}
-    if(!n&&!sN&&!e&&!wN)c.fillRect(cx-w/2,cy-w/2,w,w);
-    c.save();
-    c.strokeStyle='rgba(250,220,110,0.55)';
-    c.lineWidth=Math.max(1,ts*0.055);
-    c.setLineDash([ts*0.13,ts*0.11]);
-    c.beginPath();
-    if(e||wN){c.moveTo(wN?x:cx,cy);c.lineTo(e?x+ts:cx,cy);}
-    if(n||sN){c.moveTo(cx,n?y:cy);c.lineTo(cx,sN?y+ts:cy);}
-    c.stroke();
-    c.restore();
+    if(!n&&!sN&&!e&&!wN) c.fillRect(cx-w/2,cy-w/2,w,w);
+    // center line dashes
+    c.fillStyle='#facc15';
+    if(e||wN){
+      for(let px=x;px<x+ts;px+=4){
+        if(px>cx-1.5&&px<cx+1.5) continue;
+        c.fillRect(Math.floor(px),Math.floor(cy-0.5),2,1);
+      }
+    }
+    if(n||sN){
+      for(let py=y;py<y+ts;py+=4){
+        if(py>cy-1.5&&py<cy+1.5) continue;
+        c.fillRect(Math.floor(cx-0.5),Math.floor(py),1,2);
+      }
+    }
   }
 
+  // Buildings
   const anchors=[];
   for(let i=0;i<G.tiles.length;i++) if(G.tiles[i].b) anchors.push(i);
   for(const i of anchors){
     const t=G.tiles[i],b=BMAP[t.b];
     const size=t.bsize||1;
     const cx=(t.tx+size/2)*ts,cy=(t.ty+size/2)*ts;
-    const iconSize=ts*size*0.92;
+    const iconSize=ts*size*0.85;
     const isBuilding=t.constLeft>0;
-    c.save();
+    // shadow
     c.fillStyle='rgba(4,10,18,0.4)';
-    c.beginPath();c.ellipse(cx+1.5,cy+iconSize*0.34,iconSize*0.42,iconSize*0.14,0,0,7);c.fill();
-    c.restore();
+    c.beginPath();
+    c.ellipse(cx+1,cy+iconSize*0.32,iconSize*0.42,iconSize*0.14,0,0,7);
+    c.fill();
     c.save();
-    if(isBuilding) c.globalAlpha=0.48;
+    if(isBuilding) c.globalAlpha=0.5;
     drawIcon(c,b.icon,cx,cy,iconSize,CATS[b.c].color,'#0a1119');
     c.restore();
     if(isBuilding){
-      c.save();
-      c.strokeStyle='rgba(251,191,36,0.85)';
-      c.lineWidth=Math.max(1.2,ts*0.05);
-      c.setLineDash([ts*0.18,ts*0.12]);
-      rr(c,cx-iconSize*0.5,cy-iconSize*0.5,iconSize,iconSize,3);c.stroke();
+      // scaffolding dots
+      c.fillStyle='#fbbf24';
+      for(let p=0;p<iconSize;p+=3){
+        c.fillRect(Math.round(cx-iconSize/2+p),Math.round(cy-iconSize/2),2,1);
+        c.fillRect(Math.round(cx-iconSize/2+p),Math.round(cy+iconSize/2-1),2,1);
+      }
+      for(let p=0;p<iconSize;p+=3){
+        c.fillRect(Math.round(cx-iconSize/2),Math.round(cy-iconSize/2+p),1,2);
+        c.fillRect(Math.round(cx+iconSize/2-1),Math.round(cy-iconSize/2+p),1,2);
+      }
+      // progress bar
       const total=b.bt||1;
       const prog=1-(t.constLeft/total);
-      c.setLineDash([]);
-      c.strokeStyle='rgba(52,211,153,0.95)';
-      c.lineWidth=Math.max(2,ts*0.07);
-      c.beginPath();
-      c.arc(cx,cy,iconSize*0.55,-Math.PI/2,-Math.PI/2+Math.PI*2*prog);
-      c.stroke();
-      c.restore();
+      const bw=Math.max(4,iconSize-2);
+      c.fillStyle='rgba(0,0,0,0.6)';
+      c.fillRect(cx-bw/2,cy-iconSize/2-3,bw,2);
+      c.fillStyle='#34d399';
+      c.fillRect(cx-bw/2,cy-iconSize/2-3,Math.floor(bw*prog),2);
     }
-    if(G.stats && G.stats.unconnected>0){
-      const connected=buildingConnected(i);
-      if(!connected){
-        c.save();
-        c.fillStyle='rgba(248,113,113,0.92)';
-        c.beginPath();c.arc(t.tx*ts+ts*0.20,t.ty*ts+ts*0.20,ts*0.15,0,7);c.fill();
-        c.fillStyle='#fff';c.font='bold '+Math.round(ts*0.20)+'px sans-serif';
-        c.textAlign='center';c.textBaseline='middle';
-        c.fillText('!',t.tx*ts+ts*0.20,t.ty*ts+ts*0.21);
-        c.restore();
+    if(G.stats&&G.stats.unconnected>0){
+      if(!buildingConnected(i)){
+        c.fillStyle='#f87171';
+        c.fillRect(Math.round(t.tx*ts+ts*0.1),Math.round(t.ty*ts+ts*0.1),3,3);
       }
     }
   }
   c.restore();
 }
+
+function drawDecorations(c, ts){
+  // Pixel decorations on natural tiles: small trees, rocks, waves
+  for(let i=0;i<G.tiles.length;i++){
+    const t=G.tiles[i];
+    if(t.b||t.road) continue;
+    const x=t.tx*ts,y=t.ty*ts;
+    const h=t.deco; // 0..1
+    if(t.t==='forest'){
+      // 2-3 pixel trees
+      const n=2+Math.floor(h*2);
+      for(let k=0;k<n;k++){
+        const px=x+Math.floor(h*ts*0.5+k*3)%ts;
+        const py=y+Math.floor((h*7+k*5)%ts);
+        // trunk
+        c.fillStyle='#3a2a1a';
+        c.fillRect(px+1,py+2,1,2);
+        // canopy
+        c.fillStyle='#2d6b2d';
+        c.fillRect(px,py,3,3);
+        c.fillStyle='#3d8a3d';
+        c.fillRect(px,py,3,1);
+      }
+    } else if(t.t==='plain' && h>0.75){
+      // occasional small bush
+      c.fillStyle='#5a7a3a';
+      c.fillRect(x+Math.floor(h*ts*0.5),y+Math.floor((h*11)%ts),2,2);
+    } else if(t.t==='hill' && h>0.6){
+      // rock
+      c.fillStyle='#5a5850';
+      c.fillRect(x+Math.floor(h*ts*0.5),y+Math.floor((h*5)%ts),3,2);
+      c.fillStyle='#7a7870';
+      c.fillRect(x+Math.floor(h*ts*0.5),y+Math.floor((h*5)%ts),3,1);
+    } else if(t.t==='water'){
+      // wave hints near land
+      const nearLand = (
+        (t.tx>0 && G.tiles[i-1] && G.tiles[i-1].t!=='water') ||
+        (t.tx<G.loc.grid-1 && G.tiles[i+1] && G.tiles[i+1].t!=='water') ||
+        (t.ty>0 && G.tiles[i-G.loc.grid] && G.tiles[i-G.loc.grid].t!=='water') ||
+        (t.ty<G.loc.grid-1 && G.tiles[i+G.loc.grid] && G.tiles[i+G.loc.grid].t!=='water')
+      );
+      if(nearLand){
+        c.fillStyle='rgba(230,245,255,0.5)';
+        for(let k=0;k<3;k++){
+          const px=x+Math.floor((h*3+k*5)%ts);
+          c.fillRect(px,y+Math.floor((h*9+k*3)%ts),2,1);
+        }
+      }
+    }
+  }
+}
+
 function neighborRoad(x,y){
   const N=G.loc.grid;
   if(x<0||y<0||x>=N||y>=N) return false;
   return G.tiles[y*N+x].road;
 }
+
 function present(){
+  ctx.imageSmoothingEnabled=false;
+  const srcSize=sceneCv.width/zoom;
+  const srcX=panX*(sceneCv.width-srcSize);
+  const srcY=panY*(sceneCv.width-srcSize);
   ctx.clearRect(0,0,cv.width,cv.height);
-  ctx.drawImage(sceneCv,0,0);
+  ctx.drawImage(sceneCv,srcX,srcY,srcSize,srcSize,0,0,cv.width,cv.height);
+
+  // Hover indicator in display space, unrotated
   if(G.hover>=0){
     const N=G.loc.grid;
-    const ts=cv.width/N;
     const t=G.tiles[G.hover];
     const size=(G.selected&&!G.demolish)?BMAP[G.selected].size:1;
-    const x=t.tx*ts,y=t.ty*ts;
-    ctx.save();
-    ctx.translate(cv.width/2,cv.height/2);
-    ctx.rotate(camRot);
-    ctx.translate(-cv.width/2,-cv.height/2);
+    // Tile coords to display coords (unrotate from scene)
+    const tileCx=(t.tx+size/2)/N, tileCy=(t.ty+size/2)/N;
+    const cxDisp=0.5+(tileCx-0.5)*Math.cos(camRot)+(tileCy-0.5)*Math.sin(camRot);
+    const cyDisp=0.5-(tileCx-0.5)*Math.sin(camRot)+(tileCy-0.5)*Math.cos(camRot);
+    // Convert to zoomed display space
+    const srcSizeN=1/zoom;
+    const dX=(cxDisp-panX*(1-srcSizeN))/srcSizeN;
+    const dY=(cyDisp-panY*(1-srcSizeN))/srcSizeN;
+    const px=dX*cv.width, py=dY*cv.height;
+    const sizeDisp=(size/N)*(cv.width)/srcSizeN;
     let col='rgba(56,189,248,0.9)';
     if(G.demolish&&(t.b||t.road)) col='rgba(248,113,113,0.95)';
     else if(G.selected){
@@ -1493,10 +1567,38 @@ function present(){
       const chk=canPlace(G.hover,b);
       col=chk.ok?'rgba(52,211,153,0.95)':'rgba(248,113,113,0.85)';
     }
+    ctx.save();
     ctx.strokeStyle=col;ctx.lineWidth=2.5;
-    rr(ctx,x+1.5,y+1.5,ts*size-3,ts*size-3,4);ctx.stroke();
+    rr(ctx,px-sizeDisp/2,py-sizeDisp/2,sizeDisp,sizeDisp,3);
+    ctx.stroke();
     ctx.restore();
   }
+
+  // Minimap update
+  if(zoom>1){
+    minimap.classList.add('on');
+    drawMinimap();
+  } else {
+    minimap.classList.remove('on');
+  }
+}
+
+function drawMinimap(){
+  mmctx.imageSmoothingEnabled=false;
+  mmctx.clearRect(0,0,minimap.width,minimap.height);
+  mmctx.drawImage(sceneCv,0,0,sceneCv.width,sceneCv.height,0,0,minimap.width,minimap.height);
+  // view rectangle
+  const srcSize=1/zoom;
+  const rx=panX*(1-srcSize)*minimap.width;
+  const ry=panY*(1-srcSize)*minimap.height;
+  const rw=srcSize*minimap.width, rh=srcSize*minimap.height;
+  mmctx.strokeStyle='#fbbf24';
+  mmctx.lineWidth=2;
+  mmctx.strokeRect(rx,ry,rw,rh);
+  // remove old view if any (we redrew whole canvas)
+  // Remove any previously added view element
+  const old=minimap.querySelector('.view');
+  if(old) old.remove();
 }
 
 function render(){
@@ -1507,6 +1609,10 @@ function render(){
   renderInfo(s);
   renderLog();
 }
+
+/* ==========================================================
+   HUD
+   ========================================================== */
 function renderHUD(s){
   const cls=v=>v>=65?'good':v>=40?'warn':'bad';
   const grp=(label,pills)=>`<div class="grp"><div class="gl">${label}</div>${pills}</div>`;
@@ -1629,13 +1735,26 @@ function updatePalette(s){
     const locked=G.year<b.from;
     const cost=Math.round(b.cost*G.era.costMult);
     const afford=G.mode==='sandbox'||G.money>=cost;
+    const limit=G.loc.limits?.[b.id];
+    const count=limit!==undefined?countBuilding(b.id):0;
+    const capped=limit!==undefined && count>=limit;
     btn.classList.toggle('locked',locked);
     btn.classList.toggle('poor',!locked&&!afford);
     btn.classList.toggle('sel',G.selected===b.id);
+    btn.classList.toggle('capped',capped&&!locked);
     const cEl=list.querySelector(`[data-cost="${b.id}"]`);
     const mEl=list.querySelector(`[data-meta="${b.id}"]`);
-    if(cEl) cEl.textContent=locked?('Unlocks '+b.from):(G.mode==='sandbox'?'free':money(cost));
-    if(mEl) mEl.textContent=locked?('Not yet in '+G.year):effectSummary(b);
+    if(cEl){
+      if(locked) cEl.textContent='Unlocks '+b.from;
+      else if(G.mode==='sandbox') cEl.textContent='free';
+      else cEl.textContent=money(cost);
+      cEl.classList.toggle('full',capped);
+    }
+    if(mEl){
+      let meta=locked?('Not yet in '+G.year):effectSummary(b);
+      if(limit!==undefined) meta+=` · ${count}/${limit}`;
+      mEl.textContent=meta;
+    }
   });
   $('demolishBtn').classList.toggle('active',G.demolish);
 }
@@ -1659,7 +1778,7 @@ function effectSummary(b){
 }
 
 /* ==========================================================
-   REPORT / LOG / TIPS
+   REPORT / LOG
    ========================================================== */
 function renderInfo(s){
   const el=$('tabInfo');
@@ -1674,6 +1793,17 @@ function renderInfo(s){
   ];
   let html=`<div class="insight"><span class="ico">🏙️</span><div><b>${G.loc.flag} ${G.loc.name}, ${G.year}</b><br>${G.era.name} — ${G.era.desc}</div></div>`;
   if(G.loc.trade) html+=`<div class="insight good"><span class="ico">🤝</span><div><b>Trade:</b> ${G.loc.trade.label}</div></div>`;
+  if(G.loc.limits){
+    const active=Object.entries(G.loc.limits).filter(([k,v])=>v>=0);
+    if(active.length){
+      html+=`<div class="insight warn"><span class="ico">📋</span><div><b>Local limits:</b> ` +
+        active.map(([k,v])=>{
+          const b=BMAP[k];if(!b)return k;
+          const used=countBuilding(k);
+          return `${b.n} ${used}/${v}`;
+        }).join(' · ')+`</div></div>`;
+    }
+  }
   html+=`<div class="sechead">Service coverage</div>`;
   for(const [label,v] of rows){
     const pct=clamp(v,0,1)*100;
@@ -1701,23 +1831,23 @@ function insights(s){
   const out=[];const p=Math.max(1,G.pop);
   const totalT=G.loc.grid*G.loc.grid;
   if(G.pop<300) out.push(['good','🌱','Your settlement is just beginning. Build <b>roads first</b>, then housing and jobs together.']);
-  if(s.unconnected>0) out.push(['bad','🚧',`<b>${s.unconnected} building${s.unconnected>1?'s':''} with no road access.</b> Connect them with a street to make them work.`]);
-  if(s.underConstruction>0) out.push(['warn','🏗️',`<b>${s.underConstruction} building${s.underConstruction>1?'s':''} under construction.</b> Effects kick in once complete.`]);
-  if(s.unemployment>0.2) out.push(['bad','💼',`<b>${Math.round(s.unemployment*100)}% unemployment.</b> Add businesses, offices or industry.`]);
-  else if(s.jobs>p*1.35&&G.pop>300) out.push(['warn','💼','<b>More jobs than workers.</b> Build housing to bring in residents.']);
-  else if(G.pop>300) out.push(['good','💼',`<b>Employment is healthy</b> — ${fmt(s.jobs)} jobs for ${fmt(G.pop)} people.`]);
-  if(s.housing>0&&s.vacancy>0.35) out.push(['warn','🏠',`<b>${Math.round(s.vacancy*100)}% housing vacant.</b> Room to grow.`]);
-  if(G.pop>0&&s.housing<G.pop*1.02) out.push(['bad','🏠','<b>Housing at capacity.</b> Overcrowding hurts wellbeing.']);
-  if(s.energyShort>0.08) out.push(['bad','⚡',`<b>Energy shortfall ${Math.round(s.energyShort*100)}%.</b> Add power generation.`]);
-  if(s.waterShort>0.08) out.push(['bad','💧',`<b>Water shortfall ${Math.round(s.waterShort*100)}%.</b> Build treatment and reservoirs.`]);
-  if(s.congestion>0.15) out.push(['bad','🚗',`<b>Severe congestion.</b> Roads are over capacity.`]);
-  else if(s.congestion>0.05) out.push(['warn','🚗','<b>Roads getting busy.</b> Consider transit or wider roads.']);
-  if(G.environment<38) out.push(['bad','🌿','<b>Environment poor.</b> Pollution is hurting health. Try parks, wetlands, recycling.']);
-  else if(G.environment>75) out.push(['good','🌿','<b>The city is green and clean.</b> Attracts residents.']);
-  if(cov(s.transit,p,130)<0.5&&G.pop>800) out.push(['warn','🚇','<b>Transit coverage thin.</b> Build stops near housing — value is weighted by nearby population.']);
+  if(s.unconnected>0) out.push(['bad','🚧',`<b>${s.unconnected} building${s.unconnected>1?'s':''} with no road access.</b> Connect them with a street.`]);
+  if(s.underConstruction>0) out.push(['warn','🏗️',`<b>${s.underConstruction} building${s.underConstruction>1?'s':''} under construction.</b>`]);
+  if(s.unemployment>0.2) out.push(['bad','💼',`<b>${Math.round(s.unemployment*100)}% unemployment.</b> Add businesses.`]);
+  else if(s.jobs>p*1.35&&G.pop>300) out.push(['warn','💼','<b>More jobs than workers.</b> Build housing.']);
+  else if(G.pop>300) out.push(['good','💼',`<b>Employment healthy</b> — ${fmt(s.jobs)} jobs for ${fmt(G.pop)}.`]);
+  if(s.housing>0&&s.vacancy>0.35) out.push(['warn','🏠',`<b>${Math.round(s.vacancy*100)}% housing vacant.</b>`]);
+  if(G.pop>0&&s.housing<G.pop*1.02) out.push(['bad','🏠','<b>Housing at capacity.</b>']);
+  if(s.energyShort>0.08) out.push(['bad','⚡',`<b>Energy shortfall ${Math.round(s.energyShort*100)}%.</b>`]);
+  if(s.waterShort>0.08) out.push(['bad','💧',`<b>Water shortfall ${Math.round(s.waterShort*100)}%.</b>`]);
+  if(s.congestion>0.15) out.push(['bad','🚗',`<b>Severe congestion.</b> Roads over capacity.`]);
+  else if(s.congestion>0.05) out.push(['warn','🚗','<b>Roads getting busy.</b>']);
+  if(G.environment<38) out.push(['bad','🌿','<b>Environment poor.</b> Pollution hurting health.']);
+  else if(G.environment>75) out.push(['good','🌿','<b>City is green and clean.</b>']);
+  if(cov(s.transit,p,130)<0.5&&G.pop>800) out.push(['warn','🚇','<b>Transit coverage thin.</b>']);
   if(cov(s.edu+G.mods.eduBoost,p,120)<0.55&&G.pop>800) out.push(['warn','🎓','<b>Schools overcrowded.</b>']);
   if(cov(s.health,p,150)<0.55&&G.pop>800) out.push(['warn','❤️','<b>Healthcare stretched.</b>']);
-  if(s.naturalTiles/totalT>0.55&&G.pop>2500) out.push(['good','🌳',`<b>${Math.round(s.naturalTiles/totalT*100)}% still natural.</b> Valuable — cleans air and cools the city.`]);
+  if(s.naturalTiles/totalT>0.55&&G.pop>2500) out.push(['good','🌳',`<b>${Math.round(s.naturalTiles/totalT*100)}% still natural.</b>`]);
   if(out.length===0) out.push(['good','✨','Your city is running smoothly.']);
   return out.map(([t,i,m])=>`<div class="insight ${t}"><span class="ico">${i}</span><div>${m}</div></div>`).join('');
 }
@@ -1725,20 +1855,23 @@ function renderLog(){
   $('tabLog').innerHTML=G.log.map(l=>{
     const ev=l.ev?`<span class="ev">${l.ev}</span>`:'';
     return `<div class="logitem ${l.t||''}"><span class="yr">${l.y}</span>${ev}${l.msg}</div>`;
-  }).join('')||'<div class="insight"><span class="ico">📓</span><div>Events will appear here as your city grows.</div></div>';
+  }).join('')||'<div class="insight"><span class="ico">📓</span><div>Events will appear here.</div></div>';
 }
 function addLog(msg,t,ev){
   G.log.unshift({msg,t,y:G.year,ev});
   if(G.log.length>90)G.log.pop();
 }
 
+/* ==========================================================
+   TIPS
+   ========================================================== */
 const TIP=$('tip');
 function moveTip(e){
   const pad=14;
   let x=e.clientX+pad,y=e.clientY+pad;
   const r=TIP.getBoundingClientRect();
-  if(x+r.width>innerWidth)x=e.clientX-r.width-pad;
-  if(y+r.height>innerHeight)y=e.clientY-r.height-pad;
+  if(x+r.width>innerWidth) x=e.clientX-r.width-pad;
+  if(y+r.height>innerHeight) y=e.clientY-r.height-pad;
   TIP.style.left=x+'px';TIP.style.top=y+'px';
 }
 const EFF={housing:'🏠 Housing',jobs:'💼 Jobs',income:'💰 Revenue',happy:'😊 Wellbeing',
@@ -1757,9 +1890,15 @@ function showBuildingTip(e,b){
   rows+=`<div class="ef" style="margin-top:5px;border-top:1px solid #25344a;padding-top:5px">
     <span>Upkeep / yr</span><b style="color:#f87171">−$${fmt(up)}</b></div>`;
   if(b.bt) rows+=`<div class="ef"><span>Build time</span><b style="color:#fbbf24">${b.bt} years</b></div>`;
+  const limit=G.loc.limits?.[b.id];
+  if(limit!==undefined){
+    const count=countBuilding(b.id);
+    const col=count>=limit?'#f87171':'#fb923c';
+    rows+=`<div class="limline">Local limit: ${count}/${limit} built</div>`;
+  }
   let note='';
-  if(b.isRoad) note=`<div class="warnline">Drag to lay roads. Every building needs one adjacent road.</div>`;
-  if(b.transitR) note=`<div class="okline">Transit value scales with nearby population within ${b.transitR} tiles.</div>`;
+  if(b.isRoad) note=`<div class="warnline">Drag to lay roads. Buildings need one adjacent road.</div>`;
+  if(b.transitR) note=`<div class="okline">Transit value scales with nearby population (${b.transitR} tiles).</div>`;
   TIP.innerHTML=`<div class="t">${b.n}</div>
     <div class="c" style="color:${CATS[b.c].color}">${CATS[b.c].name} · ${b.size}×${b.size}</div>
     <div class="ef" style="margin-bottom:4px"><span>Build cost</span>
@@ -1795,6 +1934,10 @@ function canPlace(anchorIdx,b){
   const t=G.tiles[anchorIdx];
   const size=b.size;
   if(t.tx+size>N||t.ty+size>N) return {ok:false,reason:'Too close to the map edge'};
+  const limit=G.loc.limits?.[b.id];
+  if(limit!==undefined && countBuilding(b.id)>=limit){
+    return {ok:false, reason:`Limit reached: ${limit} max ${b.n}`};
+  }
   const need=b.terrain||'land';
   let hillCount=0;
   for(let dy=0;dy<size;dy++)for(let dx=0;dx<size;dx++){
@@ -1876,14 +2019,19 @@ function onTile(i){
 }
 
 /* ==========================================================
-   MAP INTERACTION
+   MAP INTERACTION (rotation + zoom)
    ========================================================== */
 function tileFromEvent(e){
   const r=cv.getBoundingClientRect();
   const mx=(e.clientX-r.left)/r.width;
   const my=(e.clientY-r.top)/r.height;
+  // Un-zoom: get position in "world" (0..1)
+  const srcSize=1/zoom;
+  const wx=panX*(1-srcSize)+mx*srcSize;
+  const wy=panY*(1-srcSize)+my*srcSize;
+  // Un-rotate
   const cx=0.5,cy=0.5;
-  const dx=mx-cx,dy=my-cy;
+  const dx=wx-cx,dy=wy-cy;
   const cos=Math.cos(-camRot),sin=Math.sin(-camRot);
   const ux=cx+dx*cos-dy*sin;
   const uy=cy+dx*sin+dy*cos;
@@ -1892,18 +2040,55 @@ function tileFromEvent(e){
   if(tx<0||ty<0||tx>=N||ty>=N) return -1;
   return ty*N+tx;
 }
+
 cv.addEventListener('pointerdown',e=>{
   if(!G) return;
+  activePointers.set(e.pointerId,{x:e.clientX,y:e.clientY});
+  if(activePointers.size===2){
+    // Two-finger gesture: pan/zoom
+    const pts=[...activePointers.values()];
+    panGestureStart={
+      x1:pts[0].x,y1:pts[0].y,x2:pts[1].x,y2:pts[1].y,
+      panX:panX,panY:panY,
+      dist:Math.hypot(pts[0].x-pts[1].x,pts[0].y-pts[1].y)
+    };
+    dragRoad=false;
+    return;
+  }
   const i=tileFromEvent(e);
   if(i<0) return;
+  clickStart={x:e.clientX,y:e.clientY,i:i,t:Date.now()};
   if(G.selected&&BMAP[G.selected].isRoad&&!G.demolish){
     dragRoad=true;dragLast=i;
     placeRoadAt(i);render();
     cv.setPointerCapture(e.pointerId);
   }
 });
+
 cv.addEventListener('pointermove',e=>{
   if(!G) return;
+  if(activePointers.has(e.pointerId)) activePointers.set(e.pointerId,{x:e.clientX,y:e.clientY});
+  if(panGestureStart && activePointers.size===2){
+    const pts=[...activePointers.values()];
+    const r=cv.getBoundingClientRect();
+    // Pan by delta of midpoint
+    const midX1=(panGestureStart.x1+panGestureStart.x2)/2;
+    const midY1=(panGestureStart.y1+panGestureStart.y2)/2;
+    const midX2=(pts[0].x+pts[1].x)/2;
+    const midY2=(pts[0].y+pts[1].y)/2;
+    const srcSize=1/zoom;
+    // Convert pixel delta to world pan delta (adjusted for rotation... approximate)
+    const dxWorld=-(midX2-midX1)/r.width*srcSize;
+    const dyWorld=-(midY2-midY1)/r.height*srcSize;
+    // Rotate delta by -camRot
+    const cos=Math.cos(-camRot),sin=Math.sin(-camRot);
+    const rdx=dxWorld*cos-dyWorld*sin;
+    const rdy=dxWorld*sin+dyWorld*cos;
+    panX=clamp(panGestureStart.panX+rdx/(1-srcSize),0,1);
+    panY=clamp(panGestureStart.panY+rdy/(1-srcSize),0,1);
+    present();
+    return;
+  }
   const i=tileFromEvent(e);
   if(dragRoad){
     if(i>=0&&i!==dragLast){ dragLast=i; placeRoadAt(i); render(); }
@@ -1914,16 +2099,28 @@ cv.addEventListener('pointermove',e=>{
     if(i>=0) showTerrainTip(e,i);
   } else if(i>=0){ moveTip(e); }
 });
-cv.addEventListener('pointerup',()=>{ dragRoad=false;dragLast=-1; });
-cv.addEventListener('pointercancel',()=>{ dragRoad=false;dragLast=-1; });
-cv.addEventListener('pointerleave',()=>{ if(G){G.hover=-1;present();} hideTip(); });
-cv.addEventListener('click',e=>{
-  if(!G) return;
-  if(dragRoad) return;
-  const i=tileFromEvent(e);
-  if(i<0) return;
-  onTile(i);
+
+cv.addEventListener('pointerup',e=>{
+  activePointers.delete(e.pointerId);
+  if(panGestureStart && activePointers.size<2) panGestureStart=null;
+  if(dragRoad){ dragRoad=false;dragLast=-1; clickStart=null; return; }
+  // Detect click (small movement)
+  if(clickStart){
+    const moved=Math.hypot(e.clientX-clickStart.x,e.clientY-clickStart.y);
+    const dt=Date.now()-clickStart.t;
+    if(moved<8 && dt<600){
+      onTile(clickStart.i);
+    }
+    clickStart=null;
+  }
 });
+cv.addEventListener('pointercancel',e=>{
+  activePointers.delete(e.pointerId);
+  if(activePointers.size<2) panGestureStart=null;
+  dragRoad=false;dragLast=-1;clickStart=null;
+});
+cv.addEventListener('pointerleave',()=>{ if(G){G.hover=-1;present();} hideTip(); });
+
 function placeRoadAt(i){
   const b=BMAP[G.selected];
   const t=G.tiles[i];
@@ -1932,6 +2129,29 @@ function placeRoadAt(i){
   if(!chk.ok) return;
   if(G.mode!=='sandbox') G.money-=chk.cost;
   t.road=true;t.roadId=b.id;t.occ=i;
+}
+
+/* ==========================================================
+   ZOOM/PAN CONTROLS
+   ========================================================== */
+function setZoom(z){
+  zoom=z;
+  if(zoom===1){panX=0;panY=0;}
+  updateZoomButtons();
+  drawScene();present();
+}
+function updateZoomButtons(){
+  document.querySelectorAll('.zoombtn').forEach(b=>{
+    b.classList.toggle('on',+b.dataset.zoom===zoom);
+  });
+}
+function pan(dx,dy){
+  if(zoom<=1) return;
+  const step=0.15;
+  const srcSize=1/zoom;
+  panX=clamp(panX+dx*step*srcSize,0,1);
+  panY=clamp(panY+dy*step*srcSize,0,1);
+  present();
 }
 
 /* ==========================================================
@@ -2036,7 +2256,7 @@ function nextTurn(){
 }
 
 /* ==========================================================
-   SPEED / ROTATION
+   SPEED
    ========================================================== */
 function setSpeed(level){
   tickSpeed=level;
@@ -2046,10 +2266,6 @@ function setSpeed(level){
   document.querySelectorAll('.speedbtn').forEach(b=>{
     b.classList.toggle('on',+b.dataset.speed===level);
   });
-}
-function rotateBy(deg){
-  camRot+=deg*Math.PI/180;
-  drawScene();present();
 }
 
 /* ==========================================================
@@ -2067,8 +2283,27 @@ document.querySelectorAll('.tab').forEach(t=>{
 document.querySelectorAll('.speedbtn').forEach(b=>{
   b.addEventListener('click',()=>{ if(G) setSpeed(+b.dataset.speed); });
 });
-$('rotL').addEventListener('click',()=>{ if(G) rotateBy(-90); });
-$('rotR').addEventListener('click',()=>{ if(G) rotateBy(90); });
+document.querySelectorAll('.zoombtn').forEach(b=>{
+  b.addEventListener('click',()=>{ if(G) setZoom(+b.dataset.zoom); });
+});
+document.querySelectorAll('[data-pan]').forEach(b=>{
+  b.addEventListener('click',()=>{
+    if(!G) return;
+    const d=b.dataset.pan;
+    if(d==='up') pan(0,-1);
+    else if(d==='down') pan(0,1);
+    else if(d==='left') pan(-1,0);
+    else if(d==='right') pan(1,0);
+  });
+});
+$('rotL').addEventListener('click',()=>{
+  if(!G) return;
+  camRot-=Math.PI/2;drawScene();present();
+});
+$('rotR').addEventListener('click',()=>{
+  if(!G) return;
+  camRot+=Math.PI/2;drawScene();present();
+});
 $('demolishBtn').addEventListener('click',()=>{
   if(!G) return;
   G.demolish=!G.demolish;
@@ -2085,25 +2320,94 @@ window.addEventListener('keydown',e=>{
   if(!G) return;
   if(e.key===' '){ e.preventDefault(); setSpeed(tickSpeed===0?2:0); }
   if(e.key==='Escape'){ G.selected=null;G.demolish=false;updatePalette(G.stats);present(); }
+  if(e.key==='ArrowUp'){ e.preventDefault(); pan(0,-1); }
+  if(e.key==='ArrowDown'){ e.preventDefault(); pan(0,1); }
+  if(e.key==='ArrowLeft'){ e.preventDefault(); pan(-1,0); }
+  if(e.key==='ArrowRight'){ e.preventDefault(); pan(1,0); }
 });
 
 /* ==========================================================
    START SCREEN
    ========================================================== */
+function drawLocationPreview(canvas, loc){
+  const c = canvas.getContext('2d');
+  c.imageSmoothingEnabled = false;
+  const S = 64;
+  const px = canvas.width / S;
+  c.fillStyle='#0a1018';c.fillRect(0,0,canvas.width,canvas.height);
+  for (let y = 0; y < S; y++){
+    for (let x = 0; x < S; x++){
+      const u = x/S, v = y/S;
+      const L = landL(u, v, loc.map, loc.seed);
+      const m = moist(u, v, loc.seed);
+      let col;
+      if (L < 0.5){
+        if (L < 0.30) col = [8, 28, 52];
+        else if (L < 0.42) col = [22, 58, 96];
+        else col = [42, 94, 132];
+      } else {
+        const e = clamp((L - 0.5) * 2, 0, 1);
+        col = biomeColor(m, e, loc.map);
+        col = [Math.floor(col[0]/20)*20+10, Math.floor(col[1]/20)*20+10, Math.floor(col[2]/20)*20+10];
+      }
+      c.fillStyle = `rgb(${col[0]},${col[1]},${col[2]})`;
+      c.fillRect(Math.floor(x*px), Math.floor(y*px), Math.ceil(px), Math.ceil(px));
+    }
+  }
+  // Pixel city block
+  const midX = Math.floor(S/2), midY = Math.floor(S/2);
+  if (landL(midX/S, midY/S, loc.map, loc.seed) > 0.5){
+    const cx = S/2, cy = S*0.55;
+    const blocks = [
+      {dx:-8, dy:-3, w:4, h:7, col:'#c47d00', hi:'#f59e0b'},
+      {dx:-2, dy:-6, w:4, h:11, col:'#a08000', hi:'#eab308'},
+      {dx:4,  dy:-2, w:6, h:6, col:'#1f6e1f', hi:'#22c55e'},
+      {dx:1,  dy:3,  w:3, h:4, col:'#1f5aa0', hi:'#3b82f6'},
+      {dx:-6, dy:4,  w:3, h:3, col:'#6a3db3', hi:'#a855f7'},
+    ];
+    for (const b of blocks){
+      const bx = (cx + b.dx) * px;
+      const by = (cy + b.dy) * px;
+      const bw = b.w * px;
+      const bh = b.h * px;
+      c.fillStyle = 'rgba(0,0,0,0.4)';
+      c.fillRect(bx + px, by + bh, bw, px);
+      c.fillStyle = b.col;
+      c.fillRect(bx, by, bw, bh);
+      c.fillStyle = b.hi;
+      c.fillRect(bx, by, bw, px*0.7);
+      c.fillStyle = '#0a1018';
+      for (let wy = 0; wy < Math.floor(bh/px) - 3; wy += 2){
+        c.fillRect(bx + px*0.6, by + px*(2 + wy), px*0.7, px*0.7);
+        c.fillRect(bx + bw - px*1.3, by + px*(2 + wy), px*0.7, px*0.7);
+      }
+    }
+    c.fillStyle = '#3b4148';
+    c.fillRect(0, Math.floor(cy*px + px*1.5), canvas.width, px*1.2);
+    c.fillStyle = '#facc15';
+    for (let i = 0; i < S; i += 3){
+      c.fillRect(i*px, Math.floor(cy*px + px*2), px, px*0.4);
+    }
+  }
+}
+
 function renderStart(){
   const grid=$('locGrid');
-  grid.innerHTML=LOCATIONS.map(l=>`
+  grid.innerHTML=LOCATIONS.map(l=>{
+    const lim=Object.entries(l.limits||{}).filter(([k,v])=>v>=0&&v<50).slice(0,2);
+    const limTags = lim.map(([k,v])=>{const b=BMAP[k];return b?`<span class="tag lim">${b.n} ≤${v}</span>`:''}).join('');
+    return `
     <button class="loc" data-loc="${l.id}">
       <canvas class="pixmap" width="128" height="128" data-locid="${l.id}"></canvas>
       <div class="body">
         <div class="nm">${l.flag} ${l.name}</div>
         <div class="rg">${l.region} · ${l.grid}×${l.grid}</div>
-        <div class="tags">${l.tags.map(([t,c])=>`<span class="tag ${c}">${t}</span>`).join('')}</div>
+        <div class="tags">${l.tags.map(([t,c])=>`<span class="tag ${c}">${t}</span>`).join('')}${limTags}</div>
         <div class="desc">${l.desc}</div>
       </div>
-    </button>`).join('');
+    </button>`;
+  }).join('');
 
-  // Draw pixel previews
   grid.querySelectorAll('canvas[data-locid]').forEach(c=>{
     const loc=LOCATIONS.find(x=>x.id===c.dataset.locid);
     drawLocationPreview(c,loc);
